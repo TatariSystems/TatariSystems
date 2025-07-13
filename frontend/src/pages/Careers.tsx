@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Navbar from '../components/Navbar'
-import { ArrowRight, Wrench, Globe, Brain, Users } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { getAssetPath } from '../utils/paths'
+import { getIconSrc } from '../utils/iconMapping'
 
 const careerImages = [
   getAssetPath('/assets/career1.jpg'),
@@ -14,22 +15,22 @@ const careerImages = [
 const Careers = () => {
   const whyTatari = [
     {
-      icon: Wrench,
+      icon: 'Wrench',
       title: 'High-Impact Work',
       description: "We're not here to maintain the status quo — we're here to reinvent how infrastructure is accessed and deployed. You'll be building real systems for real customers from day one."
     },
     {
-      icon: Globe,
+      icon: 'Globe',
       title: 'Global Mission',
       description: 'Our goal is to democratize access to advanced compute. Whether it\'s an AI startup in Nairobi or a lab in Berlin, we exist to empower builders everywhere.'
     },
     {
-      icon: Brain,
+      icon: 'Brain',
       title: 'Learn Fast. Build Faster.',
       description: "This isn't a place to wait for permission. You'll have autonomy, fast feedback loops, and the support to scale your ideas."
     },
     {
-      icon: Users,
+      icon: 'Users',
       title: 'Small Team, Big Vision',
       description: 'Work directly with the founding team and own entire domains. Your voice shapes our roadmap.'
     }
@@ -108,7 +109,7 @@ const Careers = () => {
                 {/* Writing Section */}
                 <div className="w-full md:w-1/2 h-full flex items-center">
                   <div className="border-l-8 border-brand-blue-1 pl-8 py-8 bg-black/80 h-full flex flex-col justify-center">
-                    <item.icon className="h-8 w-8 text-primary-400 mb-4" />
+                    <img src={getIconSrc(item.icon)} alt={item.title} className="h-8 w-8 object-contain mb-4" />
                     <h3 className="text-2xl font-bold text-white mb-3">{item.title}</h3>
                     <p className="text-gray-300 text-lg leading-relaxed">{item.description}</p>
                   </div>
@@ -131,7 +132,7 @@ const Careers = () => {
                     ${idx !== whyTatari.length - 1 ? 'border-r border-gray-400' : ''}
                   `}
                 >
-                  <item.icon className="h-8 w-8 text-primary-400 mb-4" />
+                  <img src={getIconSrc(item.icon)} alt={item.title} className="h-8 w-8 object-contain mb-4" />
                   <h3 className="text-xl font-bold text-white mb-3 text-center">{item.title}</h3>
                   <p className="text-gray-300 leading-relaxed text-center">{item.description}</p>
                 </div>

@@ -1,35 +1,36 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, MessageSquare, Shield, DollarSign, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import { getIconSrc } from '../utils/iconMapping';
 
 const contactTypes = [
   {
     id: 'sales',
     title: 'Sales',
     desc: 'For enterprise demos, pricing, and partnerships.',
-    icon: Users,
+    icon: 'Users',
     color: 'bg-brand-cyan',
   },
   {
     id: 'general',
     title: 'General Inquiry',
     desc: 'Quick questions or other topics.',
-    icon: MessageSquare,
+    icon: 'MessageSquare',
     color: 'bg-brand-blue-1',
   },
   {
     id: 'support',
     title: 'Support',
     desc: 'Technical or operational issues.',
-    icon: Shield,
+    icon: 'Shield',
     color: 'bg-brand-purple',
   },
   {
     id: 'investor',
     title: 'Investor Relations',
     desc: 'For investors and funding inquiries.',
-    icon: DollarSign,
+    icon: 'DollarSign',
     color: 'bg-brand-green',
   },
 ];
@@ -134,7 +135,7 @@ const Contact = () => {
                       onClick={() => handleTypeSelect(type)}
                     >
                       <div className={`mb-6 rounded-full p-6 bg-white/10 group-hover:bg-brand-cyan/20 backdrop-blur-xl transition-all`}>
-                        <type.icon className="h-12 w-12 text-brand-cyan group-hover:text-brand-blue-1" />
+                        <img src={getIconSrc(type.icon)} alt={type.title} className="h-12 w-12 object-contain" />
                       </div>
                       <div className="text-2xl font-bold text-white mb-3">{type.title}</div>
                       <div className="text-gray-200 text-lg">{type.desc}</div>
@@ -161,7 +162,7 @@ const Contact = () => {
               >
                 <div className="flex items-center gap-4 mb-8">
                   <div className="rounded-full p-4 bg-brand-cyan/10 backdrop-blur-xl">
-                    <selectedType.icon className="h-10 w-10 text-brand-cyan" />
+                    <img src={getIconSrc(selectedType.icon)} alt={selectedType.title} className="h-10 w-10 object-contain" />
                   </div>
                   <div>
                     <div className="text-2xl font-bold text-white">{selectedType.title} Contact</div>

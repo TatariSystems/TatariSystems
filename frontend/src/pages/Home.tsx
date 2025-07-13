@@ -1,9 +1,46 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, TrendingUp, Zap, Shield, Globe, Cpu, Cloud, Bitcoin, Users, Award, CheckCircle, AlertTriangle, BarChart3, Target, Clock, DollarSign } from 'lucide-react'
 import Navbar from '../components/Navbar'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getAssetPath } from '../utils/paths'
+import { getIconSrc } from '../utils/iconMapping'
+
+// Custom hook for counting animation
+const useCountUp = (end: number, duration: number = 2000, delay: number = 0) => {
+  const [count, setCount] = useState(0)
+  const [isAnimating, setIsAnimating] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsAnimating(true)
+      const startTime = Date.now()
+      
+      const animate = () => {
+        const elapsed = Date.now() - startTime
+        const progress = Math.min(elapsed / duration, 1)
+        
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4)
+        const currentCount = easeOutQuart * end
+        
+        setCount(currentCount)
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        } else {
+          setCount(end)
+          setIsAnimating(false)
+        }
+      }
+      
+      requestAnimationFrame(animate)
+    }, delay)
+
+    return () => clearTimeout(timer)
+  }, [end, duration, delay])
+
+  return { count, isAnimating }
+}
 
 // CSS for animated hue rotation
 const gridHueAnim = `
@@ -112,6 +149,7 @@ const Animated3DGrid = () => {
 
 const Home = () => {
   const [activeSection, setActiveSection] = useState(0)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -121,29 +159,29 @@ const Home = () => {
   }, [])
 
   const stats = [
-    { number: "70,000", label: "AI Startups Globally", icon: Users },
-    { number: "4.4x", label: "Price Difference", icon: DollarSign },
-    { number: "26x", label: "Demand Growth by 2030", icon: TrendingUp },
-    { number: "99.9%", label: "Uptime Guarantee", icon: Shield }
+    { number: 70000, label: "AI Startups Globally", icon: "Users", suffix: "" },
+    { number: 4.4, label: "Price Difference", icon: "DollarSign", suffix: "x" },
+    { number: 26, label: "Demand Growth by 2030", icon: "TrendingUp", suffix: "x" },
+    { number: 99.9, label: "Uptime Guarantee", icon: "Shield", suffix: "%" }
   ]
 
   const problems = [
     {
       title: "No Uptime Guarantees",
       description: "Users rent capacity from independent hosts with no overarching contract ensuring service continuity",
-      icon: AlertTriangle,
+      icon: "AlertTriangle",
       color: "from-red-500 to-red-600"
     },
     {
       title: "Node Instability", 
       description: "Hardware and connection quality vary widely, some community hosts may go offline unexpectedly",
-      icon: AlertTriangle,
+      icon: "AlertTriangle",
       color: "from-orange-500 to-orange-600"
     },
     {
       title: "Energy Loss",
       description: "Smaller data centers have 50-60% overhead for cooling and lighting instead of powering servers",
-      icon: AlertTriangle,
+      icon: "AlertTriangle",
       color: "from-yellow-500 to-yellow-600"
     }
   ]
@@ -152,19 +190,19 @@ const Home = () => {
     {
       title: "Sourcing",
       description: "Aggregates trusted GPU vendors across marketplaces and private clouds",
-      icon: Globe,
+      icon: "Globe",
       color: "from-blue-500 to-blue-600"
     },
     {
       title: "Reliability", 
       description: "Guarantees uptime via SLAs, monitors performance, and places workloads by region",
-      icon: Shield,
+      icon: "Shield",
       color: "from-green-500 to-green-600"
     },
     {
       title: "Interface",
       description: "Launches with a white-labeled console UI and roadmap to green infrastructure",
-      icon: Cpu,
+      icon: "Cpu",
       color: "from-purple-500 to-purple-600"
     }
   ]
@@ -214,13 +252,22 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
+            whileHover={{ scale: 1.06, backgroundColor: 'rgba(80,124,187,0.18)' }}
+            whileTap={{ scale: 0.98 }}
             className="group flex items-center px-8 py-4 rounded-full border border-white/60 bg-black/60 hover:bg-white/10 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 text-white font-semibold text-lg shadow-lg"
             style={{backdropFilter: 'blur(4px)'}}
+            onClick={() => navigate('/get-started')}
           >
             <span className="mr-4 text-primary-500">Get Started</span>
-            <span className="flex items-center justify-center w-8 h-8 rounded-full border border-white/40 group-hover:bg-primary-500 group-hover:text-white transition-all">
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </span>
+            <motion.span
+              className="flex items-center justify-center w-8 h-8 rounded-full border border-white/40 group-hover:bg-primary-500 group-hover:text-white transition-all"
+              whileHover={{ x: 6 }}
+              transition={{ type: 'spring', stiffness: 300 }}
+            >
+              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </motion.span>
           </motion.button>
         </div>
       </section>
@@ -244,22 +291,30 @@ const Home = () => {
           </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center"
-              >
-                <div className="w-16 h-16 mx-auto mb-4 bg-primary-700 rounded-full flex items-center justify-center">
-                  <stat.icon className="h-8 w-8 text-white" />
+            {stats.map((stat, index) => {
+              const { count, isAnimating } = useCountUp(stat.number, 7500, index * 600)
+              
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.03, boxShadow: '0 12px 32px 0 rgba(80,124,187,0.18)' }}
+                  whileTap={{ scale: 0.98 }}
+                  className="text-center"
+                >
+                                  <div className="w-16 h-16 mx-auto mb-4 bg-primary-700 rounded-full flex items-center justify-center">
+                  <img src={getIconSrc(stat.icon)} alt={stat.label} className="h-8 w-8 object-contain" />
                 </div>
-                <div className="text-3xl font-bold text-white mb-2">{stat.number}</div>
-                <div className="text-gray-300">{stat.label}</div>
-              </motion.div>
-            ))}
+                  <div className="text-3xl font-bold text-white mb-2">
+                    {stat.number >= 1000 ? count.toLocaleString() : count.toFixed(stat.number % 1 === 0 ? 0 : 1)}{stat.suffix}
+                  </div>
+                  <div className="text-gray-300">{stat.label}</div>
+                </motion.div>
+              )
+            })}
           </div>
 
           <motion.div
@@ -327,10 +382,12 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
+                whileHover={{ scale: 1.03, boxShadow: '0 12px 32px 0 rgba(80,124,187,0.18)' }}
+                whileTap={{ scale: 0.98 }}
                 className="bg-gray-700 p-8 rounded-2xl shadow-lg border border-gray-600"
               >
                 <div className={`w-16 h-16 bg-gradient-to-br ${problem.color} rounded-2xl flex items-center justify-center mb-6`}>
-                  <problem.icon className="h-8 w-8 text-white" />
+                  <img src={getIconSrc(problem.icon)} alt={problem.title} className="h-8 w-8 object-contain" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-4">{problem.title}</h3>
                 <p className="text-gray-300 leading-relaxed">{problem.description}</p>
@@ -366,10 +423,12 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
+                whileHover={{ scale: 1.03, boxShadow: '0 12px 32px 0 rgba(80,124,187,0.18)' }}
+                whileTap={{ scale: 0.98 }}
                 className="bg-gray-700 p-8 rounded-2xl shadow-lg border border-gray-600 hover:shadow-xl transition-shadow"
               >
                 <div className={`w-16 h-16 bg-gradient-to-br ${solution.color} rounded-2xl flex items-center justify-center mb-6`}>
-                  <solution.icon className="h-8 w-8 text-white" />
+                  <img src={getIconSrc(solution.icon)} alt={solution.title} className="h-8 w-8 object-contain" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-4">{solution.title}</h3>
                 <p className="text-gray-300 leading-relaxed">{solution.description}</p>
@@ -391,11 +450,11 @@ const Home = () => {
               </p>
               <div className="space-y-2">
                 <div className="flex items-center">
-                  <CheckCircle className="h-5 w-5 text-green-400 mr-2" />
+                  <img src={getIconSrc("CheckCircle")} alt="Check" className="h-5 w-5 mr-2 object-contain" />
                   <span className="text-sm text-gray-300">50% of GPUs are idle globally</span>
                 </div>
                 <div className="flex items-center">
-                  <CheckCircle className="h-5 w-5 text-green-400 mr-2" />
+                  <img src={getIconSrc("CheckCircle")} alt="Check" className="h-5 w-5 mr-2 object-contain" />
                   <span className="text-sm text-gray-300">Aggregation unlocks significant capacity</span>
                 </div>
               </div>
@@ -501,16 +560,18 @@ const Home = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
+              whileHover={{ scale: 1.03, boxShadow: '0 12px 32px 0 rgba(80,124,187,0.18)' }}
+              whileTap={{ scale: 0.98 }}
               className="bg-gray-800 p-8 rounded-2xl border border-gray-600"
             >
               <h3 className="text-2xl font-bold text-white mb-4">AI/ML Startups</h3>
               <ul className="space-y-3">
                 <li className="flex items-start">
-                  <CheckCircle className="h-5 w-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
+                  <img src={getIconSrc("CheckCircle")} alt="Check" className="h-5 w-5 mr-3 mt-0.5 flex-shrink-0 object-contain" />
                   <span className="text-gray-300">Need scalable, cost-effective inference & training compute</span>
                 </li>
                 <li className="flex items-start">
-                  <CheckCircle className="h-5 w-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
+                  <img src={getIconSrc("CheckCircle")} alt="Check" className="h-5 w-5 mr-3 mt-0.5 flex-shrink-0 object-contain" />
                   <span className="text-gray-300">Prefer flexible, low-commitment infrastructure</span>
                 </li>
               </ul>
@@ -520,16 +581,18 @@ const Home = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
+              whileHover={{ scale: 1.03, boxShadow: '0 12px 32px 0 rgba(80,124,187,0.18)' }}
+              whileTap={{ scale: 0.98 }}
               className="bg-gray-800 p-8 rounded-2xl border border-gray-600"
             >
               <h3 className="text-2xl font-bold text-white mb-4">Academic Labs & Research</h3>
               <ul className="space-y-3">
                 <li className="flex items-start">
-                  <CheckCircle className="h-5 w-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
+                  <img src={getIconSrc("CheckCircle")} alt="Check" className="h-5 w-5 mr-3 mt-0.5 flex-shrink-0 object-contain" />
                   <span className="text-gray-300">Require access to powerful GPUs for experimentation</span>
                 </li>
                 <li className="flex items-start">
-                  <CheckCircle className="h-5 w-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
+                  <img src={getIconSrc("CheckCircle")} alt="Check" className="h-5 w-5 mr-3 mt-0.5 flex-shrink-0 object-contain" />
                   <span className="text-gray-300">Value latency and geographic proximity</span>
                 </li>
               </ul>
@@ -615,18 +678,32 @@ const Home = () => {
               Get instant access to powerful GPUs. Try for free or schedule a demo—no commitment required.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <div
-                className="group bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 flex items-center justify-center cursor-pointer"
+              <motion.div
+                className="group bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform flex items-center justify-center cursor-pointer"
+                whileHover={{ scale: 1.05, boxShadow: '0 12px 32px 0 rgba(80,124,187,0.25)' }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => navigate('/get-started')}
               >
                 Get Started Free
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </div>
-              <div
+                <motion.span whileHover={{ x: 6 }} transition={{ type: 'spring', stiffness: 300 }}>
+                  <svg className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </motion.span>
+              </motion.div>
+              <motion.div
                 className="group text-white hover:underline font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center cursor-pointer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => navigate('/schedule-demo')}
               >
                 Schedule Demo
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </div>
+                <motion.span whileHover={{ x: 6 }} transition={{ type: 'spring', stiffness: 300 }}>
+                  <svg className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </motion.span>
+              </motion.div>
             </div>
           </motion.div>
         </div>

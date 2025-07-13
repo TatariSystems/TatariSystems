@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Cpu, Zap, Shield, Globe, Activity, DollarSign, TrendingUp, CheckCircle, BarChart3, Target, Clock, Server, Database, Lock, Users, BarChart } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Lottie from 'lottie-react';
 import Navbar from '../components/Navbar';
+import BitcoinPriceTracker from '../components/BitcoinPriceTracker';
+import { getIconSrc } from '../utils/iconMapping';
 
 const Mining = () => {
   const navigate = useNavigate();
@@ -19,25 +21,25 @@ const Mining = () => {
 
   const features = [
     {
-      icon: Cpu,
+      icon: 'Cpu',
       title: 'High-Performance Mining',
       description: 'Optimized infrastructure for maximum hash rate and efficiency.',
       color: 'bg-brand-blue-1'
     },
     {
-      icon: Zap,
+      icon: 'Zap',
       title: 'Sustainable Energy',
       description: '100% renewable energy sources with hydroelectric power.',
       color: 'bg-brand-cyan'
     },
     {
-      icon: Shield,
+      icon: 'Shield',
       title: 'Reliable Operations',
       description: '99.9% uptime guarantee with redundant systems.',
       color: 'bg-brand-blue-3'
     },
     {
-      icon: Globe,
+      icon: 'Globe',
       title: 'Global Infrastructure',
       description: 'Strategic locations for optimal performance and cost.',
       color: 'bg-brand-blue-2'
@@ -45,10 +47,10 @@ const Mining = () => {
   ];
 
   const stats = [
-    { number: "99.9%", label: "Uptime Guarantee", icon: Shield },
-    { number: "100%", label: "Renewable Energy", icon: Activity },
-    { number: "50%", label: "Lower Carbon Footprint", icon: TrendingUp },
-    { number: "24/7", label: "Monitoring", icon: Clock }
+    { number: "99.9%", label: "Uptime Guarantee", icon: "Shield" },
+    { number: "100%", label: "Renewable Energy", icon: "Activity" },
+    { number: "50%", label: "Lower Carbon Footprint", icon: "TrendingUp" },
+    { number: "24/7", label: "Monitoring", icon: "Clock" }
   ];
 
   const sustainabilityMetrics = [
@@ -142,6 +144,9 @@ const Mining = () => {
           </motion.div>
         </motion.section>
 
+        {/* Bitcoin Price Tracker */}
+        <BitcoinPriceTracker />
+
         {/* Stats Section */}
         <motion.section className="py-16 px-4 sm:px-8 bg-gray-900"
           initial={{ opacity: 0, y: 30 }}
@@ -157,7 +162,7 @@ const Mining = () => {
                   ${index !== stats.length - 1 ? 'border-r border-gray-400' : ''}
                 `}
               >
-                <stat.icon className="mb-3 h-8 w-8 text-primary-500" />
+                <img src={getIconSrc(stat.icon)} alt={stat.label} className="mb-3 h-8 w-8 object-contain" />
                 <div className="text-4xl font-extrabold text-white mb-1 tracking-tight">{stat.number}</div>
                 <div className="text-base text-gray-200 font-medium text-center">{stat.label}</div>
               </div>
@@ -181,7 +186,7 @@ const Mining = () => {
                   ${index !== features.length - 1 ? 'border-r border-gray-400' : ''}
                 `}
               >
-                <feature.icon className="mb-3 h-8 w-8 text-white" />
+                <img src={getIconSrc(feature.icon)} alt={feature.title} className="mb-3 h-8 w-8 object-contain" />
                 <h3 className="text-xl font-bold text-white mb-2 text-center">{feature.title}</h3>
                 <p className="text-white/80 text-center text-base max-w-xs">{feature.description}</p>
               </div>
@@ -232,17 +237,17 @@ const Mining = () => {
           <h2 className="text-3xl font-bold text-white mb-16 text-center">Advanced Mining Technology</h2>
           <div className="flex flex-col md:flex-row max-w-6xl mx-auto">
             <div className="flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0 border-r border-gray-400">
-              <Server className="mb-3 h-8 w-8 text-primary-500" />
+              <img src={getIconSrc("Server")} alt="Custom Firmware" className="mb-3 h-8 w-8 object-contain" />
               <h3 className="text-xl font-bold mb-2 text-white text-center">Custom Firmware</h3>
               <p className="text-gray-300 text-center text-base max-w-xs">Optimized mining software for maximum efficiency and hash rate performance.</p>
             </div>
             <div className="flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0 border-l border-gray-400 border-r border-gray-400">
-              <Database className="mb-3 h-8 w-8 text-primary-500" />
+              <img src={getIconSrc("Database")} alt="Smart Pool Management" className="mb-3 h-8 w-8 object-contain" />
               <h3 className="text-xl font-bold mb-2 text-white text-center">Smart Pool Management</h3>
               <p className="text-gray-300 text-center text-base max-w-xs">Intelligent pool selection and failover systems for consistent mining operations.</p>
             </div>
             <div className="flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0 border-l border-gray-400">
-              <BarChart className="mb-3 h-8 w-8 text-primary-500" />
+              <img src={getIconSrc("BarChart")} alt="Real-time Monitoring" className="mb-3 h-8 w-8 object-contain" />
               <h3 className="text-xl font-bold mb-2 text-white text-center">Real-time Monitoring</h3>
               <p className="text-gray-300 text-center text-base max-w-xs">Comprehensive dashboards and alerts for optimal mining performance tracking.</p>
             </div>

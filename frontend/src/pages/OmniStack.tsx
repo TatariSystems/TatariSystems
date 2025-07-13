@@ -238,7 +238,7 @@ const OmniStack = () => {
               <thead>
                 <tr className="bg-white/5">
                   <th className="px-4 py-3 font-semibold text-gray-100">GPU Type</th>
-                  <th className="px-4 py-3 font-semibold text-blue-400"><a href="https://vast.ai" target="_blank" rel="noopener noreferrer">Vast.ai</a></th>
+                  <th className="px-4 py-3 font-semibold text-blue-400"><a href="https://vast.ai" target="_blank" rel="noopener noreferrer">Tatari</a></th>
                   <th className="px-4 py-3 font-semibold text-gray-100">AWS</th>
                   <th className="px-4 py-3 font-semibold text-gray-100">CoreWeave</th>
                   <th className="px-4 py-3 font-semibold text-gray-100">Lamda</th>
