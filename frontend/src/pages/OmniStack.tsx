@@ -181,7 +181,7 @@ const OmniStack = () => {
                 </div>
                 <div
                   className="group text-white hover:underline font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center cursor-pointer"
-                  onClick={() => navigate('/company/contact')}
+                  onClick={() => navigate('/contact')}
                 >
                   Contact Us
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -205,7 +205,7 @@ const OmniStack = () => {
             <h2 className="text-4xl font-bold text-white mb-6">The Tatari Edge</h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex flex-col md:flex-row gap-8">
             {stats.map((stat, idx) => (
               <motion.div
                 key={stat.label}
@@ -213,16 +213,29 @@ const OmniStack = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-gray-900 rounded-2xl p-8 text-center hover:bg-gray-800 transition-all duration-300 border border-gray-700"
+                className="flex-1 flex flex-col h-full min-w-[220px]"
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <stat.icon className="h-8 w-8 text-white" />
+                <div className="flex h-full">
+                  {/* Thick colored left border */}
+                  <div className="w-1.5 rounded-full bg-primary-500 mr-6" style={{ minHeight: '100%' }}></div>
+                  {/* Content */}
+                  <div className="flex flex-col justify-between h-full flex-1">
+                    <div>
+                      <div className="text-5xl font-bold text-white mb-1">{stat.number}</div>
+                      <div className="text-base font-semibold text-white mb-1">{stat.label}</div>
+                      <div className="text-gray-400 text-base mb-4">More performance for less</div>
+                    </div>
+                    <div className="mt-auto">
+                      <span
+                        className="flex items-center font-semibold text-primary-500 text-base cursor-pointer select-none"
+                        onClick={() => navigate('/story')}
+                      >
+                        Learn More
+                        <ArrowRight className="ml-1 h-4 w-4 text-primary-500" />
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className="text-5xl font-bold text-white mb-4">{stat.number}</div>
-                <div className="text-gray-300 mb-6">{stat.label}</div>
-                <button className="text-primary-400 hover:text-primary-300 font-semibold transition-colors">
-                  Learn More
-                </button>
               </motion.div>
             ))}
           </div>

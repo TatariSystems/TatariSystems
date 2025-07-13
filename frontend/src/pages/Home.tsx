@@ -295,24 +295,24 @@ const Home = () => {
               const { count, isAnimating } = useCountUp(stat.number, 7500, index * 600)
               
               return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.03, boxShadow: '0 12px 32px 0 rgba(80,124,187,0.18)' }}
-                  whileTap={{ scale: 0.98 }}
-                  className="text-center"
-                >
-                                  <div className="w-16 h-16 mx-auto mb-4 bg-primary-700 rounded-full flex items-center justify-center">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.03, boxShadow: '0 12px 32px 0 rgba(80,124,187,0.18)' }}
+                whileTap={{ scale: 0.98 }}
+                className="text-center"
+              >
+                <div className="w-16 h-16 mx-auto mb-4 bg-primary-700 rounded-full flex items-center justify-center">
                   <img src={getIconSrc(stat.icon)} alt={stat.label} className="h-8 w-8 object-contain" />
                 </div>
                   <div className="text-3xl font-bold text-white mb-2">
                     {stat.number >= 1000 ? count.toLocaleString() : count.toFixed(stat.number % 1 === 0 ? 0 : 1)}{stat.suffix}
                   </div>
-                  <div className="text-gray-300">{stat.label}</div>
-                </motion.div>
+                <div className="text-gray-300">{stat.label}</div>
+              </motion.div>
               )
             })}
           </div>

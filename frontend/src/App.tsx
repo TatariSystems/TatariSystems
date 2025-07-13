@@ -1,5 +1,6 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
+import { useEffect } from 'react'
 import Home from './pages/Home'
 import About from './pages/About'
 import AIPlatform from './pages/AIPlatform'
@@ -16,7 +17,18 @@ import PressReleases from './pages/PressReleases'
 import CaseStudies from './pages/CaseStudies'
 import Mining from './pages/Mining'
 
+// Custom hook to scroll to top on route change
+const useScrollToTop = () => {
+  const location = useLocation()
+  
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }, [location.pathname])
+}
+
 function App() {
+  useScrollToTop()
+
   return (
     <AnimatePresence mode="wait">
       <>
