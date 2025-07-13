@@ -1,3 +1,5 @@
+import { getAssetPath } from './paths'
+
 // Icon mapping utility for replacing Lucide icons with custom icons
 export const getIconPath = (iconName: string): string => {
   const iconMap: { [key: string]: string } = {
@@ -62,5 +64,5 @@ export const getIconPath = (iconName: string): string => {
 
 export const getIconSrc = (iconName: string): string => {
   const iconPath = getIconPath(iconName)
-  return `/icons/${iconPath}`
+  return getAssetPath(`/icons/${iconPath}`)
 } 
