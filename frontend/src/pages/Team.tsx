@@ -115,7 +115,7 @@ const Team = () => {
                   <div className="mb-4">
                     {member.img ? (
                       <img
-                        src={getAssetPath(`/headshots/${member.img}`)}
+                        src={getAssetPath(`headshots/${member.img}`)}
                         alt={member.name}
                         className="w-48 h-48 rounded-full object-cover mx-auto border-4 border-primary-500 shadow-lg"
                         onError={e => {
@@ -184,7 +184,7 @@ const Team = () => {
                   <div className="mb-4">
                     {member.img ? (
                       <img
-                        src={getAssetPath(`/headshots/${member.img}`)}
+                        src={getAssetPath(`headshots/${member.img}`)}
                         alt={member.name}
                         className="w-48 h-48 rounded-full object-cover mx-auto border-4 border-primary-500 shadow-lg"
                         onError={e => {

@@ -5,15 +5,13 @@ import Navbar from '../components/Navbar'
 import { Link, useNavigate } from 'react-router-dom'
 import { getIconSrc } from '../utils/iconMapping'
 import ReactMemo from 'react'
+import { getAssetPath } from '../utils/paths'
 
 const OmniStack = () => {
   const [hoveredSection, setHoveredSection] = useState<string | null>(null)
   const [activeBar, setActiveBar] = useState<string | null>('build')
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null)
   const navigate = useNavigate()
-
-  // Get the base path for GitHub Pages deployment
-  const base = (import.meta as any).env?.PROD ? '/TatariSystems' : ''
 
   const stats = ReactMemo.useMemo(() => [
     { number: "30%", label: "Savings vs. industry average", icon: "TrendingUp" },
@@ -136,7 +134,7 @@ const OmniStack = () => {
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src={`${base}/assets/background1.mp4`} type="video/mp4" />
+          <source src={getAssetPath('assets/background1.mp4')} type="video/mp4" />
         </video>
         
         {/* Overlay */}

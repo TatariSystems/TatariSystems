@@ -7,18 +7,18 @@ import Navbar from '../components/Navbar';
 import BitcoinPriceTracker from '../components/BitcoinPriceTracker';
 import { getIconSrc } from '../utils/iconMapping';
 import ReactMemo from 'react';
+import { getAssetPath } from '../utils/paths';
 
 const Mining = () => {
   const navigate = useNavigate();
   const [miningAnimationData, setMiningAnimationData] = useState(null);
-  const base = (import.meta as any).env?.PROD ? '/TatariSystems' : '';
 
   useEffect(() => {
-    fetch(`${base}/animations/blockanim.json`)
+    fetch(getAssetPath('animations/blockanim.json'))
       .then(response => response.json())
       .then(data => setMiningAnimationData(data))
       .catch(error => console.error('Error loading mining animation:', error));
-  }, [base]);
+  }, []);
 
   const features = ReactMemo.useMemo(() => [
     {

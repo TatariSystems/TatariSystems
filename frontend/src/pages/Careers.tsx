@@ -6,10 +6,10 @@ import { getAssetPath } from '../utils/paths'
 import { getIconSrc } from '../utils/iconMapping'
 
 const careerImages = [
-  getAssetPath('/assets/career1.jpg'),
-  getAssetPath('/assets/career2.JPEG'),
-  getAssetPath('/assets/career3.JPEG'),
-  getAssetPath('/assets/career4.JPEG'),
+  getAssetPath('assets/career1.jpg'),
+  getAssetPath('assets/career2.JPEG'),
+  getAssetPath('assets/career3.JPEG'),
+  getAssetPath('assets/career4.JPEG'),
 ]
 
 const Careers = () => {

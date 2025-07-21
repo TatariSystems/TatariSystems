@@ -6,6 +6,8 @@ import Lottie from 'lottie-react'
 import { useNavigate } from 'react-router-dom'
 import { getIconSrc } from '../utils/iconMapping'
 import ReactMemo from 'react'
+import { getAssetPath } from '../utils/paths'
+
 // Animation will be loaded dynamically
 const aiAnimation = null
 
@@ -229,7 +231,7 @@ const Story = () => {
               style={{ perspective: '1000px' }}
             >
               <img 
-                src={`${base}/assets/ai.png`}
+                src={getAssetPath('assets/ai.png')}
                 alt="AI Technology"
                 className="w-full h-full object-contain rounded-xl"
                 loading="lazy"

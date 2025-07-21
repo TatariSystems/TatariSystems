@@ -224,7 +224,7 @@ const Home = () => {
         <Animated3DGrid />
         <div className="relative z-10 flex flex-col items-center justify-center w-full px-4">
           <motion.img
-            src={getAssetPath('/assets/tatarilogo.png')}
+            src={getAssetPath('assets/tatarilogo.png')}
             alt="Tatari Logo"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}

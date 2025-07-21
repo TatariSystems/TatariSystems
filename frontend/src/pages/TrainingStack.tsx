@@ -6,21 +6,21 @@ import Lottie from 'lottie-react';
 import Navbar from '../components/Navbar';
 import { getIconSrc } from '../utils/iconMapping';
 import ReactMemo from 'react';
+import { getAssetPath } from '../utils/paths';
 
 const TrainingStack = () => {
   const [gpuAnimationData, setGpuAnimationData] = useState(null);
   const navigate = useNavigate();
-  const base = (import.meta as any).env?.PROD ? '/TatariSystems' : '';
 
   // Lazy-load Lottie animation only when visible
   useEffect(() => {
     if (!gpuAnimationData) {
-      fetch(`${base}/animations/gpu.json`)
+      fetch(getAssetPath('animations/gpu.json'))
         .then(response => response.json())
         .then(data => setGpuAnimationData(data))
         .catch(error => console.error('Error loading GPU animation:', error));
     }
-  }, [base, gpuAnimationData]);
+  }, [gpuAnimationData]);
 
   const features = ReactMemo.useMemo(() => [
     { icon: "Cpu", title: 'Full GPU Access', desc: 'No virtualization, direct bare-metal performance' },
@@ -245,14 +245,13 @@ export default ReactMemo.memo(TrainingStack);
 
 const WorldAnimation = () => {
   const [worldData, setWorldData] = useState<any>(null);
-  const base = (import.meta as any).env?.PROD ? '/TatariSystems' : '';
 
   useEffect(() => {
-    fetch(`${base}/animations/world.json`)
+    fetch(getAssetPath('animations/world.json'))
       .then(response => response.json())
       .then(data => setWorldData(data))
       .catch(error => console.error('Error loading world animation:', error));
-  }, [base]);
+  }, []);
 
   return (
     <div className="w-[400px] h-[400px] flex items-center justify-center">
