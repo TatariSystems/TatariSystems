@@ -119,29 +119,29 @@ const Navbar = () => {
 
   const companyDropdown = [
     {
-      title: 'Story',
+      title: 'Our Story',
       description: 'Our founding story, vision, and mission to change AI.',
       color: 'bg-brand-blue-1',
       cta: 'Read Our Story',
-      ctaHref: '/story',
+      ctaHref: '/our-story',
       subsections: [
         {
           label: 'Our Mission',
           desc: 'Building the future of sustainable AI computing.',
           icon: 'Globe',
-          href: '/story#mission',
+          href: '/our-story#mission',
         },
         {
           label: 'The Team',
           desc: 'Meet the founders and leadership team.',
           icon: 'Users',
-          href: '/story#team',
+          href: '/our-story#team',
         },
         {
           label: 'Our Values',
           desc: 'Sustainability, innovation, and customer success.',
           icon: 'Shield',
-          href: '/story#values',
+          href: '/our-story#values',
         },
       ],
     },

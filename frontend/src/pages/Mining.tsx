@@ -87,7 +87,7 @@ const Mining = () => {
           transition={{ duration: 0.3, delay: 0.05 }}
         >
           <span className="hover:underline cursor-pointer" onClick={() => navigate('/')}>Home</span> /
-          <span className="hover:underline cursor-pointer ml-1" onClick={() => navigate('/story')}>Story</span> /
+          <span className="hover:underline cursor-pointer ml-1" onClick={() => navigate('/our-story')}>Story</span> /
           <span className="ml-1 text-white font-semibold">Mining</span>
         </motion.nav>
 

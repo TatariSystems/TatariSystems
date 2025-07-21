@@ -229,7 +229,7 @@ const OmniStack = () => {
                     <div className="mt-auto">
                       <span
                         className="flex items-center font-semibold text-primary-500 text-base cursor-pointer select-none"
-                        onClick={() => navigate('/story')}
+                        onClick={() => navigate('/our-story')}
                       >
                         Learn More
                         <ArrowRight className="ml-1 h-4 w-4 text-primary-500" />

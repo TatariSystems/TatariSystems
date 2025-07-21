@@ -10,7 +10,7 @@ const OmniStack = React.lazy(() => import('./pages/OmniStack'))
 const Pricing = React.lazy(() => import('./pages/Pricing'))
 const TrainingStack = React.lazy(() => import('./pages/TrainingStack'))
 const InferenceStack = React.lazy(() => import('./pages/InferenceStack'))
-const Story = React.lazy(() => import('./pages/Story'))
+const OurStory = React.lazy(() => import('./pages/Story'))
 const Team = React.lazy(() => import('./pages/Team'))
 const Careers = React.lazy(() => import('./pages/Careers'))
 const Blog = React.lazy(() => import('./pages/Blog'))
@@ -41,7 +41,7 @@ function App() {
           <Route path="/omni-stack" element={<OmniStack />} />
           <Route path="/training-stack" element={<TrainingStack />} />
           <Route path="/inference-stack" element={<InferenceStack />} />
-          <Route path="/story" element={<Story />} />
+          <Route path="/our-story" element={<OurStory />} />
           <Route path="/team" element={<Team />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/blog" element={<Blog />} />

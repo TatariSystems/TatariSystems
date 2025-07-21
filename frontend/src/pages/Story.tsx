@@ -11,7 +11,7 @@ import { getAssetPath } from '../utils/paths'
 // Animation will be loaded dynamically
 const aiAnimation = null
 
-const Story = () => {
+const OurStory = () => {
   const [currentSubhead, setCurrentSubhead] = useState(0)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
@@ -514,4 +514,4 @@ const Story = () => {
   )
 }
 
-export default ReactMemo.memo(Story) 
+export default ReactMemo.memo(OurStory) 
