@@ -6,8 +6,7 @@
   "homepage": "https://andopher.github.io/TatariSystems",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "postbuild": "rimraf dist/404.html",
+    "build": "vite build && rm -f dist/404.html",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "deploy": "npm run build && gh-pages -d dist"
