@@ -5,7 +5,7 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: process.env.NODE_ENV === 'production' ? '/TatariSystems/' : '/',
+  base: '/',                                 // ← change this
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -26,10 +26,9 @@ export default defineConfig({
     sourcemap: false,
     rollupOptions: {
       onwarn(warning, warn) {
-        // Suppress warnings about missing dependencies
         if (warning.code === 'MODULE_LEVEL_DIRECTIVE') return
         warn(warning)
       }
     }
   },
-}) 
+})
