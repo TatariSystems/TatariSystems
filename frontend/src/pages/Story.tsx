@@ -21,25 +21,27 @@ const OurStory = () => {
   const aiImageRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
 
-  // Lazy-load Lottie animations only when the relevant slide is active
+  // Eagerly load all Lottie animations for origin story
   useEffect(() => {
-    if (currentSlide === 0 && !bitcoinAnimationData) {
+    if (!bitcoinAnimationData) {
       fetch(getAssetPath('animations/sec1.json'))
         .then(response => response.json())
         .then(data => setBitcoinAnimationData(data))
         .catch(error => console.error('Error loading Section 1 animation:', error))
-    } else if (currentSlide === 1 && !aiAnimationData) {
+    }
+    if (!aiAnimationData) {
       fetch(getAssetPath('animations/sec2.json'))
         .then(response => response.json())
         .then(data => setAiAnimationData(data))
         .catch(error => console.error('Error loading Section 2 animation:', error))
-    } else if (currentSlide === 2 && !infrastructureAnimationData) {
+    }
+    if (!infrastructureAnimationData) {
       fetch(getAssetPath('animations/sec3.json'))
         .then(response => response.json())
         .then(data => setInfrastructureAnimationData(data))
         .catch(error => console.error('Error loading Section 3 animation:', error))
     }
-  }, [currentSlide, bitcoinAnimationData, aiAnimationData, infrastructureAnimationData])
+  }, [])
 
   const subheads = [
     "AI is accelerating everything.",
@@ -149,6 +151,14 @@ const OurStory = () => {
     }
   }, [mousePosition])
 
+  // Add a helper for fade-in-on-scroll
+  const fadeInProps = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    transition: { duration: 0.5 },
+    viewport: { once: true, amount: 0.2 },
+  };
+
   return (
     <div className="min-h-screen bg-black pt-navbar">
       <Navbar />
@@ -236,17 +246,9 @@ const OurStory = () => {
                   // Fallback if image fails to load
                   const target = e.target as HTMLImageElement;
                   target.style.display = 'none';
-                  const fallback = target.nextElementSibling as HTMLElement;
-                  if (fallback) fallback.style.display = 'flex';
+                  // Remove fallback div entirely
                 }}
               />
-              <div className="text-center hidden">
-                <div className="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-primary-500 to-accent-500 rounded-full flex items-center justify-center shadow-2xl">
-                  <span className="text-6xl">🤖</span>
-                </div>
-                <p className="text-white/80 text-lg">AI Technology</p>
-                <p className="text-white/60 text-sm mt-2">Loading Animation...</p>
-              </div>
             </div>
           </motion.div>
         </div>
@@ -334,19 +336,7 @@ const OurStory = () => {
                       />
                     </div>
                   ) : (
-                    <div className={`hidden md:block w-full max-w-[240px] lg:max-w-[280px] h-auto aspect-square bg-gradient-to-br ${originSlides[currentSlide].color} rounded-2xl border border-gray-600 flex items-center justify-center shadow-xl`}>
-                      <div className="text-center">
-                        <div className="w-16 sm:w-20 h-16 sm:h-20 mx-auto mb-4 bg-white/20 rounded-full flex items-center justify-center">
-                          <span className="text-3xl sm:text-4xl">
-                            {currentSlide === 0 ? '⛏️' : currentSlide === 1 ? '🚀' : '⚡'}
-                          </span>
-                        </div>
-                        <p className="text-white/80 text-base sm:text-lg">{originSlides[currentSlide].animation}</p>
-                        <p className="text-white/60 text-xs sm:text-sm mt-2">
-                          {currentSlide === 0 ? 'Loading Section 1 Animation...' : currentSlide === 1 ? 'Loading Section 2 Animation...' : 'Loading Section 3 Animation...'}
-                        </p>
-                      </div>
-                    </div>
+                    <div className="hidden md:block w-full max-w-[240px] lg:max-w-[280px] h-auto aspect-square rounded-2xl flex items-center justify-center" />
                   )}
                 </div>
               </motion.div>
@@ -401,8 +391,12 @@ const OurStory = () => {
           <div className="max-w-6xl mx-auto">
             <div className="flex flex-col lg:flex-row mt-20 mb-32">
               {values.slice(0, 3).map((value, idx) => (
-                <div
+                <motion.div
                   key={value.number}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.2, delay: idx * 0.08 }}
                   className={`flex-1 flex flex-col items-center px-0 lg:px-8 mb-12 lg:mb-0
                     ${idx !== 0 ? 'border-l border-gray-400' : ''}
                     ${idx !== 2 ? 'border-r border-gray-400' : ''}
@@ -418,13 +412,17 @@ const OurStory = () => {
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3 text-center">{value.title}</h3>
                   <p className="text-gray-300 leading-relaxed text-center">{value.description}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
             <div className="flex flex-col lg:flex-row mt-32 mb-20">
               {values.slice(3, 6).map((value, idx) => (
-                <div
+                <motion.div
                   key={value.number}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.2, delay: idx * 0.08 }}
                   className={`flex-1 flex flex-col items-center px-0 lg:px-8 mb-12 lg:mb-0
                     ${idx !== 0 ? 'border-l border-gray-400' : ''}
                     ${idx !== 2 ? 'border-r border-gray-400' : ''}
@@ -440,7 +438,7 @@ const OurStory = () => {
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3 text-center">{value.title}</h3>
                   <p className="text-gray-300 leading-relaxed text-center">{value.description}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>

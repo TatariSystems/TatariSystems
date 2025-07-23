@@ -67,6 +67,12 @@ const getInitials = (name: string) => {
 
 const Team = () => {
   const navigate = useNavigate()
+  const fadeInProps = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    transition: { duration: 0.5 },
+    viewport: { once: true, amount: 0.2 },
+  };
   return (
     <div className="min-h-screen bg-black pt-navbar">
       <Navbar />
@@ -75,9 +81,7 @@ const Team = () => {
       <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            {...fadeInProps}
             className="text-center mb-16"
           >
             <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
@@ -90,10 +94,7 @@ const Team = () => {
 
           {/* Executive Team */}
           <motion.section
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
+            {...fadeInProps}
             className="mb-20"
           >
             <div className="text-center mb-12">
@@ -105,10 +106,8 @@ const Team = () => {
               {executiveTeam.map((member, idx) => (
                 <motion.div
                   key={member.name}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  viewport={{ once: true }}
+                  {...fadeInProps}
+                  transition={{ duration: 0.6, delay: idx * 0.08 }}
                   whileHover={{ scale: 1.02 }}
                   className="text-center transition-all duration-300"
                 >
@@ -159,10 +158,8 @@ const Team = () => {
 
           {/* Extended Leadership */}
           <motion.section
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            {...fadeInProps}
             transition={{ duration: 0.8, delay: 0.4 }}
-            viewport={{ once: true }}
             className="mb-20"
           >
             <div className="text-center mb-12">
@@ -174,10 +171,8 @@ const Team = () => {
               {extendedLeadership.map((member, idx) => (
                 <motion.div
                   key={member.name}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  viewport={{ once: true }}
+                  {...fadeInProps}
+                  transition={{ duration: 0.6, delay: idx * 0.08 }}
                   whileHover={{ scale: 1.02 }}
                   className="text-center transition-all duration-300"
                 >
@@ -228,10 +223,8 @@ const Team = () => {
 
           {/* CTA Section */}
           <motion.section
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            {...fadeInProps}
             transition={{ duration: 0.8, delay: 0.6 }}
-            viewport={{ once: true }}
             className="bg-gradient-to-r from-primary-600 to-primary-700 rounded-2xl p-8 text-center"
           >
             <h3 className="text-2xl font-bold text-white mb-4">Join Our Team</h3>

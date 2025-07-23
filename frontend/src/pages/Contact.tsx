@@ -80,12 +80,8 @@ const Contact = () => {
           <rect width="100%" height="100%" fill="url(#grid-dark)" />
         </svg>
       </div>
-      {/* Darker Glassmorphic Navbar */}
-      <div className="fixed top-0 left-0 right-0 z-50">
-        <div className="glass-navbar bg-black/90 text-white border-b border-white/20 backdrop-blur-xl shadow-xl">
-          <Navbar />
-        </div>
-      </div>
+      {/* Standard Navbar (no extra wrapper) */}
+      <Navbar />
       <main className="relative z-10 flex flex-col items-center justify-center min-h-screen py-16 px-2">
         <div className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[80vh]">
           <AnimatePresence mode='wait'>

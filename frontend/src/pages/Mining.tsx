@@ -71,6 +71,13 @@ const Mining = () => {
     }
   ];
 
+  const fadeInProps = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    transition: { duration: 0.5 },
+    viewport: { once: true, amount: 0.2 },
+  };
+
   return (
     <>
       <Navbar />
@@ -156,17 +163,19 @@ const Mining = () => {
         >
           <div className="flex flex-col md:flex-row max-w-6xl mx-auto">
             {stats.map((stat, index) => (
-              <div
+              <motion.div
                 key={stat.label}
                 className={`flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0
                   ${index !== 0 ? 'border-l border-gray-400' : ''}
                   ${index !== stats.length - 1 ? 'border-r border-gray-400' : ''}
                 `}
+                {...fadeInProps}
+                transition={{ ...fadeInProps.transition, delay: index * 0.08 }}
               >
                 <img src={getIconSrc(stat.icon)} alt={stat.label} className="mb-3 h-8 w-8 object-contain" loading="lazy" />
                 <div className="text-4xl font-extrabold text-white mb-1 tracking-tight">{stat.number}</div>
                 <div className="text-base text-gray-200 font-medium text-center">{stat.label}</div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </motion.section>
@@ -180,17 +189,19 @@ const Mining = () => {
           <h2 className="text-3xl font-bold text-white mb-16 text-center">Why Choose Tatari Mining?</h2>
           <div className="flex flex-col md:flex-row max-w-6xl mx-auto">
             {features.map((feature, index) => (
-              <div
+              <motion.div
                 key={feature.title}
                 className={`flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0
                   ${index !== 0 ? 'border-l border-gray-400' : ''}
                   ${index !== features.length - 1 ? 'border-r border-gray-400' : ''}
                 `}
+                {...fadeInProps}
+                transition={{ ...fadeInProps.transition, delay: index * 0.08 }}
               >
                 <img src={getIconSrc(feature.icon)} alt={feature.title} className="mb-4 h-10 w-10 object-contain" loading="lazy" />
                 <h3 className="text-xl font-bold text-white mb-2 text-center">{feature.title}</h3>
                 <p className="text-white/80 text-center text-base max-w-xs">{feature.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </motion.section>
@@ -204,12 +215,14 @@ const Mining = () => {
           <h2 className="text-3xl font-bold text-white mb-16 text-center">Sustainability Impact</h2>
           <div className="flex flex-col md:flex-row max-w-4xl mx-auto">
             {sustainabilityMetrics.map((metric, index) => (
-              <div
+              <motion.div
                 key={metric.title}
-                className={`flex-1 flex flex-col items-start md:items-center px-0 md:px-8 mb-12 md:mb-0
+                className={`flex-1 flex flex-col items-center text-center px-0 md:px-8 mb-12 md:mb-0
                   ${index !== 0 ? 'border-l border-gray-400' : ''}
                   ${index !== sustainabilityMetrics.length - 1 ? 'border-r border-gray-400' : ''}
                 `}
+                {...fadeInProps}
+                transition={{ ...fadeInProps.transition, delay: index * 0.08 }}
               >
                 <h3 className="text-2xl font-bold text-white mb-4">{metric.title}</h3>
                 <div className="mb-4">
@@ -224,7 +237,7 @@ const Mining = () => {
                   <div className="text-xl font-semibold text-white mb-1">{metric.efficiency}</div>
                   <div className="text-white/80 text-sm">Efficiency</div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </motion.section>
@@ -237,21 +250,33 @@ const Mining = () => {
         >
           <h2 className="text-3xl font-bold text-white mb-16 text-center">Advanced Mining Technology</h2>
           <div className="flex flex-col md:flex-row max-w-6xl mx-auto">
-            <div className="flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0 border-r border-gray-400">
+            <motion.div
+              className="flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0 border-r border-gray-400"
+              {...fadeInProps}
+              transition={{ ...fadeInProps.transition, delay: 0 }}
+            >
               <img src={getIconSrc("Server")} alt="Custom Firmware" className="mb-3 h-8 w-8 object-contain" loading="lazy" />
               <h3 className="text-xl font-bold mb-2 text-white text-center">Custom Firmware</h3>
               <p className="text-gray-300 text-center text-base max-w-xs">Optimized mining software for maximum efficiency and hash rate performance.</p>
-            </div>
-            <div className="flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0 border-l border-gray-400 border-r border-gray-400">
+            </motion.div>
+            <motion.div
+              className="flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0 border-l border-gray-400 border-r border-gray-400"
+              {...fadeInProps}
+              transition={{ ...fadeInProps.transition, delay: 0.08 }}
+            >
               <img src={getIconSrc("Database")} alt="Smart Pool Management" className="mb-3 h-8 w-8 object-contain" loading="lazy" />
               <h3 className="text-xl font-bold mb-2 text-white text-center">Smart Pool Management</h3>
               <p className="text-gray-300 text-center text-base max-w-xs">Intelligent pool selection and failover systems for consistent mining operations.</p>
-            </div>
-            <div className="flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0 border-l border-gray-400">
+            </motion.div>
+            <motion.div
+              className="flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0 border-l border-gray-400"
+              {...fadeInProps}
+              transition={{ ...fadeInProps.transition, delay: 0.16 }}
+            >
               <img src={getIconSrc("BarChart")} alt="Real-time Monitoring" className="mb-3 h-8 w-8 object-contain" loading="lazy" />
               <h3 className="text-xl font-bold mb-2 text-white text-center">Real-time Monitoring</h3>
               <p className="text-gray-300 text-center text-base max-w-xs">Comprehensive dashboards and alerts for optimal mining performance tracking.</p>
-            </div>
+            </motion.div>
           </div>
         </motion.section>
 

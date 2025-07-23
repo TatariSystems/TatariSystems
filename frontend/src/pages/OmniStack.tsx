@@ -120,6 +120,13 @@ const OmniStack = () => {
     }
   }
 
+  const fadeInProps = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    transition: { duration: 0.5 },
+    viewport: { once: true, amount: 0.2 },
+  };
+
   return (
     <div className="min-h-screen bg-black pt-navbar">
       <Navbar />
@@ -405,7 +412,7 @@ const OmniStack = () => {
                 whileHover={{ scale: 1.05 }}
                 className="bg-gray-900 rounded-2xl p-6 text-center hover:bg-gray-800 transition-all duration-300 border border-gray-700"
               >
-                <div className="flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br ${feature.color} mb-4">
+                <div className="flex items-center justify-center w-16 h-16 rounded-full mb-4 mx-auto">
                   <img src={getIconSrc(feature.icon)} alt={feature.title} className="h-8 w-8 text-white" loading="lazy" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>

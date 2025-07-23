@@ -35,6 +35,13 @@ const TrainingStack = () => {
     { icon: "BookOpen", title: 'Academic & Scientific Research', desc: 'Run repeatable experiments at institutional scale' }
   ], []);
 
+  const fadeInProps = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    transition: { duration: 0.5 },
+    viewport: { once: true, amount: 0.2 },
+  };
+
   return (
     <>
       <Navbar />
@@ -122,8 +129,8 @@ const TrainingStack = () => {
                 <div
                   key={item.title}
                   className={`flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0
-                    ${idx !== 0 ? 'border-l border-gray-400' : ''}
-                    ${idx !== 2 ? 'border-r border-gray-400' : ''}
+                    ${idx !== 0 ? 'lg:border-l lg:border-gray-400' : ''}
+                    ${idx !== 2 ? 'lg:border-r lg:border-gray-400' : ''}
                   `}
                 >
                   <img src={getIconSrc(item.icon)} alt={item.title} className="mb-4 h-10 w-10 text-primary-500" loading="lazy" />
@@ -148,8 +155,8 @@ const TrainingStack = () => {
                 <div
                   key={item.title}
                   className={`flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0
-                    ${idx !== 0 ? 'border-l border-gray-400' : ''}
-                    ${idx !== 1 ? 'border-r border-gray-400' : ''}
+                    ${idx !== 0 ? 'lg:border-l lg:border-gray-400' : ''}
+                    ${idx !== 1 ? 'lg:border-r lg:border-gray-400' : ''}
                   `}
                 >
                   <img src={getIconSrc(item.icon)} alt={item.title} className="h-10 w-10 text-primary-500 mb-3" loading="lazy" />
@@ -163,8 +170,8 @@ const TrainingStack = () => {
                 <div
                   key={item.title}
                   className={`flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0
-                    ${idx !== 0 ? 'border-l border-gray-400' : ''}
-                    ${idx !== 1 ? 'border-r border-gray-400' : ''}
+                    ${idx !== 0 ? 'lg:border-l lg:border-gray-400' : ''}
+                    ${idx !== 1 ? 'lg:border-r lg:border-gray-400' : ''}
                   `}
                 >
                   <img src={getIconSrc(item.icon)} alt={item.title} className="h-10 w-10 text-primary-500 mb-3" loading="lazy" />
@@ -189,8 +196,8 @@ const TrainingStack = () => {
                 <div
                   key={item.title}
                   className={`flex-1 flex flex-col items-center px-0 md:px-8 mb-12 md:mb-0
-                    ${idx !== 0 ? 'border-l border-gray-400' : ''}
-                    ${idx !== 2 ? 'border-r border-gray-400' : ''}
+                    ${idx !== 0 ? 'lg:border-l lg:border-gray-400' : ''}
+                    ${idx !== 2 ? 'lg:border-r lg:border-gray-400' : ''}
                   `}
                 >
                   <img src={getIconSrc(item.icon)} alt={item.title} className="mx-auto mb-4 h-10 w-10 text-primary-500" loading="lazy" />

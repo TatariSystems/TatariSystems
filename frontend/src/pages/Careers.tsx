@@ -69,17 +69,19 @@ const Careers = () => {
     return () => clearInterval(interval)
   }, [tatariWay.length])
 
+  const fadeInProps = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    transition: { duration: 0.5 },
+    viewport: { once: true, amount: 0.2 },
+  };
+
   return (
     <div className="min-h-screen bg-black pt-navbar">
       <Navbar />
       <section className="relative pt-24 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-16"
-          >
+          <motion.div {...fadeInProps}>
             <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
               Join the Team Building Next-Gen AI Infrastructure
             </h1>
@@ -96,10 +98,8 @@ const Careers = () => {
             {whyTatari.map((item, idx) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: idx * 0.1 }}
+                {...fadeInProps}
+                transition={{ ...fadeInProps.transition, delay: idx * 0.08 }}
                 className={`flex flex-col md:flex-row items-center ${idx % 2 === 1 ? 'md:flex-row-reverse' : ''} gap-0 md:gap-12`}
                 style={{ minHeight: '340px' }}
               >
@@ -122,13 +122,7 @@ const Careers = () => {
             ))}
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-center mb-20"
-          >
+          <motion.div {...fadeInProps} className="text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Our Mission</h2>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-16">
               Democratize access to advanced compute for builders everywhere.
@@ -137,13 +131,11 @@ const Careers = () => {
               {whyTatari.map((item, idx) => (
                 <motion.div
                   key={item.title}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.7, delay: idx * 0.1 }}
+                  {...fadeInProps}
+                  transition={{ ...fadeInProps.transition, delay: idx * 0.08 }}
                   className={`flex-1 flex flex-col items-center px-0 lg:px-8 mb-12 lg:mb-0
-                    ${idx !== 0 ? 'border-l border-gray-400' : ''}
-                    ${idx !== whyTatari.length - 1 ? 'border-r border-gray-400' : ''}
+                    ${idx !== 0 ? 'lg:border-l lg:border-gray-400' : ''}
+                    ${idx !== whyTatari.length - 1 ? 'lg:border-r lg:border-gray-400' : ''}
                   `}
                 >
                   <img src={getIconSrc(item.icon)} alt={item.title} className="h-8 w-8 object-contain mb-4" />
@@ -156,13 +148,7 @@ const Careers = () => {
 
           {/* Remove the Open Roles Section */}
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-center mb-24"
-          >
+          <motion.div {...fadeInProps} className="text-center mt-20">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">The Tatari Way</h2>
             {/* Animated subheadline */}
             <div className="h-12 mb-8 flex items-center justify-center">
