@@ -194,4 +194,19 @@ async def employee_auth_status() -> Any:
         "password_first_4": settings.EMPLOYEE_PASSWORD[:4] if settings.EMPLOYEE_PASSWORD else "none",
         "authorized_emails_count": len(authorized_emails),
         "environment": settings.ENVIRONMENT
+    }
+
+@router.get("/debug-password")
+async def debug_password() -> Any:
+    """
+    Debug endpoint to check password configuration.
+    """
+    import os
+    
+    return {
+        "env_password": os.getenv("PASSWORD", "NOT_SET"),
+        "settings_password": settings.EMPLOYEE_PASSWORD,
+        "env_password_length": len(os.getenv("PASSWORD", "")) if os.getenv("PASSWORD") else 0,
+        "settings_password_length": len(settings.EMPLOYEE_PASSWORD) if settings.EMPLOYEE_PASSWORD else 0,
+        "environment": settings.ENVIRONMENT
     } 
