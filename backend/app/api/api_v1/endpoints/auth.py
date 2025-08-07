@@ -167,11 +167,18 @@ async def employee_auth_status() -> Any:
     """
     Check if employee authentication is properly configured.
     """
+    # Authorized employee emails
+    authorized_emails = [
+        'risiochristopher@gmail.com',
+    ]
+    
     password_configured = bool(settings.EMPLOYEE_PASSWORD and settings.EMPLOYEE_PASSWORD != "hP0!5W8-s3dC*2L$")
     
     return {
         "status": "configured" if password_configured else "not_configured",
         "password_set": password_configured,
+        "password_length": len(settings.EMPLOYEE_PASSWORD) if settings.EMPLOYEE_PASSWORD else 0,
+        "password_starts_with": settings.EMPLOYEE_PASSWORD[:4] if settings.EMPLOYEE_PASSWORD else "none",
         "authorized_emails_count": len(authorized_emails),
         "environment": settings.ENVIRONMENT
     } 
