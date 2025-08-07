@@ -152,7 +152,7 @@ async def employee_login(
         )
     
     # Log successful login attempt (without sensitive data)
-    print(f"Employee login attempt from: {login_data.email.lower()}")
+    print(f"Employee login attempt from: {login_data.email.lower()}")  # Updated for redeploy
     
     # Create access token (using email as user identifier)
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
