@@ -80,14 +80,14 @@ const TrainingStack = () => {
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <div
                 className="group bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 flex items-center justify-center cursor-pointer"
-                onClick={() => navigate('/training-stack/early-access')}
+                onClick={() => navigate('/contact')}
               >
                 Join Early Access
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </div>
               <div
                 className="group text-white hover:underline font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center cursor-pointer"
-                onClick={() => navigate('/company/contact')}
+                onClick={() => navigate('/contact')}
               >
                 Talk to Sales
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -133,7 +133,7 @@ const TrainingStack = () => {
                     ${idx !== 2 ? 'lg:border-r lg:border-gray-400' : ''}
                   `}
                 >
-                  <img src={getIconSrc(item.icon)} alt={item.title} className="mb-4 h-10 w-10 text-primary-500" loading="lazy" />
+                                     <img src={getIconSrc(item.icon)} alt={item.title} className="mb-4 h-10 w-10 object-contain" loading="lazy" />
                   <h3 className="text-xl font-bold mb-2 text-center">{item.title}</h3>
                   <p className="text-gray-300 text-center">{item.desc}</p>
                 </div>
@@ -159,7 +159,7 @@ const TrainingStack = () => {
                     ${idx !== 1 ? 'lg:border-r lg:border-gray-400' : ''}
                   `}
                 >
-                  <img src={getIconSrc(item.icon)} alt={item.title} className="h-10 w-10 text-primary-500 mb-3" loading="lazy" />
+                  <img src={getIconSrc(item.icon)} alt={item.title} className="h-10 w-10 object-contain mb-3" loading="lazy" />
                   <div className="font-bold mb-1 text-center">{item.title}</div>
                   <div className="text-gray-300 text-sm text-center">{item.desc}</div>
                 </div>
@@ -174,7 +174,7 @@ const TrainingStack = () => {
                     ${idx !== 1 ? 'lg:border-r lg:border-gray-400' : ''}
                   `}
                 >
-                  <img src={getIconSrc(item.icon)} alt={item.title} className="h-10 w-10 text-primary-500 mb-3" loading="lazy" />
+                  <img src={getIconSrc(item.icon)} alt={item.title} className="h-10 w-10 object-contain mb-3" loading="lazy" />
                   <div className="font-bold mb-1 text-center">{item.title}</div>
                   <div className="text-gray-300 text-sm text-center">{item.desc}</div>
                 </div>
@@ -200,7 +200,7 @@ const TrainingStack = () => {
                     ${idx !== 2 ? 'lg:border-r lg:border-gray-400' : ''}
                   `}
                 >
-                  <img src={getIconSrc(item.icon)} alt={item.title} className="mx-auto mb-4 h-10 w-10 text-primary-500" loading="lazy" />
+                  <img src={getIconSrc(item.icon)} alt={item.title} className="mx-auto mb-4 h-10 w-10 object-contain" loading="lazy" />
                   <h3 className="text-xl font-bold mb-2 text-center">{item.title}</h3>
                   <p className="text-gray-300 text-center">{item.desc}</p>
                 </div>
@@ -232,7 +232,7 @@ const TrainingStack = () => {
             <div className="flex flex-col items-center">
               <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mb-4">
                 {/* Placeholder for logo or name */}
-                <img src={getIconSrc('Users')} alt="User" className="h-10 w-10 text-primary-500" loading="lazy" />
+                <img src={getIconSrc('Users')} alt="User" className="h-10 w-10 object-contain" loading="lazy" />
               </div>
               <blockquote className="text-xl text-white italic mb-4">
                 “We wanted a partner who actually understood model training — Tatari delivered infrastructure that scaled with our ambition.”

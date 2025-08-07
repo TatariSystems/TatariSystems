@@ -17,6 +17,7 @@ const Blog = React.lazy(() => import('./pages/Blog'))
 const PressReleases = React.lazy(() => import('./pages/PressReleases'))
 const CaseStudies = React.lazy(() => import('./pages/CaseStudies'))
 const Mining = React.lazy(() => import('./pages/Mining'))
+const Login = React.lazy(() => import('./pages/Login'))
 
 // Custom hook to scroll to top on route change
 const useScrollToTop = () => {
@@ -48,6 +49,7 @@ function App() {
           <Route path="/press-releases" element={<PressReleases />} />
           <Route path="/case-studies" element={<CaseStudies />} />
           <Route path="/mining" element={<Mining />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </Suspense>
     </AnimatePresence>

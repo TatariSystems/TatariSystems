@@ -50,8 +50,12 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
     DEBUG: bool = os.getenv("DEBUG", "True").lower() == "true"
     
+    # Employee Authentication
+    EMPLOYEE_PASSWORD: str = os.getenv("PASSWORD", "hP0!5W8-s3dC*2L$")
+    
     class Config:
         case_sensitive = True
         env_file = ".env"
+        extra = "allow"  # Allow extra fields from environment variables
 
 settings = Settings() 

@@ -1,14 +1,50 @@
 from datetime import timedelta
 from typing import Any
+import os
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordRequestForm, HTTPBearer
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
 
 from app.core.config import settings
 from app.core.security import create_access_token, get_password_hash, verify_password
 from app.schemas.auth import Token, UserCreate, User
 from app.services.auth import authenticate_user, get_current_user
 from app.db.session import get_db
+
+# JWT token verification
+security = HTTPBearer()
+
+def get_current_employee(token: str = Depends(security)) -> str:
+    """Verify JWT token and return employee email"""
+    try:
+        from app.core.security import verify_token
+        payload = verify_token(token.credentials)
+        email = payload.get("sub")
+        if email is None:
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Invalid token",
+                headers={"WWW-Authenticate": "Bearer"},
+            )
+        return email
+    except Exception:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+# Employee login schemas
+class EmployeeLogin(BaseModel):
+    email: str
+    password: str
+
+class EmployeeLoginResponse(BaseModel):
+    success: bool
+    message: str
+    access_token: str = None
+    token_type: str = "bearer"
 
 router = APIRouter()
 
@@ -79,4 +115,63 @@ async def read_users_me(
     """
     Get current user.
     """
-    return current_user 
+    return current_user
+
+@router.post("/employee-login", response_model=EmployeeLoginResponse)
+async def employee_login(
+    login_data: EmployeeLogin,
+) -> Any:
+    """
+    Employee login endpoint with shared password for authorized emails.
+    """
+    # Authorized employee emails
+    authorized_emails = [
+        'risiochristopher@gmail.com',
+    ]
+    
+    # Shared password for all employees - from environment variable
+    shared_password = settings.EMPLOYEE_PASSWORD
+    
+    # Validate email and password
+    if login_data.email.lower() not in [email.lower() for email in authorized_emails]:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Access denied. This login is for Tatari Systems employees only."
+        )
+    
+    if login_data.password != shared_password:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password"
+        )
+    
+    # Log successful login attempt (without sensitive data)
+    print(f"Employee login attempt from: {login_data.email.lower()}")
+    
+    # Create access token (using email as user identifier)
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        subject=login_data.email.lower(), 
+        expires_delta=access_token_expires
+    )
+    
+    return EmployeeLoginResponse(
+        success=True,
+        message=f"Login successful! Welcome {login_data.email.lower()}",
+        access_token=access_token,
+        token_type="bearer"
+    )
+
+@router.get("/employee-auth-status")
+async def employee_auth_status() -> Any:
+    """
+    Check if employee authentication is properly configured.
+    """
+    password_configured = bool(settings.EMPLOYEE_PASSWORD and settings.EMPLOYEE_PASSWORD != "hP0!5W8-s3dC*2L$")
+    
+    return {
+        "status": "configured" if password_configured else "not_configured",
+        "password_set": password_configured,
+        "authorized_emails_count": len(authorized_emails),
+        "environment": settings.ENVIRONMENT
+    } 

@@ -228,7 +228,7 @@ const OmniStack = () => {
                   {/* Content */}
                   <div className="flex flex-col justify-between h-full flex-1">
                     <div>
-                      <img src={getIconSrc(stat.icon)} alt={stat.label} className="h-8 w-8 mb-2" loading="lazy" />
+                      <img src={getIconSrc(stat.icon)} alt={stat.label} className="h-8 w-8 object-contain mb-2" loading="lazy" />
                       <div className="text-5xl font-bold text-white mb-1">{stat.number}</div>
                       <div className="text-base font-semibold text-white mb-1">{stat.label}</div>
                       <div className="text-gray-400 text-base mb-4">More performance for less</div>
@@ -413,7 +413,7 @@ const OmniStack = () => {
                 className="bg-gray-900 rounded-2xl p-6 text-center hover:bg-gray-800 transition-all duration-300 border border-gray-700"
               >
                 <div className="flex items-center justify-center w-16 h-16 rounded-full mb-4 mx-auto">
-                  <img src={getIconSrc(feature.icon)} alt={feature.title} className="h-8 w-8 text-white" loading="lazy" />
+                  <img src={getIconSrc(feature.icon)} alt={feature.title} className="h-8 w-8 object-contain text-white" loading="lazy" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
                 <p className="text-gray-300">{feature.description}</p>
@@ -436,7 +436,7 @@ const OmniStack = () => {
             <h2 className="text-4xl font-bold text-white mb-6">Ideal For</h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex flex-col md:flex-row gap-8">
             {idealFor.map((item, idx) => (
               <motion.div
                 key={item.title}
@@ -444,14 +444,19 @@ const OmniStack = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ scale: 1.05 }}
-                className="bg-gray-800 rounded-2xl p-8 text-center hover:bg-gray-700 transition-all duration-300 border border-gray-700"
+                className="flex-1 flex flex-col h-full min-w-[220px]"
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <img src={getIconSrc(item.icon)} alt={item.title} className="h-8 w-8 text-white" loading="lazy" />
+                <div className="flex h-full">
+                  {/* Thick colored left border */}
+                  <div className="w-1.5 rounded-full bg-primary-500 mr-6" style={{ minHeight: '100%' }}></div>
+                  {/* Content */}
+                  <div className="flex flex-col justify-between h-full flex-1">
+                    <div>
+                      <div className="text-2xl font-bold text-white mb-2">{item.title}</div>
+                      <div className="text-gray-300 text-base">{item.description}</div>
+                    </div>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
-                <p className="text-gray-300">{item.description}</p>
               </motion.div>
             ))}
           </div>
@@ -483,7 +488,7 @@ const OmniStack = () => {
                 className="bg-gray-900 rounded-2xl p-8 text-center hover:bg-gray-800 transition-all duration-300 border border-gray-700"
               >
                 <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <img src={getIconSrc(point.icon)} alt={point.title} className="h-8 w-8 text-white" loading="lazy" />
+                  <img src={getIconSrc(point.icon)} alt={point.title} className="h-8 w-8 object-contain text-white" loading="lazy" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">{point.title}</h3>
                 <p className="text-gray-300">{point.description}</p>
@@ -527,7 +532,7 @@ const OmniStack = () => {
                   style={{ backgroundColor: region.color }}
                 >
                   <div className="text-center">
-                    <img src={getIconSrc(region.icon)} alt={region.name} className="h-8 w-8 text-white mx-auto mb-2" loading="lazy" />
+                    <img src={getIconSrc(region.icon)} alt={region.name} className="h-8 w-8 object-contain text-white mx-auto mb-2" loading="lazy" />
                     <h3 className="text-white font-bold mb-2">{region.name}</h3>
                     <span className="text-white/80 text-sm capitalize">{region.status}</span>
                   </div>

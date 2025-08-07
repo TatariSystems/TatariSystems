@@ -1,9 +1,9 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { getAssetPath } from '../utils/paths'
 import { getIconSrc } from '../utils/iconMapping'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, ArrowRight, Shield } from 'lucide-react'
 import { AnimatePresence } from 'framer-motion'
 
 const Navbar = () => {
@@ -13,6 +13,38 @@ const Navbar = () => {
   const dropdownTimeout = useRef<NodeJS.Timeout | null>(null)
   const isActive = (path: string) => location.pathname === path
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  // Check login status on component mount and when localStorage changes
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const token = localStorage.getItem('employee_token')
+      const email = localStorage.getItem('employee_email')
+      setIsLoggedIn(!!(token && email))
+    }
+
+    checkLoginStatus()
+    
+    // Listen for storage changes (when login/logout happens)
+    const handleStorageChange = () => {
+      checkLoginStatus()
+    }
+
+    window.addEventListener('storage', handleStorageChange)
+    window.addEventListener('localStorageChange', handleStorageChange)
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+      window.removeEventListener('localStorageChange', handleStorageChange)
+    }
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem('employee_token')
+    localStorage.removeItem('employee_email')
+    window.dispatchEvent(new Event('localStorageChange'))
+    navigate('/')
+  }
 
   const handleMouseEnter = (label: string) => {
     if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current)
@@ -44,19 +76,19 @@ const Navbar = () => {
         {
           label: 'Launch AI Apps',
           desc: 'Spin up and manage AI applications in minutes.',
-          icon: 'Zap',
+          icon: 'omni1',
           href: '/omni-stack#launch',
         },
         {
           label: 'Full GPU Access',
           desc: 'Bare-metal performance, no virtualization.',
-          icon: 'Cpu',
+          icon: 'omni2',
           href: '/omni-stack#gpu',
         },
         {
           label: 'Global Regions',
           desc: 'Deploy close to your data sources worldwide.',
-          icon: 'Globe',
+          icon: 'omni3',
           href: '/omni-stack#regions',
         },
       ],
@@ -71,19 +103,19 @@ const Navbar = () => {
         {
           label: 'H100/A100 Clusters',
           desc: 'Deploy the latest NVIDIA GPUs for training.',
-          icon: 'Server',
+          icon: 'training1',
           href: '/training-stack#clusters',
         },
         {
           label: 'Custom Environments',
           desc: 'Run your own containers or frameworks.',
-          icon: 'Cloud',
+          icon: 'training2',
           href: '/training-stack#custom',
         },
         {
           label: 'Early Access',
           desc: 'Be the first to try new features and hardware.',
-          icon: 'Zap',
+          icon: 'training3',
           href: '/training-stack/early-access',
         },
       ],
@@ -98,19 +130,19 @@ const Navbar = () => {
         {
           label: 'Serverless Endpoints',
           desc: 'Deploy APIs for instant inference at scale.',
-          icon: 'Cloud',
+          icon: 'inference1',
           href: '/inference-stack#serverless',
         },
         {
           label: 'Autoscaling',
           desc: 'Scale up or down automatically based on demand.',
-          icon: 'Sliders',
+          icon: 'inference2',
           href: '/inference-stack#autoscaling',
         },
         {
           label: 'API Integration',
           desc: 'Easily connect to your apps and services.',
-          icon: 'BookOpen',
+          icon: 'inference3',
           href: '/inference-stack#api',
         },
       ],
@@ -433,7 +465,7 @@ const Navbar = () => {
           </button>
 
           {/* Centered Dropdown Tabs (desktop only) */}
-          <div className="flex-1 flex justify-center">
+          <div className="absolute left-1/2 transform -translate-x-1/2">
             <div className="hidden sm:flex items-center space-x-8">
               {megaMenus.map((dropdown) => (
                 <div
@@ -456,14 +488,32 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Contact Us Button (desktop only) */}
-          <div className="hidden sm:flex items-center ml-auto">
+          {/* Contact Us and Login/Admin Buttons (desktop only) */}
+          <div className="hidden sm:flex items-center ml-auto space-x-4">
             <button
               className="bg-primary-600 hover:bg-primary-700 text-white font-bold px-6 py-2 rounded-xl shadow-lg transition-all duration-200 text-base"
               onClick={() => navigate('/contact')}
             >
               Contact Us
             </button>
+            {isLoggedIn ? (
+              <button
+                onClick={handleLogout}
+                className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded-xl transition-all duration-200 text-sm cursor-pointer"
+                title="Click to logout"
+              >
+                <Shield className="h-4 w-4" />
+                <span>Admin Mode</span>
+              </button>
+            ) : (
+              <button
+                className="group text-white hover:text-primary-500 font-bold px-6 py-2 rounded-xl transition-all duration-200 text-base flex items-center"
+                onClick={() => navigate('/login')}
+              >
+                Login
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+              </button>
+            )}
           </div>
 
           {/* Invisible right spacer to balance logo (desktop only) */}
@@ -541,13 +591,31 @@ const Navbar = () => {
                   ))}
                 </div>
               ))}
-              {/* Contact Us Button (mobile only) */}
+              {/* Contact Us and Login/Admin Buttons (mobile only) */}
               <button
                 className="mt-6 bg-primary-600 hover:bg-primary-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all duration-200 text-base"
                 onClick={() => { navigate('/contact'); setMobileMenuOpen(false); }}
               >
                 Contact Us
               </button>
+              {isLoggedIn ? (
+                <button
+                  onClick={handleLogout}
+                  className="mt-4 flex items-center justify-center space-x-2 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-xl text-base cursor-pointer"
+                  title="Click to logout"
+                >
+                  <Shield className="h-4 w-4" />
+                  <span>Admin Mode</span>
+                </button>
+              ) : (
+                <button
+                  className="mt-4 text-white hover:text-primary-500 font-bold px-6 py-3 rounded-xl transition-all duration-200 text-base flex items-center justify-center"
+                  onClick={() => { navigate('/login'); setMobileMenuOpen(false); }}
+                >
+                  Login
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </button>
+              )}
             </div>
           </motion.div>
         )}

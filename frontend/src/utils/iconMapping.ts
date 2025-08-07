@@ -56,7 +56,17 @@ export const getIconPath = (iconName: string): string => {
     'Box2': 'Box 2.png',
     'Box3': 'Box 3.png',
     'Web3': 'Web 3.png',
-    'CPU': 'CPU.png'
+    'CPU': 'CPU.png',
+    // Dropdown menu icons
+    'omni1': 'omni1.png',
+    'omni2': 'omni2.png',
+    'omni3': 'omni3.png',
+    'training1': 'training1.png',
+    'training2': 'training2.png',
+    'training3': 'training3.png',
+    'inference1': 'inference1.png',
+    'inference2': 'inference2.png',
+    'inference3': 'inference3.png'
   }
 
   return iconMap[iconName] || 'Settings.png' // fallback to settings icon
