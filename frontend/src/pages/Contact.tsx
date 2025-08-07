@@ -97,7 +97,7 @@ const Contact = () => {
                 <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-8 drop-shadow-xl">Let's Talk Compute</h1>
                 <p className="text-2xl md:text-3xl text-gray-200 mb-14 max-w-3xl mx-auto font-medium">
                   Whether you're planning large-scale training, building with bare-metal infrastructure, or exploring partnerships, start here.<br />
-                  <span className="text-brand-cyan font-semibold">Tatari-grade compute with a human touch.</span>
+                  <span className="font-semibold" style={{ color: '#6797d6' }}>Tatari-grade compute with a human touch.</span>
                 </p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
@@ -139,7 +139,10 @@ const Contact = () => {
                   ))}
                 </div>
                 <button
-                  className="mt-14 text-base text-gray-400 hover:text-brand-cyan underline"
+                  className="mt-14 text-base text-gray-400 underline"
+                  style={{ '--tw-text-opacity': '1' }}
+                  onMouseEnter={(e) => e.target.style.color = '#6797d6'}
+                  onMouseLeave={(e) => e.target.style.color = 'rgb(156 163 175)'}
                   onClick={() => setStage('hero')}
                 >
                   &larr; Back
@@ -200,7 +203,10 @@ const Contact = () => {
                     </button>
                     <button
                       type="button"
-                      className="text-base text-gray-400 hover:text-brand-cyan underline mt-2"
+                      className="text-base text-gray-400 underline mt-2"
+                      style={{ '--tw-text-opacity': '1' }}
+                      onMouseEnter={(e) => e.target.style.color = '#6797d6'}
+                      onMouseLeave={(e) => e.target.style.color = 'rgb(156 163 175)'}
                       onClick={() => setStage('types')}
                     >
                       &larr; Back

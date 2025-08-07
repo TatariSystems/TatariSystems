@@ -404,25 +404,23 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
-      <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center h-16 relative w-full glass-navbar">
+      <div className="w-full">
+        <div className="flex items-center h-16 relative w-full glass-navbar px-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <div className="flex items-center h-full z-10">
-            <Link
-              to="/"
-              style={{ textDecoration: 'none' }}
-              className="no-underline hover:no-underline focus:outline-none flex items-center space-x-3 group"
-              onClick={() => setMobileMenuOpen(false)}
+            <div
+              className="flex items-center space-x-3 group cursor-pointer"
+              onClick={() => { navigate('/'); setMobileMenuOpen(false); }}
             >
               <motion.img
                 src={getAssetPath('/assets/tatarilogo.png')}
                 alt="Tatari Systems Logo"
-                className="h-8 w-auto transition-all duration-300 group-hover:scale-105"
+                className="h-8 w-auto transition-all duration-300 group-hover:scale-105 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.8)] group-hover:shadow-blue-500"
                 whileHover={{ rotate: 5 }}
                 transition={{ duration: 0.2 }}
               />
-              <span className="text-lg font-bold text-white tracking-tight">Tatari</span>
-            </Link>
+              <span className="text-lg font-bold text-white tracking-tight group-hover:[text-shadow:0_0_10px_rgba(59,130,246,0.8),0_0_20px_rgba(59,130,246,0.6),0_0_30px_rgba(59,130,246,0.4)] transition-all duration-300">Tatari</span>
+            </div>
           </div>
 
           {/* Hamburger menu button (mobile only) */}
@@ -470,18 +468,14 @@ const Navbar = () => {
 
           {/* Invisible right spacer to balance logo (desktop only) */}
           <div className="absolute right-0 top-0 h-full items-center hidden sm:flex" style={{ visibility: 'hidden' }}>
-            <Link
-              to="/"
-              style={{ textDecoration: 'none' }}
-              className="no-underline hover:no-underline focus:outline-none flex items-center space-x-3 group"
-            >
+            <div className="flex items-center space-x-3 group">
               <motion.img
                 src={getAssetPath('/assets/tatarilogo.png')}
                 alt="Tatari Systems Logo"
                 className="h-8 w-auto"
               />
               <span className="text-lg font-bold">Tatari</span>
-            </Link>
+            </div>
           </div>
         </div>
       </div>
@@ -498,14 +492,13 @@ const Navbar = () => {
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
-              <Link
-                to="/"
-                className="flex items-center space-x-3 group"
-                onClick={() => setMobileMenuOpen(false)}
+              <div
+                className="flex items-center space-x-3 group cursor-pointer"
+                onClick={() => { navigate('/'); setMobileMenuOpen(false); }}
               >
                 <img src={getAssetPath('/assets/tatarilogo.png')} alt="Tatari Systems Logo" className="h-8 w-auto" />
                 <span className="text-lg font-bold text-white tracking-tight">Tatari</span>
-              </Link>
+              </div>
               <button
                 className="p-2 rounded-md hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 aria-label="Close menu"
