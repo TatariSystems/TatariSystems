@@ -126,6 +126,7 @@ async def employee_login(
     """
     # Authorized employee emails
     authorized_emails = [
+        'risiochristopher@gmail.com',
         'al.mumuney@tatari.systems',
         'alex.dalban@tatari.systems',
         'amen.amare@tatari.systems',
