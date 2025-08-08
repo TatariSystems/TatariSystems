@@ -126,7 +126,31 @@ async def employee_login(
     """
     # Authorized employee emails
     authorized_emails = [
-        'risiochristopher@gmail.com',
+        'al.mumuney@tatari.systems',
+        'alex.dalban@tatari.systems',
+        'amen.amare@tatari.systems',
+        'christian.assefa@tatari.systems',
+        'karagi@tatari.systems',
+        'jimi.oso@tatari.systems',
+        'lidya.demessie@tatari.systems',
+        'liz.ramsay@tatari.systems',
+        'marcel.boucheseiche@tatari.systems',
+        'mario.bustillos@tatari.systems',
+        'marko.skoric@tatari.systems',
+        'meba.michael@tatari.systems',
+        'nathan.banketa@tatari.systems',
+        'paul.kolomeyer@tatari.systems',
+        'info@tatari.systems',
+        'partnerships@tatari.systems',
+        'yasha.genkin@tatari.systems',
+        'okadahugo@gmail.com',
+        'tam.tran@tufts.edu',
+        'svenkat@stevens.edu',
+        'muhammesfatty@gmail.com',
+        'mehakreji@gmail.com',
+        'mendale16@gmail.com',
+        'dadlanid@bc.edu',
+        'owenfw@bu.edu',
     ]
     
     # Shared password for all employees - from environment variable
@@ -182,6 +206,31 @@ async def employee_auth_status() -> Any:
     # Authorized employee emails
     authorized_emails = [
         'risiochristopher@gmail.com',
+        'al.mumuney@tatari.systems',
+        'alex.dalban@tatari.systems',
+        'amen.amare@tatari.systems',
+        'christian.assefa@tatari.systems',
+        'karagi@tatari.systems',
+        'jimi.oso@tatari.systems',
+        'lidya.demessie@tatari.systems',
+        'liz.ramsay@tatari.systems',
+        'marcel.boucheseiche@tatari.systems',
+        'mario.bustillos@tatari.systems',
+        'marko.skoric@tatari.systems',
+        'meba.michael@tatari.systems',
+        'nathan.banketa@tatari.systems',
+        'paul.kolomeyer@tatari.systems',
+        'info@tatari.systems',
+        'partnerships@tatari.systems',
+        'yasha.genkin@tatari.systems',
+        'okadahugo@gmail.com',
+        'tam.tran@tufts.edu',
+        'svenkat@stevens.edu',
+        'muhammesfatty@gmail.com',
+        'mehakreji@gmail.com',
+        'mendale16@gmail.com',
+        'dadlanid@bc.edu',
+        'owenfw@bu.edu',
     ]
     
     password_configured = bool(settings.EMPLOYEE_PASSWORD and len(settings.EMPLOYEE_PASSWORD) > 0)

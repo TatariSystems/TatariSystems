@@ -74,7 +74,7 @@ const Navbar = () => {
       ctaHref: '/omni-stack',
       subsections: [
         {
-          label: 'Launch AI Apps',
+          label: 'Rapid Launch',
           desc: 'Spin up and manage AI applications in minutes.',
           icon: 'omni1',
           href: '/omni-stack#launch',
@@ -101,19 +101,19 @@ const Navbar = () => {
       ctaHref: '/training-stack',
       subsections: [
         {
-          label: 'H100/A100 Clusters',
+          label: 'Built to Train',
           desc: 'Deploy the latest NVIDIA GPUs for training.',
           icon: 'training1',
           href: '/training-stack#clusters',
         },
         {
-          label: 'Custom Environments',
+          label: 'Optimized Orchestration',
           desc: 'Run your own containers or frameworks.',
           icon: 'training2',
           href: '/training-stack#custom',
         },
         {
-          label: 'Early Access',
+          label: 'Limitless Capacity',
           desc: 'Be the first to try new features and hardware.',
           icon: 'training3',
           href: '/training-stack/early-access',
@@ -128,19 +128,19 @@ const Navbar = () => {
       ctaHref: '/inference-stack',
       subsections: [
         {
-          label: 'Serverless Endpoints',
+          label: 'Ultra-Low Latency',
           desc: 'Deploy APIs for instant inference at scale.',
           icon: 'inference1',
           href: '/inference-stack#serverless',
         },
         {
-          label: 'Autoscaling',
+          label: 'Intelligent Autoscaling',
           desc: 'Scale up or down automatically based on demand.',
           icon: 'inference2',
           href: '/inference-stack#autoscaling',
         },
         {
-          label: 'API Integration',
+          label: 'Instant API Integration',
           desc: 'Easily connect to your apps and services.',
           icon: 'inference3',
           href: '/inference-stack#api',
@@ -368,9 +368,9 @@ const Navbar = () => {
               {/* Subsections */}
               <div className="flex flex-col gap-2">
                 {product.subsections.map((sub) => (
-                  <a href={sub.href} className="flex items-start gap-2 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition min-w-0" key={sub.label}>
-                    <img src={getIconSrc(sub.icon)} alt={sub.label} className="h-5 w-5 flex-shrink-0 object-contain" />
-                    <div>
+                  <a href={sub.href} className="flex items-start gap-3 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition min-w-0 h-20" key={sub.label}>
+                    <img src={getIconSrc(sub.icon)} alt={sub.label} className="h-12 w-12 flex-shrink-0 object-contain" />
+                    <div className="ml-2 flex-1">
                       <div className="font-semibold text-white text-sm">{sub.label}</div>
                       <div className="text-xs text-white/70">{sub.desc}</div>
                     </div>

@@ -14,10 +14,10 @@ const aiAnimation = null
 const OurStory = () => {
   const [currentSubhead, setCurrentSubhead] = useState(0)
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [aiAnimationData, setAiAnimationData] = useState(null)
   const [bitcoinAnimationData, setBitcoinAnimationData] = useState(null)
   const [infrastructureAnimationData, setInfrastructureAnimationData] = useState(null)
+  const [storyAnimationData, setStoryAnimationData] = useState(null)
   const aiImageRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
 
@@ -41,35 +41,41 @@ const OurStory = () => {
         .then(data => setInfrastructureAnimationData(data))
         .catch(error => console.error('Error loading Section 3 animation:', error))
     }
+    if (!storyAnimationData) {
+      fetch(getAssetPath('animations/story.json'))
+        .then(response => response.json())
+        .then(data => setStoryAnimationData(data))
+        .catch(error => console.error('Error loading Story animation:', error))
+    }
   }, [])
 
   const subheads = [
-    "AI is accelerating everything.",
-    "But acceleration isn't always clean.",
-    "Most clouds chase scale at any cost. We don't.",
-    "Compute that's Faster, Leaner, and Less wasteful to build a future without burning it.",
-    "So you can build the future without burning it."
+    "The world is racing to AI.",
+    "The easy path burns power and budget.",
+    "We chose a different route.",
+    "Performance that respects energy, cost, and climate.",
+    "Scale boldly, without burning the future."
   ]
 
   const originSlides = [
     {
       title: "Act I: Origins",
-      subtitle: "From heat and metal",
-      content: "We cut our teeth in the Ethiopian highlands. Hundreds of machines. Mining BTC. Debugging firmware. Fighting heat. Running lean. We didn't just manage compute. We learned how to master it — when uptime meant survival.",
+      subtitle: "Forged in the highlands",
+      content: "Our story begins in the thin air of the Ethiopian highlands. Hundreds of machines, humming day and night, mining Bitcoin. Heat pressing in, firmware breaking at the worst moments, uptime hanging by a thread. We learned to push hardware to its limits with every watt and every cycle because survival demanded it.",
       color: "from-blue-500 to-blue-600",
       animation: "Bitcoin Mining Animation"
     },
     {
       title: "Act II: Inflection", 
-      subtitle: "The world needed compute",
-      content: "Then the GPU crunch hit. AI exploded. Pricing spiked. So did the carbon footprint. We knew the momentum was unstoppable. So we built a way forward — one that could scale without waste.",
+      subtitle: "The acceleration age",
+      content: "When AI hit escape velocity, GPUs became gold. Prices rose, waste piled up, and the planet bore the cost. We knew acceleration didn't have to mean excess.",
       color: "from-green-500 to-green-600",
       animation: "AI Technology Animation"
     },
     {
       title: "Act III: Tatari Now",
-      subtitle: "Now we run hot, fast, and clean", 
-      content: "Today, Tatari delivers bare-metal access to H100s and A100s — no VMs, no lock-ins. Launch in seconds. Scale without waste. Our infrastructure thinks like a racer: tuned, minimal, built to win.",
+      subtitle: "From vision to velocity", 
+      content: "Today, Tatari delivers a full Compute and MLOps stack: built to take models from training to deployment to global scale, fast. No wasted cycles. No wasted energy. Just the infrastructure to turn ambition into impact.",
       color: "from-purple-500 to-purple-600",
       animation: "Infrastructure Animation"
     }
@@ -79,49 +85,36 @@ const OurStory = () => {
     {
       number: "01",
       title: "Lean by Design",
-      description: "We strip layers, waste, and overhead. Performance comes from subtraction.",
-      icon: "Zap"
+      description: "We engineer for speed and clarity. No bloat, no busywork—just the parts that make you faster."
     },
     {
       number: "02", 
-      title: "No Lock-ins",
-      description: "You own your model, your data, your exit path. Always.",
-      icon: "Lock"
+      title: "Freedom Over Lock-In",
+      description: "Your models. Your data. Your runway. You can leave anytime, and take everything with you."
     },
     {
       number: "03",
-      title: "Every Watt Counts", 
-      description: "Efficiency isn't marketing. It's engineering. From Ethiopia to Oregon.",
-      icon: "Activity"
+      title: "Every Watt Works", 
+      description: "From hydropower in Ethiopia to optimized cooling in Oregon, efficiency is baked into every decision."
     },
     {
       number: "04",
-      title: "Transparency First",
-      description: "No surprise bills. No hidden throttling. Just clean compute.",
-      icon: "Shield"
+      title: "Radical Transparency",
+      description: "Clear pricing. Honest performance. If we can't back it with data, we don't say it."
     },
     {
       number: "05",
-      title: "Support That Shows Up",
-      description: "Real humans. Real help. 3AM included.",
-      icon: "Users"
+      title: "Support Without Gaps",
+      description: "When you need us, we're there—whether it's midday or 3 a.m. No scripts, just solutions."
     },
     {
       number: "06",
-      title: "Built for Builders",
-      description: "We think like you: test, tune, scale, repeat.",
-      icon: "Cpu"
+      title: "Built for Relentless Builders",
+      description: "We share your rhythm: launch fast, iterate hard, scale with confidence."
     }
   ], [])
 
-  const partners = ReactMemo.useMemo(() => [
-    { name: "OpenAI", logo: "🔵" },
-    { name: "Anthropic", logo: "🟣" },
-    { name: "Google", logo: "🔴" },
-    { name: "Microsoft", logo: "🟦" },
-    { name: "Meta", logo: "🔵" },
-    { name: "NVIDIA", logo: "🟢" }
-  ], [])
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -130,26 +123,7 @@ const OurStory = () => {
     return () => clearInterval(interval)
   }, [])
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
-  }, [])
 
-  useEffect(() => {
-    if (aiImageRef.current) {
-      const rect = aiImageRef.current.getBoundingClientRect()
-      const centerX = rect.left + rect.width / 2
-      const centerY = rect.top + rect.height / 2
-      
-      const rotateX = (mousePosition.y - centerY) / 20
-      const rotateY = (mousePosition.x - centerX) / 20
-      
-      aiImageRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
-    }
-  }, [mousePosition])
 
   // Add a helper for fade-in-on-scroll
   const fadeInProps = {
@@ -202,27 +176,20 @@ const OurStory = () => {
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.2 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-            >
-              <div 
-                className="group bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 flex items-center justify-center cursor-pointer"
-                onClick={() => navigate('/how-we-run')}
-              >
-                How We Run
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </div>
-              <div 
-                className="group text-white hover:underline font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center cursor-pointer"
-                onClick={() => navigate('/launch-job')}
-              >
-                Launch a Job
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </motion.div>
+                         <motion.div
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ duration: 0.3, delay: 0.2 }}
+               className="flex justify-center lg:justify-start"
+             >
+               <div 
+                 className="group bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 flex items-center justify-center cursor-pointer"
+                 onClick={() => navigate('/omni-stack')}
+               >
+                 Explore Products
+                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+               </div>
+             </motion.div>
           </motion.div>
 
           {/* Right Animation */}
@@ -232,23 +199,22 @@ const OurStory = () => {
             transition={{ duration: 0.3, delay: 0.15 }}
             className="flex-1 flex justify-center lg:justify-end"
           >
-            <div 
-              ref={aiImageRef}
-              className="w-[500px] h-[500px] rounded-2xl flex items-center justify-center transition-transform duration-300 ease-out"
-              style={{ perspective: '1000px' }}
-            >
-              <img 
-                src={getAssetPath('assets/ai.png')}
-                alt="AI Technology"
-                className="w-full h-full object-contain rounded-xl"
-                loading="lazy"
-                onError={(e) => {
-                  // Fallback if image fails to load
-                  const target = e.target as HTMLImageElement;
-                  target.style.display = 'none';
-                  // Remove fallback div entirely
-                }}
-              />
+                         <div 
+               ref={aiImageRef}
+               className="w-[500px] h-[500px] rounded-2xl flex items-center justify-center"
+             >
+              {storyAnimationData ? (
+                <Lottie
+                  animationData={storyAnimationData}
+                  className="w-full h-full object-contain rounded-xl"
+                  loop={true}
+                  autoplay={true}
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="text-white/50 text-lg">Loading animation...</div>
+                </div>
+              )}
             </div>
           </motion.div>
         </div>
@@ -265,9 +231,6 @@ const OurStory = () => {
             className="text-center mb-16"
           >
             <h2 className="text-4xl font-bold text-white mb-6">Our Origin Story</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              From frustration to innovation. Here's how Tatari Systems came to be.
-            </p>
           </motion.div>
 
           <div className="space-y-12">
@@ -402,13 +365,8 @@ const OurStory = () => {
                     ${idx !== 2 ? 'border-r border-gray-400' : ''}
                   `}
                 >
-                  <div className="flex flex-col items-center mb-6">
-                    <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center flex-shrink-0 mb-4">
-                      <span className="text-2xl font-bold text-white">{value.number}</span>
-                    </div>
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/10 mb-2">
-                      <img src={getIconSrc(value.icon)} alt={value.title} className="w-7 h-7 object-contain" loading="lazy" />
-                    </div>
+                  <div className="text-center mb-6">
+                    <span className="text-2xl font-bold text-primary-400">| {value.number} |</span>
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3 text-center">{value.title}</h3>
                   <p className="text-gray-300 leading-relaxed text-center">{value.description}</p>
@@ -428,13 +386,8 @@ const OurStory = () => {
                     ${idx !== 2 ? 'border-r border-gray-400' : ''}
                   `}
                 >
-                  <div className="flex flex-col items-center mb-6">
-                    <div className="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center flex-shrink-0 mb-4">
-                      <span className="text-2xl font-bold text-white">{value.number}</span>
-                    </div>
-                    <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/10 mb-2">
-                      <img src={getIconSrc(value.icon)} alt={value.title} className="w-7 h-7 object-contain" loading="lazy" />
-                    </div>
+                  <div className="text-center mb-6">
+                    <span className="text-2xl font-bold text-primary-400">| {value.number} |</span>
                   </div>
                   <h3 className="text-xl font-bold text-white mb-3 text-center">{value.title}</h3>
                   <p className="text-gray-300 leading-relaxed text-center">{value.description}</p>
@@ -445,42 +398,7 @@ const OurStory = () => {
         </div>
       </section>
 
-      {/* Partners Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-800">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold text-white mb-6">Trusted by Industry Leaders</h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              We work with the companies shaping the future of AI.
-            </p>
-          </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
-            {partners.map((partner, idx) => (
-              <motion.div
-                key={partner.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2, delay: idx * 0.05 }}
-                viewport={{ once: true }}
-                whileHover={{ scale: 1.1 }}
-                className="bg-gray-700 rounded-2xl p-6 text-center hover:bg-gray-600 transition-all duration-300"
-              >
-                <div className="flex items-center justify-center mx-auto mb-4 w-16 h-16 rounded-full bg-white/10">
-                  <span className="text-4xl md:text-5xl lg:text-6xl flex items-center justify-center w-full h-full">{partner.logo}</span>
-                </div>
-                <div className="text-white font-semibold mt-2">{partner.name}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* CTA Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">

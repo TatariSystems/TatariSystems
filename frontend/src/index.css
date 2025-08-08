@@ -1111,4 +1111,21 @@ a {
 /* Utility: Add top padding to main content to account for fixed navbar */
 .pt-navbar {
   padding-top: 4rem; /* 64px, matches h-16 of navbar */
+}
+
+/* 3D Flip Card Styles */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
 } 
