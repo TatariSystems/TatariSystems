@@ -36,7 +36,9 @@ const contactTypes = [
 ];
 
 const initialFormState = {
+  name: '',
   email: '',
+  subject: '',
   message: '',
 };
 
@@ -45,9 +47,15 @@ const Contact = () => {
   const [selectedType, setSelectedType] = useState(null);
   const [form, setForm] = useState(initialFormState);
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
   const handleTypeSelect = (type) => {
     setSelectedType(type);
+    setForm(prev => ({
+      ...prev,
+      subject: `${type.title} Inquiry`
+    }));
     setStage('form');
   };
 
@@ -55,11 +63,42 @@ const Contact = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 2000);
-    setForm(initialFormState);
+    setIsSubmitting(true);
+    setError('');
+    
+    try {
+      const response = await fetch(
+        import.meta.env.PROD 
+          ? `${import.meta.env.VITE_API_URL}/api/v1/contact/`
+          : '/api/v1/contact/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          subject: form.subject,
+          message: form.message,
+        }),
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        setTimeout(() => setSubmitted(false), 2000);
+        setForm(initialFormState);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.detail || 'Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      setError('Network error. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -140,9 +179,8 @@ const Contact = () => {
                 </div>
                 <button
                   className="mt-14 text-base text-gray-400 underline"
-                  style={{ '--tw-text-opacity': '1' }}
-                  onMouseEnter={(e) => e.target.style.color = '#6797d6'}
-                  onMouseLeave={(e) => e.target.style.color = 'rgb(156 163 175)'}
+                  onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#6797d6'}
+                  onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'rgb(156 163 175)'}
                   onClick={() => setStage('hero')}
                 >
                   &larr; Back
@@ -170,6 +208,19 @@ const Contact = () => {
                 </div>
                 <form onSubmit={handleFormSubmit} className="glass-card bg-white/10 rounded-3xl shadow-2xl border border-white/20 p-12 flex flex-col gap-8 backdrop-blur-xl">
                   <div>
+                    <label htmlFor="name" className="block text-lg font-semibold text-white mb-2">Name</label>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      value={form.name}
+                      onChange={handleFormChange}
+                      required
+                      placeholder="Your full name"
+                      className="w-full px-6 py-4 border border-gray-700 rounded-xl focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/30 transition-colors text-white bg-white/10 placeholder-gray-400 text-lg backdrop-blur-xl"
+                    />
+                  </div>
+                  <div>
                     <label htmlFor="email" className="block text-lg font-semibold text-white mb-2">Email</label>
                     <input
                       type="email"
@@ -179,6 +230,19 @@ const Contact = () => {
                       onChange={handleFormChange}
                       required
                       placeholder="Email address"
+                      className="w-full px-6 py-4 border border-gray-700 rounded-xl focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/30 transition-colors text-white bg-white/10 placeholder-gray-400 text-lg backdrop-blur-xl"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="subject" className="block text-lg font-semibold text-white mb-2">Subject</label>
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      value={form.subject}
+                      onChange={handleFormChange}
+                      required
+                      placeholder="Brief subject of your inquiry"
                       className="w-full px-6 py-4 border border-gray-700 rounded-xl focus:border-brand-cyan focus:ring-2 focus:ring-brand-cyan/30 transition-colors text-white bg-white/10 placeholder-gray-400 text-lg backdrop-blur-xl"
                     />
                   </div>
@@ -197,21 +261,33 @@ const Contact = () => {
                   <div className="flex flex-col gap-2">
                     <button
                       type="submit"
-                      className="w-full glass-button bg-brand-cyan/80 hover:bg-brand-blue-1/80 text-white font-bold py-4 rounded-xl shadow transition-all duration-200 flex items-center justify-center gap-3 text-2xl backdrop-blur-xl"
+                      disabled={isSubmitting}
+                      className="w-full glass-button bg-brand-cyan/80 hover:bg-brand-blue-1/80 disabled:bg-gray-600 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl shadow transition-all duration-200 flex items-center justify-center gap-3 text-2xl backdrop-blur-xl"
                     >
-                      Send Message <ArrowRight className="h-7 w-7 text-white" />
+                      {isSubmitting ? 'Sending...' : 'Send Message'} 
+                      {!isSubmitting && <ArrowRight className="h-7 w-7 text-white" />}
                     </button>
                     <button
                       type="button"
                       className="text-base text-gray-400 underline mt-2"
-                      style={{ '--tw-text-opacity': '1' }}
-                      onMouseEnter={(e) => e.target.style.color = '#6797d6'}
-                      onMouseLeave={(e) => e.target.style.color = 'rgb(156 163 175)'}
+                      onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#6797d6'}
+                      onMouseLeave={(e) => (e.target as HTMLElement).style.color = 'rgb(156 163 175)'}
                       onClick={() => setStage('types')}
                     >
                       &larr; Back
                     </button>
                   </div>
+                  {error && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="text-red-400 text-center font-semibold mt-2 text-lg"
+                    >
+                      {error}
+                    </motion.div>
+                  )}
                   {submitted && (
                     <motion.div
                       initial={{ opacity: 0 }}

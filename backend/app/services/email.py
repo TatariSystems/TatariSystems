@@ -16,19 +16,21 @@ async def send_contact_email(name: str, email: str, subject: str, message: str):
     # Create message
     msg = MIMEMultipart()
     msg['From'] = settings.EMAILS_FROM_EMAIL
-    msg['To'] = settings.EMAILS_FROM_EMAIL
+    msg['To'] = "info@tatari.systems"
     msg['Subject'] = f"Contact Form: {subject}"
     
     # Email body
     body = f"""
-    New contact form submission:
-    
-    Name: {name}
-    Email: {email}
-    Subject: {subject}
-    
-    Message:
-    {message}
+New contact form submission from Tatari Systems website:
+
+From: {name} ({email})
+Subject: {subject}
+
+Message:
+{message}
+
+---
+This message was sent from the contact form on tatari.systems
     """
     
     msg.attach(MIMEText(body, 'plain'))
@@ -39,7 +41,7 @@ async def send_contact_email(name: str, email: str, subject: str, message: str):
         server.starttls()
         server.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
         text = msg.as_string()
-        server.sendmail(settings.EMAILS_FROM_EMAIL, settings.EMAILS_FROM_EMAIL, text)
+        server.sendmail(settings.EMAILS_FROM_EMAIL, "info@tatari.systems", text)
         server.quit()
     except Exception as e:
         print(f"Failed to send email: {e}")

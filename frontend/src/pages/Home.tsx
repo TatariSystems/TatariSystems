@@ -265,7 +265,7 @@ const Home = () => {
             whileTap={{ scale: 0.98 }}
             className="group flex items-center px-8 py-4 rounded-full border border-white/60 bg-black/60 hover:bg-white/10 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 text-white font-semibold text-lg shadow-lg"
             style={{backdropFilter: 'blur(4px)'}}
-            onClick={() => navigate('/get-started')}
+            onClick={() => navigate('/omni-stack')}
           >
             <span className="mr-4 text-primary-500">Get Started</span>
             <motion.span
@@ -691,7 +691,7 @@ const Home = () => {
                 className="group bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform flex items-center justify-center cursor-pointer"
                 whileHover={{ scale: 1.05, boxShadow: '0 12px 32px 0 rgba(80,124,187,0.25)' }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => navigate('/get-started')}
+                onClick={() => navigate('/omni-stack')}
               >
                 Get Started Free
                 <motion.span whileHover={{ x: 6 }} transition={{ type: 'spring', stiffness: 300 }}>
@@ -704,7 +704,7 @@ const Home = () => {
                 className="group text-white hover:underline font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center cursor-pointer"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.97 }}
-                onClick={() => navigate('/schedule-demo')}
+                onClick={() => navigate('/contact')}
               >
                 Schedule Demo
                 <motion.span whileHover={{ x: 6 }} transition={{ type: 'spring', stiffness: 300 }}>
