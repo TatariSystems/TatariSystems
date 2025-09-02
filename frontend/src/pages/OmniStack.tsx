@@ -181,7 +181,7 @@ const OmniStack = () => {
               >
                 <div
                   className="group bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 flex items-center justify-center cursor-pointer"
-                  onClick={() => navigate('/run/compute')}
+                  onClick={() => navigate('/contact')}
                 >
                   Launch Omni Stack
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
@@ -250,7 +250,8 @@ const OmniStack = () => {
         </div>
       </section>
 
-      {/* GPU Pricing Comparison Table */}
+      {/* GPU Pricing Comparison Table - temporarily disabled */}
+      {/*
       <section className="py-12 px-4 sm:px-6 lg:px-8 bg-black">
         <div className="max-w-5xl mx-auto">
           <h2 className="text-2xl font-bold text-white mb-6">GPU Pricing Comparison</h2>
@@ -306,6 +307,7 @@ const OmniStack = () => {
           </div>
         </div>
       </section>
+      */}
       
       {/* Section 3: Interactive Bar Chart */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
@@ -559,7 +561,7 @@ const OmniStack = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <div
                 className="group bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 flex items-center justify-center cursor-pointer"
-                onClick={() => navigate('/run/compute')}
+                onClick={() => navigate('/contact')}
               >
                 Launch a Training Cluster
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />

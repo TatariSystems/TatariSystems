@@ -222,27 +222,7 @@ const TrainingStack = () => {
           </div>
         </motion.section>
 
-        {/* Testimonial Section */}
-        <motion.section className="py-16 px-4 sm:px-8 bg-gray-900"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-        >
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="flex flex-col items-center">
-              <div className="w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mb-4">
-                {/* Placeholder for logo or name */}
-                <img src={getIconSrc('Users')} alt="User" className="h-10 w-10 object-contain" loading="lazy" />
-              </div>
-              <blockquote className="text-xl text-white italic mb-4">
-                “We wanted a partner who actually understood model training — Tatari delivered infrastructure that scaled with our ambition.”
-              </blockquote>
-              <div className="text-gray-400 text-sm mb-2">— Future Customer / AI Researcher</div>
-              {/* Option to rotate testimonials in a slider or scroll (placeholder) */}
-              <div className="text-gray-500 text-xs">[Testimonial slider coming soon]</div>
-            </div>
-          </div>
-        </motion.section>
+        
       </motion.div>
     </>
   );

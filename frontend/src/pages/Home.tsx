@@ -158,6 +158,7 @@ const fadeInProps = {
 const Home = () => {
   const [activeSection, setActiveSection] = useState(0)
   const navigate = useNavigate()
+  const [heroCursor, setHeroCursor] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -215,6 +216,38 @@ const Home = () => {
     }
   ], [])
 
+  const tatariEdgeStats = ReactMemo.useMemo(() => [
+    { number: "30%+", label: "Lower cost vs hyperscalers", icon: "TrendingUp" },
+    { number: "<5 min", label: "Repo → running cluster", icon: "Zap" },
+    { number: "100%", label: "Reproducible experiments", icon: "Shield" }
+  ], [])
+
+  const partnerLogos = ReactMemo.useMemo(() => [
+    { alt: 'NVIDIA', src: getAssetPath('assets/partners/nvidia.png') },
+    { alt: 'OpenAI', src: getAssetPath('assets/partners/openai.png') },
+    { alt: 'Google Cloud', src: getAssetPath('assets/partners/cloud.png') },
+    { alt: 'AWS', src: getAssetPath('assets/partners/aws.png') },
+    { alt: 'Azure', src: getAssetPath('assets/partners/azure.png') },
+  ], [])
+
+  const gpuArsenal = ReactMemo.useMemo(() => [
+    {
+      name: 'NVIDIA B200',
+      desc: '192GB HBM3e, 8 TB/s bandwidth, FP4/FP6, next‑gen NVLink.',
+      img: getAssetPath('assets/gpus/b200.png')
+    },
+    {
+      name: 'NVIDIA H200',
+      desc: '141GB HBM3e at 4.8 TB/s for uninterrupted throughput.',
+      img: getAssetPath('assets/gpus/h200.jpg')
+    },
+    {
+      name: 'NVIDIA H100',
+      desc: '80GB HBM3, 3 TB/s, 4× faster training with FP8 Tensor Cores.',
+      img: getAssetPath('assets/gpus/h100.jpg')
+    },
+  ], [])
+
   const competitors = [
     { name: "Vast.ai", price: "$0.89", sla: "No centralized SLA", green: "Host-dependent" },
     { name: "Coreweave", price: "$2.25", sla: "99.9%", green: "Partial clean sourcing" },
@@ -226,19 +259,26 @@ const Home = () => {
     <div className="min-h-screen bg-black pt-navbar">
       <Navbar />
       
+      {/* Announcement Bar */}
+      <div className="bg-white/10 border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <span className="text-white text-sm md:text-base font-semibold">Blackwell is now live! NVIDIA B200 clusters now available on Tatari Cloud.</span>
+          <button onClick={() => navigate('/contact')} className="text-primary-300 hover:text-primary-200 underline text-sm md:text-base">Reserve capacity →</button>
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center z-10 overflow-hidden">
+      <section
+        className="relative min-h-[80vh] md:min-h-[90vh] flex flex-col items-center justify-center z-10 overflow-hidden"
+        onMouseMove={(e) => setHeroCursor({ x: e.clientX, y: e.clientY })}
+      >
         <Animated3DGrid />
         <div className="relative z-10 flex flex-col items-center justify-center w-full px-4">
-          <motion.img
-            src={getAssetPath('assets/tatarilogo.png')}
-            alt="Tatari Logo"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.4 }}
-            className="mb-8 w-40 h-40 md:w-56 md:h-56 object-contain drop-shadow-2xl"
-            style={{ filter: 'drop-shadow(0 0 60px #5D90DC)' }}
-            loading="lazy"
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: `radial-gradient(600px 300px at ${heroCursor.x}px ${heroCursor.y}px, rgba(80,124,187,0.12), transparent 60%)`
+            }}
           />
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -246,42 +286,59 @@ const Home = () => {
             transition={{ duration: 0.3 }}
             className="text-center mb-8"
           >
-            <h1 className="text-white text-6xl md:text-8xl font-extrabold mb-6 leading-tight" style={{letterSpacing: '-0.03em'}}>
-              Powering tomorrow, today.
+            <h1 className="text-white text-5xl md:text-7xl font-extrabold mb-6 leading-tight" style={{letterSpacing: '-0.02em'}}>
+              The Fastest Path from Idea to AI
             </h1>
-            <h2 className="text-primary-500 text-2xl md:text-3xl font-bold mb-4">
-              Launch your next AI project with Tatari's trusted GPU platform—fast, sustainable, and always available.
+            <h2 className="text-gray-200 text-xl md:text-2xl font-medium mb-6 max-w-3xl mx-auto">
+              Tatari fully integrates AI Compute and MLOps, so you can focus on building the future while we handle the rest.
             </h2>
-            <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto">
-              Get started in minutes. No commitments. No hidden fees.
-            </p>
           </motion.div>
           
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            whileHover={{ scale: 1.06, backgroundColor: 'rgba(80,124,187,0.18)' }}
-            whileTap={{ scale: 0.98 }}
-            className="group flex items-center px-8 py-4 rounded-full border border-white/60 bg-black/60 hover:bg-white/10 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 text-white font-semibold text-lg shadow-lg"
-            style={{backdropFilter: 'blur(4px)'}}
-            onClick={() => navigate('/omni-stack')}
-          >
-            <span className="mr-4 text-primary-500">Get Started</span>
-            <motion.span
-              className="flex items-center justify-center w-8 h-8 rounded-full border border-white/40 group-hover:bg-primary-500 group-hover:text-white transition-all"
-              whileHover={{ x: 6 }}
-              transition={{ type: 'spring', stiffness: 300 }}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              whileHover={{ scale: 1.03 }}
+              className="group bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform flex items-center justify-center cursor-pointer"
+              onClick={() => navigate('/omni-stack')}
             >
-              <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </motion.span>
-          </motion.button>
+              Explore Omni Stack
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              whileHover={{ scale: 1.03 }}
+              className="group text-white hover:underline font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center cursor-pointer"
+              onClick={() => navigate('/contact')}
+            >
+              Contact Sales
+            </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Stats Section */}
+      {/* Partners Strip */}
+      <section className="py-10 px-4 sm:px-6 lg:px-8 bg-gray-900">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center text-gray-300 text-sm mb-4">Trusted by innovators at</div>
+          <div className="flex items-center justify-center gap-8 md:gap-12 flex-wrap">
+            {partnerLogos.map((p) => (
+              <img
+                key={p.alt}
+                src={p.src}
+                alt={p.alt}
+                className="h-10 md:h-12 object-contain opacity-90 hover:opacity-100 transition-opacity transform hover:scale-105"
+                loading="lazy"
+                style={{ filter: p.alt === 'AWS' ? 'drop-shadow(0 0 1px rgba(255,255,255,0.6)) drop-shadow(0 0 8px rgba(255,255,255,0.15))' : 'drop-shadow(0 0 8px rgba(255,255,255,0.18))' }}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Purpose-Built for the AI Era + Tatari Edge */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -291,122 +348,67 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-white mb-6">
-              Struggling to Find Affordable, Reliable AI Compute?
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Tatari delivers enterprise-grade GPUs at startup-friendly prices—no more compromises. Get the power you need, when you need it, without breaking the bank.
+            <h2 className="text-4xl font-bold text-white mb-6">Purpose-Built for the AI Era</h2>
+            <p className="text-xl text-gray-300 max-w-4xl mx-auto">
+              Tatari isn’t just another GPU provider, it’s the command center for AI innovation. Every GPU hour is powered by a fully integrated ML stack: experiment tracking, dataset versioning, automated pipelines, model registry, and one-click serving. We cut the friction between idea and deployment, so you move faster, break less, and build more.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => {
-              const { count, isAnimating } = useCountUp(stat.number, 7500, index * 600)
-              
-              return (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+            {tatariEdgeStats.map((stat, idx) => (
               <motion.div
-                key={index}
+                key={stat.label}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ scale: 1.03, boxShadow: '0 12px 32px 0 rgba(80,124,187,0.18)' }}
-                whileTap={{ scale: 0.98 }}
-                className="text-center"
+                className="bg-gray-800 rounded-2xl p-8 border border-gray-700 text-center"
               >
-                <div className="w-16 h-16 mx-auto mb-4 bg-primary-700 rounded-full flex items-center justify-center">
-                  <img src={getIconSrc(stat.icon)} alt={stat.label} className="h-8 w-8 object-contain" loading="lazy" />
-                </div>
-                  <div className="text-3xl font-bold text-white mb-2">
-                    {stat.number >= 1000 ? count.toLocaleString() : count.toFixed(stat.number % 1 === 0 ? 0 : 1)}{stat.suffix}
-                  </div>
-                <div className="text-gray-300">{stat.label}</div>
+                <img src={getIconSrc(stat.icon)} alt={stat.label} className="h-8 w-8 object-contain mx-auto mb-3" loading="lazy" />
+                <div className="text-4xl font-bold text-white mb-2">{stat.number}</div>
+                <div className="text-base text-gray-300">{stat.label}</div>
               </motion.div>
-              )
-            })}
+            ))}
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="mt-16 p-8 bg-gray-800 rounded-2xl border border-gray-700"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-4">Price Comparison</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center p-4 bg-gray-700 rounded-lg shadow">
-                    <span className="font-semibold text-gray-200">AWS H200</span>
-                    <span className="text-red-400 font-bold">$10.6/hr</span>
-                  </div>
-                  <div className="flex justify-between items-center p-4 bg-gray-700 rounded-lg shadow">
-                    <span className="font-semibold text-gray-200">Vast.ai</span>
-                    <span className="text-green-400 font-bold">$2.4/hr</span>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <h3 className="text-2xl font-bold text-white mb-4">Environmental Impact</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between items-center p-4 bg-gray-700 rounded-lg shadow">
-                    <span className="font-semibold text-gray-200">US Fossil Fuel Data Centers</span>
-                    <span className="text-red-400 font-bold">820kg CO₂/MWh</span>
-                  </div>
-                  <div className="flex justify-between items-center p-4 bg-gray-700 rounded-lg shadow">
-                    <span className="font-semibold text-gray-200">Tatari Hydro-based Compute</span>
-                    <span className="text-green-400 font-bold">20kg CO₂/MWh</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+          
         </div>
       </section>
 
-      {/* Problems Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-800">
+      {/* Our GPU Arsenal */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-black">
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold text-white mb-6">
-              Decentralized GPU Complications
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Current solutions fail to deliver both affordability and reliability
-            </p>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} viewport={{ once: true }} className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-white mb-6">Our GPU Arsenal</h2>
+            <p className="text-xl text-gray-300 max-w-4xl mx-auto">Choose frontier-class GPUs engineered for the most demanding AI workloads.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {problems.map((problem, index) => (
+            {gpuArsenal.map((gpu, idx) => (
               <motion.div
-                key={index}
+                key={gpu.name}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ scale: 1.03, boxShadow: '0 12px 32px 0 rgba(80,124,187,0.18)' }}
-                whileTap={{ scale: 0.98 }}
-                className="bg-gray-700 p-8 rounded-2xl shadow-lg border border-gray-600"
+                onClick={() => navigate('/omni-stack')}
+                className="group cursor-pointer bg-gray-800 rounded-2xl overflow-hidden border border-gray-700 hover:border-primary-600 transition-all"
               >
-                <div className={`w-16 h-16 bg-gradient-to-br ${problem.color} rounded-2xl flex items-center justify-center mb-6`}>
-                  <img src={getIconSrc(problem.icon)} alt={problem.title} className="h-8 w-8 object-contain" loading="lazy" />
+                <div className="relative h-48 bg-gray-700">
+                  <img src={gpu.img} alt={gpu.name} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" loading="lazy" />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-4">{problem.title}</h3>
-                <p className="text-gray-300 leading-relaxed">{problem.description}</p>
+                <div className="p-6">
+                  <div className="text-white font-bold text-xl mb-2">{gpu.name}</div>
+                  <div className="text-gray-300 text-sm">{gpu.desc}</div>
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Solution Section */}
+      {/* Tatari’s Non-Negotiables */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -416,80 +418,33 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-white mb-6">
-              Why Choose Tatari?
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Guaranteed uptime, transparent pricing, and green energy—so you can focus on building, not infrastructure.
-            </p>
+            <h2 className="text-4xl font-bold text-white mb-6">Tatari’s Non-Negotiables</h2>
           </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {solutions.map((solution, index) => (
+          <div className="flex flex-wrap justify-center gap-12">
+            {[
+              { title: 'Real Support, Real People', desc: '24/7 access to engineers who can actually solve your problem.' },
+              { title: 'Sustainability First', desc: 'A clean energy mix and carbon-aware scheduling slash emissions.' },
+              { title: 'Radical Transparency', desc: 'Every run tied to a clear receipt so you know where money goes.' },
+              { title: 'No Lock-ins. Ever.', desc: 'Your data and models remain yours — always.' },
+              { title: 'Security from the Ground Up', desc: 'Private networking, encryption everywhere, enterprise-grade compliance.' },
+            ].map((item, idx) => (
               <motion.div
-                key={index}
+                key={item.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ scale: 1.03, boxShadow: '0 12px 32px 0 rgba(80,124,187,0.18)' }}
-                whileTap={{ scale: 0.98 }}
-                className="bg-gray-700 p-8 rounded-2xl shadow-lg border border-gray-600 hover:shadow-xl transition-shadow"
+                className="text-center max-w-sm hover:scale-[1.02] transition-transform"
               >
-                <div className={`w-16 h-16 bg-gradient-to-br ${solution.color} rounded-2xl flex items-center justify-center mb-6`}>
-                  <img src={getIconSrc(solution.icon)} alt={solution.title} className="h-8 w-8 object-contain" loading="lazy" />
-                </div>
-                <h3 className="text-xl font-bold text-white mb-4">{solution.title}</h3>
-                <p className="text-gray-300 leading-relaxed">{solution.description}</p>
+                <div className="text-lg md:text-xl font-semibold text-white mb-2">{item.title}</div>
+                <div className="text-gray-300">{item.desc}</div>
               </motion.div>
             ))}
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8"
-          >
-            <div className="bg-gray-800 p-8 rounded-2xl border border-gray-600">
-              <h3 className="text-2xl font-bold text-white mb-4">Carbon Aware Scheduling</h3>
-              <p className="text-gray-300 mb-4">
-                Intelligent workload placement and timing can reduce emissions. Choosing low-carbon regions can cut a job's carbon footprint by up to 75%.
-              </p>
-              <div className="space-y-2">
-                <div className="flex items-center">
-                  <img src={getIconSrc("CheckCircle")} alt="Check" className="h-5 w-5 mr-2 object-contain" loading="lazy" />
-                  <span className="text-sm text-gray-300">50% of GPUs are idle globally</span>
-                </div>
-                <div className="flex items-center">
-                  <img src={getIconSrc("CheckCircle")} alt="Check" className="h-5 w-5 mr-2 object-contain" loading="lazy" />
-                  <span className="text-sm text-gray-300">Aggregation unlocks significant capacity</span>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gray-800 p-8 rounded-2xl border border-gray-600">
-              <h3 className="text-2xl font-bold text-white mb-4">Reliability Guarantees</h3>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold text-gray-200">Uptime SLA</span>
-                  <span className="text-green-400 font-bold">99.9%</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold text-gray-200">Startup Latency</span>
-                  <span className="text-green-400 font-bold">&lt;1 min</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="font-semibold text-gray-200">Success Rate</span>
-                  <span className="text-green-400 font-bold">95%+</span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
         </div>
       </section>
 
-      {/* Competitor Analysis */}
+      {/* Purpose-Built for Visionaries */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-800">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -499,48 +454,11 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-white mb-6">
-              Compare Your Options
-            </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              See how Tatari stacks up on price, reliability, and sustainability—so you can make the best choice for your business.
-            </p>
+            <h2 className="text-4xl font-bold text-white mb-6">Purpose-Built for Visionaries</h2>
+            <p className="text-xl text-gray-300 max-w-4xl mx-auto">The future won’t be built on yesterday’s systems. Tatari gives AI teams the speed, control, and integration they need to move ideas into production at unprecedented velocity. We deliver the most advanced GPU compute, coupled with a seamless MLOps stack in one integrated platform — powered sustainably. We don’t just keep up with innovation. We drive it.</p>
           </motion.div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full bg-gray-700 rounded-2xl shadow-lg overflow-hidden">
-              <thead className="bg-gray-900 text-white">
-                <tr>
-                  <th className="px-6 py-4 text-left">Provider</th>
-                  <th className="px-6 py-4 text-center">Price (H100/hr)</th>
-                  <th className="px-6 py-4 text-center">SLA/Uptime</th>
-                  <th className="px-6 py-4 text-center">Green Energy</th>
-                </tr>
-              </thead>
-              <tbody>
-                {competitors.map((competitor, index) => (
-                  <motion.tr
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className={`${index % 2 === 0 ? 'bg-gray-700' : 'bg-gray-600'} hover:bg-gray-600 transition-colors`}
-                  >
-                    <td className="px-6 py-4 font-semibold text-gray-200">
-                      {competitor.name === 'Tatari' ? (
-                        <span className="text-primary-400 font-bold">{competitor.name}</span>
-                      ) : (
-                        competitor.name
-                      )}
-                    </td>
-                    <td className="px-6 py-4 text-center font-semibold text-gray-200">{competitor.price}</td>
-                    <td className="px-6 py-4 text-center text-gray-200">{competitor.sla}</td>
-                    <td className="px-6 py-4 text-center text-gray-200">{competitor.green}</td>
-                  </motion.tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="text-center">
+            <button onClick={() => navigate('/our-story')} className="text-primary-300 hover:text-primary-200 underline text-lg">Learn About Our Story</button>
           </div>
         </div>
       </section>
@@ -610,7 +528,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Pricing Section */}
+      {/* Final Call To Action */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-800">
         <div className="max-w-4xl mx-auto">
           <motion.div
@@ -620,54 +538,39 @@ const Home = () => {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl font-bold text-white mb-6">
-              Simple, Transparent Pricing
-            </h2>
-            <p className="text-xl text-gray-300">
-              Know exactly what you'll pay—no surprises, no hidden fees. Just powerful compute at a fair price.
-            </p>
+            <h2 className="text-4xl font-bold text-white mb-6">The Future Never Waits. Why Should You?</h2>
           </motion.div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <motion.div
+              className="group bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform flex items-center justify-center cursor-pointer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+              onClick={() => navigate('/omni-stack')}
+            >
+              Discover Omni Stack
+            </motion.div>
+            <motion.div
+              className="group text-white hover:underline font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center cursor-pointer"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              viewport={{ once: true }}
+              onClick={() => navigate('/contact')}
+            >
+              Contact Sales
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="bg-gray-700 rounded-2xl shadow-lg p-8 border border-gray-600"
-          >
-            <div className="space-y-4">
-              <div className="flex justify-between items-center p-4 bg-gray-600 rounded-lg">
-                <span className="font-semibold text-gray-200">Wholesale GPU</span>
-                <span className="text-gray-300">$1.00</span>
-              </div>
-              <div className="flex justify-between items-center p-4 bg-gray-600 rounded-lg">
-                <span className="font-semibold text-gray-200">Infrastructure & Ops</span>
-                <span className="text-gray-300">$0.30</span>
-              </div>
-              <div className="flex justify-between items-center p-4 bg-gray-600 rounded-lg">
-                <span className="font-semibold text-gray-200">Support & SLA</span>
-                <span className="text-gray-300">$0.10</span>
-              </div>
-              <div className="flex justify-between items-center p-4 bg-gray-600 rounded-lg">
-                <span className="font-semibold text-gray-200">Payment Processing Fees</span>
-                <span className="text-gray-300">$0.10</span>
-              </div>
-              <div className="border-t border-gray-600 pt-4">
-                <div className="flex justify-between items-center p-4 bg-primary-700 rounded-lg">
-                  <span className="font-semibold text-white">Total Cost</span>
-                  <span className="text-primary-300 font-bold">$1.50</span>
-                </div>
-                <div className="flex justify-between items-center p-4 bg-gray-600 rounded-lg mt-2">
-                  <span className="font-semibold text-gray-200">+ 20% Markup</span>
-                  <span className="text-gray-300">$0.30</span>
-                </div>
-                <div className="flex justify-between items-center p-4 bg-green-700 rounded-lg mt-2">
-                  <span className="font-semibold text-white">Final Price to User</span>
-                  <span className="text-green-300 font-bold text-xl">$1.80</span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+      {/* Company Blurb */}
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-black">
+        <div className="max-w-5xl mx-auto text-gray-300 leading-relaxed">
+          <p>
+            Tatari Systems began as a Bitcoin mining venture, operating 144 ASIC miners in Ethiopia powered by clean energy. Leveraging our expertise in scaling compute infrastructure, we now focus on delivering high-performance AI cloud services. Our fully integrated platform combines GPU compute at the most competitive price points possible with MLOps tooling including experiment tracking, dataset versioning, automated pipelines, model registry, and one-click deployment. This streamlines the path from experimentation to production, enabling AI teams to innovate faster while we manage the infrastructure. Our mission is to be the command center for AI startups, supporting the next generation of AI applications with proven large-scale compute expertise.
+          </p>
         </div>
       </section>
 

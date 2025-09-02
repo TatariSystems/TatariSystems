@@ -1,8 +1,10 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Navbar from '../components/Navbar'
+import { useNavigate } from 'react-router-dom'
 
 const CaseStudies = () => {
+  const navigate = useNavigate()
   return (
     <div className="min-h-screen bg-black pt-navbar">
       <Navbar />
@@ -55,10 +57,10 @@ const CaseStudies = () => {
               transition={{ duration: 0.8, delay: 0.8 }}
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
-              <div className="bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 flex items-center justify-center cursor-pointer">
+              <div className="bg-primary-600 hover:bg-primary-700 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 flex items-center justify-center cursor-pointer" onClick={() => navigate('/omni-stack')}>
                 Explore Omni Stack
               </div>
-              <div className="text-white hover:underline font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center cursor-pointer">
+              <div className="text-white hover:underline font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 flex items-center justify-center cursor-pointer" onClick={() => navigate('/contact')}>
                 Contact Us
               </div>
             </motion.div>
