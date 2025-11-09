@@ -47,11 +47,11 @@ const extendedLeadership = [
     bio: '/team/alex-dalban'
   },
   { 
-    name: 'Paul Kolomeyer', 
-    role: 'Chief Innovation Officer (CIO)', 
-    img: 'kolomeyer.jpg',
-    linkedin: 'https://www.linkedin.com/in/paulkolomeyer',
-    bio: '/team/paul-kolomeyer'
+    name: 'Nathan Banketa', 
+    role: 'Research & Country Lead', 
+    img: 'banketa.png',
+    linkedin: 'http://linkedin.com/in/nathanbanketa',
+    bio: '/team/nathan-banketa'
   },
   { 
     name: 'Jimi Oso', 

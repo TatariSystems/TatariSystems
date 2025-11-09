@@ -67,85 +67,20 @@ const Navbar = () => {
 
   const productDropdown = [
     {
-      title: 'Omni Stack',
-      description: 'All-in-one platform to build, train, and deploy AI at scale.',
+      title: 'Mining',
+      description: 'Sustainable, high-efficiency compute infrastructure.',
       color: 'bg-brand-blue-1',
-      cta: 'Explore Omni Stack',
-      ctaHref: '/omni-stack',
-      subsections: [
-        {
-          label: 'Rapid Launch',
-          desc: 'Spin up and manage AI applications in minutes.',
-          icon: 'omni1',
-          href: '/omni-stack',
-        },
-        {
-          label: 'Full GPU Access',
-          desc: 'Bare-metal performance, no virtualization.',
-          icon: 'omni2',
-          href: '/omni-stack',
-        },
-        {
-          label: 'Global Regions',
-          desc: 'Deploy close to your data sources worldwide.',
-          icon: 'omni3',
-          href: '/omni-stack',
-        },
-      ],
+      cta: 'View Mining',
+      ctaHref: '/mining',
+      subsections: [],
     },
     {
-      title: 'Training Stack',
-      description: 'Purpose-built GPU clusters for large-scale training.',
+      title: 'Compute',
+      description: 'Elastic GPU compute for training and inference.',
       color: 'bg-brand-blue-1',
-      cta: 'Join Early Access',
-      ctaHref: '/training-stack',
-      subsections: [
-        {
-          label: 'Built to Train',
-          desc: 'Deploy the latest NVIDIA GPUs for training.',
-          icon: 'training1',
-          href: '/training-stack',
-        },
-        {
-          label: 'Optimized Orchestration',
-          desc: 'Run your own containers or frameworks.',
-          icon: 'training2',
-          href: '/training-stack',
-        },
-        {
-          label: 'Limitless Capacity',
-          desc: 'Be the first to try new features and hardware.',
-          icon: 'training3',
-          href: '/training-stack',
-        },
-      ],
-    },
-    {
-      title: 'Inference Stack',
-      description: 'Fast, scalable inference for production AI workloads.',
-      color: 'bg-brand-blue-1',
-      cta: 'Explore Inference',
-      ctaHref: '/inference-stack',
-      subsections: [
-        {
-          label: 'Ultra-Low Latency',
-          desc: 'Deploy APIs for instant inference at scale.',
-          icon: 'inference1',
-          href: '/inference-stack',
-        },
-        {
-          label: 'Intelligent Autoscaling',
-          desc: 'Scale up or down automatically based on demand.',
-          icon: 'inference2',
-          href: '/inference-stack',
-        },
-        {
-          label: 'Instant API Integration',
-          desc: 'Easily connect to your apps and services.',
-          icon: 'inference3',
-          href: '/inference-stack',
-        },
-      ],
+      cta: 'View AI Compute',
+      ctaHref: '/ai-compute',
+      subsections: [],
     },
   ];
 
@@ -316,29 +251,29 @@ const Navbar = () => {
       ],
     },
     {
-      title: 'Case Studies',
-      description: 'See how customers use Tatari Systems in production.',
+      title: 'Research',
+      description: 'Research updates and case studies (coming soon).',
       color: 'bg-brand-blue-1',
-      cta: 'Explore Cases',
-      ctaHref: '/case-studies',
+      cta: 'Explore Research',
+      ctaHref: '/research',
       subsections: [
         {
           label: 'AI Training',
-          desc: 'Large-scale model training and fine-tuning success stories.',
+          desc: 'Large-scale model training and fine-tuning.',
           icon: 'Cpu',
-          href: '/case-studies#training',
+          href: '/research#training',
         },
         {
           label: 'Inference Deployments',
           desc: 'Production AI applications and API deployments.',
           icon: 'Server',
-          href: '/case-studies#inference',
+          href: '/research#inference',
         },
         {
           label: 'Enterprise Solutions',
           desc: 'Custom infrastructure for Fortune 500 companies.',
           icon: 'Shield',
-          href: '/case-studies#enterprise',
+          href: '/research#enterprise',
         },
       ],
     },
@@ -346,7 +281,7 @@ const Navbar = () => {
 
   const megaMenus = [
     {
-      label: 'Products',
+      label: 'Tatari AI',
       mainTo: '#',
       content: (
         <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-black/85 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl">
@@ -466,7 +401,7 @@ const Navbar = () => {
 
           {/* Centered Dropdown Tabs (desktop only) */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
-            <div className="hidden sm:flex items-center space-x-8">
+            <div className="hidden sm:flex items-center space-x-4 md:space-x-6 lg:space-x-8">
               {megaMenus.map((dropdown) => (
                 <div
                   key={dropdown.label}
@@ -475,7 +410,7 @@ const Navbar = () => {
                   onMouseLeave={handleMouseLeave}
                 >
                   <span
-                    className={`text-base font-medium transition-colors duration-200 cursor-pointer ${
+                    className={`text-sm md:text-base font-medium transition-colors duration-200 cursor-pointer whitespace-nowrap ${
                       openDropdown === dropdown.label
                         ? 'text-primary-500 underline underline-offset-4'
                         : 'text-white/80 hover:text-primary-500'
@@ -489,9 +424,9 @@ const Navbar = () => {
           </div>
 
           {/* Contact Us and Login/Admin Buttons (desktop only) */}
-          <div className="hidden sm:flex items-center ml-auto space-x-4">
+          <div className="hidden sm:flex items-center ml-auto space-x-2 md:space-x-4">
             <button
-              className="bg-primary-600 hover:bg-primary-700 text-white font-bold px-6 py-2 rounded-xl shadow-lg transition-all duration-200 text-base"
+              className="bg-primary-600 hover:bg-primary-700 text-white font-bold px-3 md:px-6 py-2 rounded-xl shadow-lg transition-all duration-200 text-sm md:text-base whitespace-nowrap"
               onClick={() => navigate('/contact')}
             >
               Contact Us
@@ -507,7 +442,7 @@ const Navbar = () => {
               </button>
             ) : (
               <button
-                className="group text-white hover:text-primary-500 font-bold px-6 py-2 rounded-xl transition-all duration-200 text-base flex items-center"
+                className="group text-white hover:text-primary-500 font-bold px-3 md:px-6 py-2 rounded-xl transition-all duration-200 text-sm md:text-base flex items-center whitespace-nowrap"
                 onClick={() => navigate('/login')}
               >
                 Login

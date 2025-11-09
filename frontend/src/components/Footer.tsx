@@ -37,7 +37,7 @@ const Footer = () => {
       title: 'Resources',
       links: [
         { name: 'Documentation', path: '/docs', icon: undefined },
-        { name: 'Case Studies', path: '/case-studies', icon: undefined },
+        { name: 'Research', path: '/research', icon: undefined },
         { name: 'Blog', path: '/blog', icon: undefined },
         { name: 'Support Center', path: '/support', icon: undefined }
       ]

@@ -9,13 +9,12 @@ const team = [
   { name: 'Marcel Boucheseiche', role: 'Head of Growth', img: 'boucheseiche.jpg' },
   { name: 'Yasha Genkin', role: 'Head of Marketing', img: 'genkin.jpg' },
   { name: 'Al-Amin Mumuney', role: 'Head of Innovation', img: 'mumuney.jpg' },
-  { name: 'Nathan Banketa', role: 'Research Lead', img: 'banketa.png' },
+  { name: 'Nathan Banketa', role: 'Research & Country Lead', img: 'banketa.png' },
   { name: 'Kayla Sadraie', role: 'Chief Legal Counsel', img: 'sadraie.jpg' },
   { name: 'Amen Amare', role: 'Operating Partner, Founder', img: 'amare.jpg' },
   { name: 'Meba Michael', role: 'Head of Finance', img: 'michael.jpg' },
   { name: 'Glodi Karagi', role: 'Head of Business Development', img: 'karagi.jpg' },
   { name: 'Jimi Oso', role: 'Head of Phase II + Engineering', img: 'oso.jpg' },
-  { name: 'Paul Kolomeyer', role: 'Investor Relations Specialist', img: 'kolomeyer.jpg' },
   { name: 'Mario Bustillos', role: 'Strategic Growth Intern', img: 'bustillos.jpg' },
 ]
 

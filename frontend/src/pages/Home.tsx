@@ -222,13 +222,7 @@ const Home = () => {
     { number: "100%", label: "Reproducible experiments", icon: "Shield" }
   ], [])
 
-  const partnerLogos = ReactMemo.useMemo(() => [
-    { alt: 'NVIDIA', src: getAssetPath('assets/partners/nvidia.png') },
-    { alt: 'OpenAI', src: getAssetPath('assets/partners/openai.png') },
-    { alt: 'Google Cloud', src: getAssetPath('assets/partners/cloud.png') },
-    { alt: 'AWS', src: getAssetPath('assets/partners/aws.png') },
-    { alt: 'Azure', src: getAssetPath('assets/partners/azure.png') },
-  ], [])
+  
 
   const gpuArsenal = ReactMemo.useMemo(() => [
     {
@@ -259,13 +253,7 @@ const Home = () => {
     <div className="min-h-screen bg-black pt-navbar">
       <Navbar />
       
-      {/* Announcement Bar */}
-      <div className="bg-white/10 border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <span className="text-white text-sm md:text-base font-semibold">Blackwell is now live! NVIDIA B200 clusters now available on Tatari Cloud.</span>
-          <button onClick={() => navigate('/contact')} className="text-primary-300 hover:text-primary-200 underline text-sm md:text-base">Reserve capacity →</button>
-        </div>
-      </div>
+      
 
       {/* Hero Section */}
       <section
@@ -319,24 +307,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Partners Strip */}
-      <section className="py-10 px-4 sm:px-6 lg:px-8 bg-gray-900">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center text-gray-300 text-sm mb-4">Trusted by innovators at</div>
-          <div className="flex items-center justify-center gap-8 md:gap-12 flex-wrap">
-            {partnerLogos.map((p) => (
-              <img
-                key={p.alt}
-                src={p.src}
-                alt={p.alt}
-                className="h-10 md:h-12 object-contain opacity-90 hover:opacity-100 transition-opacity transform hover:scale-105"
-                loading="lazy"
-                style={{ filter: p.alt === 'AWS' ? 'drop-shadow(0 0 1px rgba(255,255,255,0.6)) drop-shadow(0 0 8px rgba(255,255,255,0.15))' : 'drop-shadow(0 0 8px rgba(255,255,255,0.18))' }}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* Purpose-Built for the AI Era + Tatari Edge */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gray-900">
