@@ -10,21 +10,21 @@ import { getIconSrc } from '../utils/iconMapping'
 const executiveTeam = [
   { 
     name: 'Amen Amare', 
-    role: 'Chief Operating Officer (COO), Co-Founder', 
+    role: 'Chief Operating Officer, Co-Founder', 
     img: 'amare.jpg',
     linkedin: 'https://linkedin.com/in/amen-amare',
     bio: '/team/amen-amare'
   },
   { 
     name: 'Meba Michael', 
-    role: 'Chief Financial Officer (CFO), Co-Founder', 
+    role: 'Chief Financial Officer, Co-Founder', 
     img: 'michael.jpg',
     linkedin: 'https://linkedin.com/in/meba-michael',
     bio: '/team/meba-michael'
   },
   { 
     name: 'Yasha Genkin', 
-    role: 'Chief Marketing Officer (CMO), Co-Founder', 
+    role: 'Chief Marketing Officer, Co-Founder', 
     img: 'genkin.jpg',
     linkedin: 'https://linkedin.com/in/yasha-genkin',
     bio: '/team/yasha-genkin'
@@ -33,15 +33,15 @@ const executiveTeam = [
 
 const extendedLeadership = [
   { 
-    name: 'Alex Dalban', 
-    role: 'Chief Technology Officer (CTO)', 
-    img: 'dalban.jpg',
-    linkedin: 'https://www.linkedin.com/in/alex-dalban-b484bb233',
-    bio: '/team/alex-dalban'
+    name: 'Glodi Karagi', 
+    role: 'Chief Technology Officer', 
+    img: 'karagi.jpg',
+    linkedin: 'https://linkedin.com/in/glodi-karagi',
+    bio: '/team/glodi-karagi'
   },
   { 
     name: 'Nathan Banketa', 
-    role: 'Research & Country Lead', 
+    role: 'Chief Research Officer', 
     img: 'banketa.png',
     linkedin: 'http://linkedin.com/in/nathanbanketa',
     bio: '/team/nathan-banketa'
