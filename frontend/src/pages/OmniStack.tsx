@@ -13,19 +13,9 @@ const ExploreOurTech = () => {
 
   const techCards = [
     {
-      title: 'Sustainable Mining',
-      description: 'Our mining operations are a proving ground for efficient, renewable-powered compute.',
-      link: '/mining',
-    },
-    {
-      title: 'AI Compute',
-      description: "We're building elastic GPU capacity for training and batch inference, with future integrations to decentralized networks.",
+      title: 'AI Compute & Infrastructure',
+      description: "Elastic GPU compute for training and inference, powered by modular, energy-efficient infrastructure. We're building scalable capacity with renewable energy—starting in Ethiopia.",
       link: '/ai-compute',
-    },
-    {
-      title: 'Infrastructure',
-      description: "Modular, efficient, and connectivity-driven—Tatari's infrastructure vision starts in Ethiopia.",
-      link: '/infrastructure',
     },
   ]
 

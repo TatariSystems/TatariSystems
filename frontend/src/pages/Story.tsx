@@ -259,10 +259,10 @@ const OurStory = () => {
                   {currentSlide === 0 && (
                     <div className="flex justify-center lg:justify-start">
                       <div 
-                        onClick={() => navigate('/mining')}
+                        onClick={() => navigate('/ai-compute')}
                         className="group bg-primary-600 hover:bg-primary-700 text-white font-bold text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 flex items-center justify-center cursor-pointer"
                       >
-                        Mining
+                        Compute
                         <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>

@@ -67,22 +67,6 @@ const Navbar = () => {
 
   const productDropdown = [
     {
-      title: 'Mining',
-      description: 'Sustainable, high-efficiency compute infrastructure.',
-      color: 'bg-brand-blue-1',
-      cta: 'View Mining',
-      ctaHref: '/mining',
-      subsections: [],
-    },
-    {
-      title: 'Infrastructure',
-      description: 'Enterprise-grade infrastructure and compute solutions.',
-      color: 'bg-brand-blue-1',
-      cta: 'View Infrastructure',
-      ctaHref: '/infrastructure',
-      subsections: [],
-    },
-    {
       title: 'Compute',
       description: 'Elastic GPU compute for training and inference solutions.',
       color: 'bg-brand-blue-1',
@@ -289,41 +273,9 @@ const Navbar = () => {
 
   const megaMenus = [
     {
-      label: 'Tatari AI',
-      mainTo: '#',
-      content: (
-        <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-black/85 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl">
-          {productDropdown.map((product) => (
-            <div className="flex flex-col h-full min-w-0" key={product.title}>
-              {/* Main Card */}
-              <div className={`rounded-xl p-4 mb-3 ${product.color} flex flex-col justify-between min-w-0`}>
-                <div>
-                  <div className="text-white font-bold text-base mb-1">{product.title}</div>
-                  <div className="text-white/80 mb-3 text-sm">{product.description}</div>
-                </div>
-                <div 
-                  onClick={() => navigate(product.ctaHref)} 
-                  className="inline-block mt-auto bg-white text-brand-blue-2 font-semibold px-3 py-2 rounded-lg hover:bg-primary-800 hover:text-white transition text-sm cursor-pointer"
-                >
-                  {product.cta} &rarr;
-                </div>
-              </div>
-              {/* Subsections */}
-              <div className="flex flex-col gap-2">
-                {product.subsections.map((sub) => (
-                  <a href={sub.href} className="flex items-start gap-3 p-2 rounded-lg bg-white/5 hover:bg-white/10 transition min-w-0 h-20" key={sub.label}>
-                    <img src={getIconSrc(sub.icon)} alt={sub.label} className="h-12 w-12 flex-shrink-0 object-contain" />
-                    <div className="ml-2 flex-1">
-                      <div className="font-semibold text-white text-sm">{sub.label}</div>
-                      <div className="text-xs text-white/70">{sub.desc}</div>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      ),
+      label: 'Compute',
+      mainTo: '/ai-compute',
+      content: null,
     },
     {
       label: 'Company',
@@ -351,7 +303,7 @@ const Navbar = () => {
       ),
     },
     {
-      label: 'Learn More',
+      label: 'About',
       mainTo: '#',
       content: (
         <div className="max-w-4xl w-full grid grid-cols-1 md:grid-cols-3 gap-4 p-6 bg-black/85 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl">
@@ -411,22 +363,36 @@ const Navbar = () => {
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <div className="hidden sm:flex items-center space-x-4 md:space-x-6 lg:space-x-8">
               {megaMenus.map((dropdown) => (
-                <div
-                  key={dropdown.label}
-                  className="relative"
-                  onMouseEnter={() => handleMouseEnter(dropdown.label)}
-                  onMouseLeave={handleMouseLeave}
-                >
+                dropdown.content ? (
+                  <div
+                    key={dropdown.label}
+                    className="relative"
+                    onMouseEnter={() => handleMouseEnter(dropdown.label)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <span
+                      className={`text-sm md:text-base font-medium transition-colors duration-200 cursor-pointer whitespace-nowrap ${
+                        openDropdown === dropdown.label
+                          ? 'text-primary-500 underline underline-offset-4'
+                          : 'text-white/80 hover:text-primary-500'
+                      }`}
+                    >
+                      {dropdown.label}
+                    </span>
+                  </div>
+                ) : (
                   <span
+                    key={dropdown.label}
+                    onClick={() => navigate(dropdown.mainTo)}
                     className={`text-sm md:text-base font-medium transition-colors duration-200 cursor-pointer whitespace-nowrap ${
-                      openDropdown === dropdown.label
+                      isActive(dropdown.mainTo)
                         ? 'text-primary-500 underline underline-offset-4'
                         : 'text-white/80 hover:text-primary-500'
                     }`}
                   >
                     {dropdown.label}
                   </span>
-                </div>
+                )
               ))}
             </div>
           </div>
@@ -502,37 +468,38 @@ const Navbar = () => {
             </div>
             <div className="flex flex-col gap-2 px-6 py-6">
               {megaMenus.map((dropdown) => (
-                <div key={dropdown.label} className="flex flex-col">
-                  <span className="text-base font-semibold text-white/80 mt-4 mb-2">{dropdown.label}</span>
-                  {/* Render dropdown content as flat links for mobile */}
-                  {dropdown.label === 'Tatari AI' && productDropdown.map((item) => (
-                    <button
-                      key={item.title}
-                      className="text-white/80 hover:text-primary-500 text-left py-2 pl-4"
-                      onClick={() => { navigate(item.ctaHref); setMobileMenuOpen(false); }}
-                    >
-                      {item.title}
-                    </button>
-                  ))}
-                  {dropdown.label === 'Company' && companyDropdown.map((item) => (
-                    <button
-                      key={item.title}
-                      className="text-white/80 hover:text-primary-500 text-left py-2 pl-4"
-                      onClick={() => { navigate(item.ctaHref); setMobileMenuOpen(false); }}
-                    >
-                      {item.title}
-                    </button>
-                  ))}
-                  {dropdown.label === 'Learn More' && learnMoreDropdown.map((item) => (
-                    <button
-                      key={item.title}
-                      className="text-white/80 hover:text-primary-500 text-left py-2 pl-4"
-                      onClick={() => { navigate(item.ctaHref); setMobileMenuOpen(false); }}
-                    >
-                      {item.title}
-                    </button>
-                  ))}
-                </div>
+                dropdown.content ? (
+                  <div key={dropdown.label} className="flex flex-col">
+                    <span className="text-base font-semibold text-white/80 mt-4 mb-2">{dropdown.label}</span>
+                    {/* Render dropdown content as flat links for mobile */}
+                    {dropdown.label === 'Company' && companyDropdown.map((item) => (
+                      <button
+                        key={item.title}
+                        className="text-white/80 hover:text-primary-500 text-left py-2 pl-4"
+                        onClick={() => { navigate(item.ctaHref); setMobileMenuOpen(false); }}
+                      >
+                        {item.title}
+                      </button>
+                    ))}
+                    {dropdown.label === 'About' && learnMoreDropdown.map((item) => (
+                      <button
+                        key={item.title}
+                        className="text-white/80 hover:text-primary-500 text-left py-2 pl-4"
+                        onClick={() => { navigate(item.ctaHref); setMobileMenuOpen(false); }}
+                      >
+                        {item.title}
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <button
+                    key={dropdown.label}
+                    className="text-base font-semibold text-white/80 hover:text-primary-500 text-left py-2 mt-4"
+                    onClick={() => { navigate(dropdown.mainTo); setMobileMenuOpen(false); }}
+                  >
+                    {dropdown.label}
+                  </button>
+                )
               ))}
               {/* Contact Us and Login/Admin Buttons (mobile only) */}
               <button
@@ -566,34 +533,36 @@ const Navbar = () => {
 
       {/* Dropdowns (desktop only) */}
       {megaMenus.map((dropdown) => (
-        <motion.div
-          key={dropdown.label}
-          initial={{ opacity: 0, y: -16, scale: 0.98 }}
-          animate={{
-            opacity: openDropdown === dropdown.label ? 1 : 0,
-            y: openDropdown === dropdown.label ? 0 : -16,
-            scale: openDropdown === dropdown.label ? 1 : 0.98,
-          }}
-          exit={{ opacity: 0, y: -16, scale: 0.98 }}
-          transition={{ duration: 0.22, type: 'spring', stiffness: 260, damping: 22 }}
-          className={`fixed top-20 left-0 right-0 justify-center z-50 hidden sm:flex ${
-            openDropdown === dropdown.label ? '' : 'pointer-events-none hidden'
-          }`}
-          onMouseEnter={() => handleMouseEnter(dropdown.label)}
-          onMouseLeave={handleMouseLeave}
-        >
-          {openDropdown === dropdown.label && (
-            <motion.div
-              initial={{ opacity: 0, y: -12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -12 }}
-              transition={{ duration: 0.18 }}
-              className="navbar-dropdown [&_a]:!no-underline [&_a:hover]:!no-underline [&_a:focus]:!no-underline [&_a:visited]:!no-underline [&_a:active]:!no-underline [&_*]:!no-underline"
-            >
-              {dropdown.content}
-            </motion.div>
-          )}
-        </motion.div>
+        dropdown.content && (
+          <motion.div
+            key={dropdown.label}
+            initial={{ opacity: 0, y: -16, scale: 0.98 }}
+            animate={{
+              opacity: openDropdown === dropdown.label ? 1 : 0,
+              y: openDropdown === dropdown.label ? 0 : -16,
+              scale: openDropdown === dropdown.label ? 1 : 0.98,
+            }}
+            exit={{ opacity: 0, y: -16, scale: 0.98 }}
+            transition={{ duration: 0.22, type: 'spring', stiffness: 260, damping: 22 }}
+            className={`fixed top-20 left-0 right-0 justify-center z-50 hidden sm:flex ${
+              openDropdown === dropdown.label ? '' : 'pointer-events-none hidden'
+            }`}
+            onMouseEnter={() => handleMouseEnter(dropdown.label)}
+            onMouseLeave={handleMouseLeave}
+          >
+            {openDropdown === dropdown.label && (
+              <motion.div
+                initial={{ opacity: 0, y: -12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.18 }}
+                className="navbar-dropdown [&_a]:!no-underline [&_a:hover]:!no-underline [&_a:focus]:!no-underline [&_a:visited]:!no-underline [&_a:active]:!no-underline [&_*]:!no-underline"
+              >
+                {dropdown.content}
+              </motion.div>
+            )}
+          </motion.div>
+        )
       ))}
     </nav>
   )

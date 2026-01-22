@@ -9,6 +9,13 @@ import { getIconSrc } from '../utils/iconMapping'
 
 const executiveTeam = [
   { 
+    name: 'Yasha Genkin', 
+    role: 'Chief Executive Officer, Co-Founder', 
+    img: 'genkin.jpg',
+    linkedin: 'https://linkedin.com/in/yasha-genkin',
+    bio: '/team/yasha-genkin'
+  },
+  { 
     name: 'Amen Amare', 
     role: 'Chief Operating Officer, Co-Founder', 
     img: 'amare.jpg',
@@ -21,13 +28,6 @@ const executiveTeam = [
     img: 'michael.jpg',
     linkedin: 'https://linkedin.com/in/meba-michael',
     bio: '/team/meba-michael'
-  },
-  { 
-    name: 'Yasha Genkin', 
-    role: 'Chief Marketing Officer, Co-Founder', 
-    img: 'genkin.jpg',
-    linkedin: 'https://linkedin.com/in/yasha-genkin',
-    bio: '/team/yasha-genkin'
   }
 ]
 
@@ -42,7 +42,7 @@ const extendedLeadership = [
   { 
     name: 'Nathan Banketa', 
     role: 'Chief Research Officer', 
-    img: 'banketa.png',
+    img: 'banketa.jpg',
     linkedin: 'http://linkedin.com/in/nathanbanketa',
     bio: '/team/nathan-banketa'
   },

@@ -14,8 +14,6 @@ const Careers = React.lazy(() => import('./pages/Careers'))
 const Blog = React.lazy(() => import('./pages/Blog'))
 const PressReleases = React.lazy(() => import('./pages/PressReleases'))
 const Research = React.lazy(() => import('./pages/Research'))
-const Mining = React.lazy(() => import('./pages/Mining'))
-const Infrastructure = React.lazy(() => import('./pages/Infrastructure'))
 const ExploreOurTech = React.lazy(() => import('./pages/OmniStack'))
 const Login = React.lazy(() => import('./pages/Login'))
 
@@ -46,8 +44,6 @@ function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/press-releases" element={<PressReleases />} />
           <Route path="/research" element={<Research />} />
-          <Route path="/mining" element={<Mining />} />
-          <Route path="/infrastructure" element={<Infrastructure />} />
           <Route path="/explore-our-tech" element={<ExploreOurTech />} />
           <Route path="/login" element={<Login />} />
         </Routes>
