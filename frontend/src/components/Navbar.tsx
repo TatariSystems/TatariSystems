@@ -127,7 +127,7 @@ const Navbar = () => {
           label: 'Join Us',
           desc: 'Open positions and career opportunities.',
           icon: 'BookOpen',
-          href: '/careers',
+          href: '/jobs',
         },
       ],
     },
@@ -136,25 +136,25 @@ const Navbar = () => {
       description: 'Join our fast-growing, mission-driven team.',
       color: 'bg-brand-blue-1',
       cta: 'View Openings',
-      ctaHref: '/careers',
+      ctaHref: '/jobs',
       subsections: [
         {
           label: 'Engineering Roles',
           desc: 'Software, infrastructure, and ML engineering positions.',
           icon: 'Cpu',
-          href: '/careers#engineering',
+          href: '/jobs',
         },
         {
           label: 'Sales & Marketing',
           desc: 'Help us grow and serve customers worldwide.',
           icon: 'Globe',
-          href: '/careers#sales',
+          href: '/jobs',
         },
         {
           label: 'Operations',
           desc: 'Support our global infrastructure and customers.',
           icon: 'Server',
-          href: '/careers#operations',
+          href: '/jobs',
         },
       ],
     },
@@ -332,9 +332,9 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50">
       <div className="w-full">
-        <div className="flex items-center h-16 relative w-full glass-navbar px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center h-16 w-full glass-navbar px-4 sm:px-6 lg:px-8">
           {/* Logo */}
-          <div className="flex items-center h-full z-10">
+          <div className="flex items-center h-full">
             <div
               className="flex items-center space-x-3 group cursor-pointer"
               onClick={() => { navigate('/'); setMobileMenuOpen(false); }}
@@ -350,18 +350,9 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Hamburger menu button (mobile only) */}
-          <button
-            className="sm:hidden absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-md hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-primary-500"
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            onClick={() => setMobileMenuOpen((v) => !v)}
-          >
-            {mobileMenuOpen ? <X className="h-7 w-7 text-white" /> : <Menu className="h-7 w-7 text-white" />}
-          </button>
-
           {/* Centered Dropdown Tabs (desktop only) */}
-          <div className="absolute left-1/2 transform -translate-x-1/2">
-            <div className="hidden sm:flex items-center space-x-4 md:space-x-6 lg:space-x-8">
+          <div className="hidden lg:flex flex-1 justify-center min-w-0 px-4">
+            <div className="flex items-center space-x-4 md:space-x-6 lg:space-x-8 whitespace-nowrap">
               {megaMenus.map((dropdown) => (
                 dropdown.content ? (
                   <div
@@ -397,8 +388,14 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Contact Us and Login/Admin Buttons (desktop only) */}
-          <div className="hidden sm:flex items-center ml-auto space-x-2 md:space-x-4">
+          {/* Right-side buttons (desktop only) */}
+          <div className="hidden lg:flex items-center space-x-2 md:space-x-4">
+            <button
+              className="bg-white/10 hover:bg-white/15 text-white font-bold px-3 md:px-6 py-2 rounded-xl border border-white/10 transition-all duration-200 text-sm md:text-base whitespace-nowrap"
+              onClick={() => navigate('/jobs')}
+            >
+              Join Us
+            </button>
             <button
               className="bg-primary-600 hover:bg-primary-700 text-white font-bold px-3 md:px-6 py-2 rounded-xl shadow-lg transition-all duration-200 text-sm md:text-base whitespace-nowrap"
               onClick={() => navigate('/contact')}
@@ -425,17 +422,14 @@ const Navbar = () => {
             )}
           </div>
 
-          {/* Invisible right spacer to balance logo (desktop only) */}
-          <div className="absolute right-0 top-0 h-full items-center hidden sm:flex" style={{ visibility: 'hidden' }}>
-            <div className="flex items-center space-x-3 group">
-              <motion.img
-                src={getAssetPath('/assets/tatarilogo.png')}
-                alt="Tatari Systems Logo"
-                className="h-8 w-auto"
-              />
-              <span className="text-lg font-bold">Tatari</span>
-            </div>
-          </div>
+          {/* Hamburger menu button (mobile/tablet) */}
+          <button
+            className="lg:hidden ml-auto p-2 rounded-md hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-primary-500"
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            onClick={() => setMobileMenuOpen((v) => !v)}
+          >
+            {mobileMenuOpen ? <X className="h-7 w-7 text-white" /> : <Menu className="h-7 w-7 text-white" />}
+          </button>
         </div>
       </div>
 
@@ -443,7 +437,7 @@ const Navbar = () => {
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div 
-            className="fixed inset-0 z-[60] bg-black !bg-opacity-100 flex flex-col sm:hidden" 
+            className="fixed inset-0 z-[60] bg-black !bg-opacity-100 flex flex-col lg:hidden" 
             style={{ backgroundColor: '#000000' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -503,7 +497,13 @@ const Navbar = () => {
               ))}
               {/* Contact Us and Login/Admin Buttons (mobile only) */}
               <button
-                className="mt-6 bg-primary-600 hover:bg-primary-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all duration-200 text-base"
+                className="mt-6 bg-white/10 hover:bg-white/15 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all duration-200 text-base border border-white/10"
+                onClick={() => { navigate('/jobs'); setMobileMenuOpen(false); }}
+              >
+                Join Us
+              </button>
+              <button
+                className="mt-4 bg-primary-600 hover:bg-primary-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all duration-200 text-base"
                 onClick={() => { navigate('/contact'); setMobileMenuOpen(false); }}
               >
                 Contact Us
@@ -544,7 +544,7 @@ const Navbar = () => {
             }}
             exit={{ opacity: 0, y: -16, scale: 0.98 }}
             transition={{ duration: 0.22, type: 'spring', stiffness: 260, damping: 22 }}
-            className={`fixed top-20 left-0 right-0 justify-center z-50 hidden sm:flex ${
+            className={`fixed top-20 left-0 right-0 justify-center z-50 hidden lg:flex ${
               openDropdown === dropdown.label ? '' : 'pointer-events-none hidden'
             }`}
             onMouseEnter={() => handleMouseEnter(dropdown.label)}

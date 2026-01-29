@@ -11,6 +11,7 @@ const AICompute = React.lazy(() => import('./pages/AICompute'))
 const OurStory = React.lazy(() => import('./pages/Story'))
 const Team = React.lazy(() => import('./pages/Team'))
 const Careers = React.lazy(() => import('./pages/Careers'))
+const Jobs = React.lazy(() => import('./pages/Jobs'))
 const Blog = React.lazy(() => import('./pages/Blog'))
 const PressReleases = React.lazy(() => import('./pages/PressReleases'))
 const Research = React.lazy(() => import('./pages/Research'))
@@ -41,6 +42,7 @@ function App() {
           <Route path="/our-story" element={<OurStory />} />
           <Route path="/team" element={<Team />} />
           <Route path="/careers" element={<Careers />} />
+          <Route path="/jobs" element={<Jobs />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/press-releases" element={<PressReleases />} />
           <Route path="/research" element={<Research />} />
