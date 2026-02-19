@@ -80,7 +80,7 @@ const Podcast = () => {
       setStatusMessage(mappedEpisodes.length === 0 ? 'No episodes published yet.' : '')
     } catch (error) {
       console.error('Error loading podcast episodes:', error)
-      setStatusMessage('Unable to reach podcast API. Add episodes with the uploader to preview locally.')
+      setStatusMessage('No episodes available yet')
     }
   }
 
