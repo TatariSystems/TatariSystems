@@ -3,6 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { getIconSrc } from '../utils/iconMapping';
+import OrbBackground from '../components/OrbBackground';
+import FilmGrain from '../components/FilmGrain';
+import SectionLabel from '../components/SectionLabel';
 
 const contactTypes = [
   {
@@ -49,6 +52,10 @@ const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+
+  const heroActive = stage === 'hero';
+  const typesActive = stage === 'types';
+  const formActive = stage === 'form';
 
   const handleTypeSelect = (type) => {
     setSelectedType(type);
@@ -102,25 +109,10 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen relative bg-gray-950 overflow-hidden">
-      {/* Decorative SVG background */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <svg width="100%" height="100%" className="absolute inset-0 w-full h-full" style={{opacity:0.18}}>
-          <defs>
-            <linearGradient id="bg-gradient-dark" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stopColor="#153e84" />
-              <stop offset="100%" stopColor="#507cbb" />
-            </linearGradient>
-            <pattern id="grid-dark" width="80" height="80" patternUnits="userSpaceOnUse">
-              <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#334155" strokeWidth="1" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#bg-gradient-dark)" />
-          <rect width="100%" height="100%" fill="url(#grid-dark)" />
-        </svg>
-      </div>
-      {/* Standard Navbar (no extra wrapper) */}
+    <div style={{ minHeight: '100vh', background: 'var(--inst-bg)', color: 'var(--inst-text)', overflow: 'hidden' }}>
       <Navbar />
+      <OrbBackground />
+      <FilmGrain />
       <main className="relative z-10 flex flex-col items-center justify-center min-h-screen py-16 px-2">
         <div className="w-full max-w-5xl mx-auto flex flex-col items-center justify-center min-h-[80vh]">
           <AnimatePresence mode='wait'>
@@ -133,18 +125,19 @@ const Contact = () => {
                 transition={{ duration: 0.3 }}
                 className="w-full flex flex-col items-center text-center py-24"
               >
-                <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-8 drop-shadow-xl">Let's Talk Compute</h1>
-                <p className="text-2xl md:text-3xl text-gray-200 mb-14 max-w-3xl mx-auto font-medium">
+                <SectionLabel number="01" title="Contact" className="justify-center" active={heroActive} />
+                <h1 style={{ margin: '16px 0 12px', fontFamily: 'var(--inst-font-serif)', fontSize: 'clamp(42px, 8vw, 86px)', fontWeight: 400, letterSpacing: '-0.03em', lineHeight: 0.95, color: '#fff' }}>Let's Talk Compute</h1>
+                <p style={{ fontSize: 16, color: 'var(--inst-text-60)', marginBottom: 48, maxWidth: 760, lineHeight: 1.8 }}>
                   Whether you're planning large-scale training, building with bare-metal infrastructure, or exploring partnerships, start here.<br />
-                  <span className="font-semibold" style={{ color: '#6797d6' }}>Tatari-grade compute with a human touch.</span>
+                  <span style={{ color: 'var(--inst-text-75, rgba(255,255,255,0.75))' }}>Tatari-grade compute with a human touch.</span>
                 </p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.98 }}
-                  className="glass-button bg-brand-cyan/80 hover:bg-brand-blue-1/80 text-white font-bold text-2xl px-12 py-6 rounded-2xl shadow-2xl transition-all duration-200 flex items-center gap-3 backdrop-blur-xl"
+                  style={{ background: 'var(--inst-surface-8)', border: '1px solid var(--inst-border-12)', color: '#fff', fontSize: 16, padding: '12px 20px', borderRadius: 10, display: 'flex', alignItems: 'center', gap: 8 }}
                   onClick={() => setStage('types')}
                 >
-                  I’m interested in <ArrowRight className="h-7 w-7 text-white" />
+                  I’m interested in <ArrowRight className="h-5 w-5 text-white" />
                 </motion.button>
               </motion.div>
             )}
@@ -158,22 +151,22 @@ const Contact = () => {
                 transition={{ duration: 0.3 }}
                 className="w-full flex flex-col items-center py-16"
               >
-                <h2 className="text-3xl font-bold text-white mb-12">How can we help you?</h2>
+                <SectionLabel number="02" title="Inquiry Type" className="justify-center" active={typesActive} />
+                <h2 style={{ margin: '14px 0 28px', fontFamily: 'var(--inst-font-serif)', fontWeight: 400, fontSize: 40 }}>How can we help you?</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 w-full">
                   {contactTypes.map((type) => (
                     <motion.button
                       key={type.id}
                       whileHover={{ scale: 1.04 }}
                       whileTap={{ scale: 0.98 }}
-                      className={`glass-card flex flex-col items-center justify-center p-12 rounded-3xl shadow-2xl border border-white/20 bg-white/10 transition-all duration-200 cursor-pointer group hover:shadow-3xl hover:border-brand-cyan focus:outline-none focus:ring-2 focus:ring-brand-cyan/30 backdrop-blur-xl ${type.color}`}
-                      style={{ boxShadow: '0 8px 40px 0 rgba(80,124,187,0.10)' }}
+                      className={`flex flex-col items-center justify-center p-10 rounded-2xl border border-white/10 transition-all duration-200 cursor-pointer group bg-white/[0.03] hover:bg-white/[0.06]`}
                       onClick={() => handleTypeSelect(type)}
                     >
-                      <div className={`mb-6 rounded-full p-6 bg-white/10 group-hover:bg-brand-cyan/20 backdrop-blur-xl transition-all`}>
+                      <div className="mb-6 rounded-full p-6 bg-white/10 transition-all">
                         <img src={getIconSrc(type.icon)} alt={type.title} className="h-12 w-12 object-contain" />
                       </div>
-                      <div className="text-2xl font-bold text-white mb-3">{type.title}</div>
-                      <div className="text-gray-200 text-lg">{type.desc}</div>
+                      <div style={{ fontFamily: 'var(--inst-font-serif)', fontSize: 30, marginBottom: 6 }}>{type.title}</div>
+                      <div style={{ color: 'var(--inst-text-55)', fontSize: 13 }}>{type.desc}</div>
                     </motion.button>
                   ))}
                 </div>
@@ -197,18 +190,19 @@ const Contact = () => {
                 transition={{ duration: 0.3 }}
                 className="w-full max-w-2xl mx-auto py-16"
               >
+                <SectionLabel number="03" title="Form" active={formActive} />
                 <div className="flex items-center gap-4 mb-8">
                   <div className="rounded-full p-4 bg-brand-cyan/10 backdrop-blur-xl">
                     <img src={getIconSrc(selectedType.icon)} alt={selectedType.title} className="h-10 w-10 object-contain" />
                   </div>
                   <div>
-                    <div className="text-2xl font-bold text-white">{selectedType.title} Contact</div>
-                    <div className="text-gray-200 text-lg">{selectedType.desc}</div>
+                    <div style={{ fontFamily: 'var(--inst-font-serif)', fontSize: 30 }}>{selectedType.title} Contact</div>
+                    <div style={{ color: 'var(--inst-text-55)', fontSize: 13 }}>{selectedType.desc}</div>
                   </div>
                 </div>
                 <form onSubmit={handleFormSubmit} className="glass-card bg-white/10 rounded-3xl shadow-2xl border border-white/20 p-12 flex flex-col gap-8 backdrop-blur-xl">
                   <div>
-                    <label htmlFor="name" className="block text-lg font-semibold text-white mb-2">Name</label>
+                    <label htmlFor="name" style={{ fontFamily: 'var(--inst-font-serif)', fontSize: 16, color: 'var(--inst-text-70)' }}>Name</label>
                     <input
                       type="text"
                       id="name"

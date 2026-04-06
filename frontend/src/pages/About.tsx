@@ -1,108 +1,190 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import Navbar from '../components/Navbar'
-import { Link } from 'react-router-dom'
 import { getAssetPath } from '../utils/paths'
+import OrbBackground from '../components/OrbBackground'
+import FilmGrain from '../components/FilmGrain'
+import SectionLabel from '../components/SectionLabel'
+import useInView from '../hooks/useInView'
 
 const team = [
-  { name: 'Alex Dalban', role: 'CEO, COO', img: 'dalban.jpg' },
-  { name: 'Marcel Boucheseiche', role: 'Head of Growth', img: 'boucheseiche.jpg' },
-  { name: 'Yasha Genkin', role: 'Head of Marketing', img: 'genkin.jpg' },
-  { name: 'Al-Amin Mumuney', role: 'Head of Innovation', img: 'mumuney.jpg' },
-  { name: 'Nathan Banketa', role: 'Research & Country Lead', img: 'banketa.png' },
-  { name: 'Kayla Sadraie', role: 'Chief Legal Counsel', img: 'sadraie.jpg' },
-  { name: 'Amen Amare', role: 'Operating Partner, Founder', img: 'amare.jpg' },
-  { name: 'Meba Michael', role: 'Head of Finance', img: 'michael.jpg' },
-  { name: 'Glodi Karagi', role: 'Head of Business Development', img: 'karagi.jpg' },
-  { name: 'Jimi Oso', role: 'Head of Phase II + Engineering', img: 'oso.jpg' },
-  { name: 'Mario Bustillos', role: 'Strategic Growth Intern', img: 'bustillos.jpg' },
+  { name: 'Yasha Genkin', role: 'Chief Executive Officer, Co-Founder', img: 'genkin.jpg' },
+  { name: 'Amen Amare', role: 'Chief Operating Officer, Co-Founder', img: 'amare.jpg' },
+  { name: 'Meba Michael', role: 'Chief Financial Officer, Co-Founder', img: 'michael.jpg' },
+  { name: 'Glodi Karagi', role: 'Chief of Business Development', img: 'karagi.jpg' },
+  { name: 'Nathan Banketa', role: 'Chief Research Officer', img: 'banketa.jpg' },
+  { name: 'Jimi Oso', role: 'Chief Engineering Officer', img: 'oso.jpg' },
 ]
+
+const teamTopRow = team.slice(0, 4)
+const teamBottomRow = team.slice(4)
 
 const getInitials = (name) => {
   return name.split(' ').map(n => n[0]).join('')
 }
 
 const About = () => {
+  const [storyRef, storyVisible] = useInView<HTMLDivElement>(0.08)
+  const [valuesRef, valuesVisible] = useInView<HTMLDivElement>(0.08)
+  const [teamRef, teamVisible] = useInView<HTMLDivElement>(0.08)
+  const [ctaRef, ctaVisible] = useInView<HTMLDivElement>(0.08)
+
+  const [storyActiveRef, storyActive] = useInView<HTMLDivElement>(0.45, false, '-20% 0px -45% 0px')
+  const [valuesActiveRef, valuesActive] = useInView<HTMLDivElement>(0.45, false, '-20% 0px -45% 0px')
+  const [teamActiveRef, teamActive] = useInView<HTMLDivElement>(0.45, false, '-20% 0px -45% 0px')
+  const [ctaActiveRef, ctaActive] = useInView<HTMLDivElement>(0.45, false, '-20% 0px -45% 0px')
+
   return (
-    <div className="min-h-screen bg-white pt-navbar">
+    <div style={{ minHeight: '100vh', background: 'var(--inst-bg)', color: 'var(--inst-text)' }}>
       <Navbar />
-      <div className="pt-24 pb-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto">
+      <OrbBackground />
+      <FilmGrain />
+
+      <div style={{ position: 'relative', zIndex: 2, padding: '112px 24px 80px' }}>
+        <div style={{ maxWidth: 980, margin: '0 auto' }}>
           {/* Our Story */}
           <motion.section
+            ref={storyRef}
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: storyVisible ? 1 : 0, y: storyVisible ? 0 : 30 }}
             transition={{ duration: 0.3 }}
-            viewport={{ once: true }}
-            className="mb-16"
+            style={{ marginBottom: 52 }}
           >
-            <h1 className="text-4xl font-extrabold text-secondary-900 mb-6">Our Story</h1>
-            <p className="text-lg text-secondary-700 leading-relaxed">
-              Founded by industry veterans frustrated by the mismatch between AI demand and traditional cloud pricing models, Tatari's core mission is to democratize access to high-performance, low-carbon compute.
-            </p>
+            <div ref={storyActiveRef}>
+              <SectionLabel number="01" title="Our Story" active={storyActive} />
+              <h1 style={{ margin: '16px 0 12px', fontFamily: 'var(--inst-font-serif)', fontWeight: 400, fontSize: 'clamp(36px, 6vw, 64px)', letterSpacing: '-0.03em', color: storyActive ? '#fff' : 'var(--inst-text-70)', transition: 'color 0.4s ease-in-out' }}>
+                Building the infrastructure layer emerging markets never had.
+              </h1>
+              <p style={{ margin: 0, fontSize: 14, color: storyActive ? 'var(--inst-text-70)' : 'var(--inst-text-45)', lineHeight: 1.8, maxWidth: 760, transition: 'color 0.4s ease-in-out' }}>
+                Tatari was founded on a simple observation: the world's cheapest and most abundant renewable energy is concentrated in places with the least compute infrastructure. We started in Ethiopia — not because it was easy, but because it was right. Our first operation runs on hydroelectric power at a fraction of what data centers pay in the United States. That cost advantage is the thesis. Bitcoin mining is how we prove it. Compute infrastructure is where it leads.
+              </p>
+            </div>
           </motion.section>
 
           {/* Our Values */}
           <motion.section
+            ref={valuesRef}
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: valuesVisible ? 1 : 0, y: valuesVisible ? 0 : 30 }}
             transition={{ duration: 0.3, delay: 0.05 }}
-            viewport={{ once: true }}
-            className="mb-16"
+            style={{ marginBottom: 52 }}
           >
-            <h2 className="text-2xl font-bold text-secondary-900 mb-4">Our Values</h2>
-            <ul className="space-y-4">
-              <li>
-                <span className="font-semibold text-primary-600">Reliability:</span> We stand by our SLAs.
-              </li>
-              <li>
-                <span className="font-semibold text-primary-600">Transparency:</span> No hidden fees or opaque marketplaces.
-              </li>
-              <li>
-                <span className="font-semibold text-primary-600">Sustainability:</span> Every job scheduled with the planet in mind.
-              </li>
-            </ul>
+            <div ref={valuesActiveRef}>
+              <SectionLabel number="02" title="Our Values" active={valuesActive} />
+              <ul style={{ marginTop: 16, display: 'grid', gap: 10, maxWidth: 860, padding: 0, listStyle: 'none' }}>
+                <li>
+                  <span style={{ fontWeight: 500, color: valuesActive ? '#fff' : 'var(--inst-text-60)', transition: 'color 0.4s ease-in-out' }}>Sovereignty:</span>
+                  {' '}
+                  <span style={{ color: valuesActive ? 'var(--inst-text-70)' : 'var(--inst-text-45)', transition: 'color 0.4s ease-in-out' }}>We build in markets that need infrastructure on their own terms — not dependent on hyperscalers or foreign platforms.</span>
+                </li>
+                <li>
+                  <span style={{ fontWeight: 500, color: valuesActive ? '#fff' : 'var(--inst-text-60)', transition: 'color 0.4s ease-in-out' }}>Transparency:</span>
+                  {' '}
+                  <span style={{ color: valuesActive ? 'var(--inst-text-70)' : 'var(--inst-text-45)', transition: 'color 0.4s ease-in-out' }}>We say what we're doing and what we're not yet doing. Our roadmap is honest about where we are.</span>
+                </li>
+                <li>
+                  <span style={{ fontWeight: 500, color: valuesActive ? '#fff' : 'var(--inst-text-60)', transition: 'color 0.4s ease-in-out' }}>Energy First:</span>
+                  {' '}
+                  <span style={{ color: valuesActive ? 'var(--inst-text-70)' : 'var(--inst-text-45)', transition: 'color 0.4s ease-in-out' }}>Every location decision starts with power cost. Cheap, clean energy is the foundation everything else is built on.</span>
+                </li>
+              </ul>
+            </div>
           </motion.section>
 
           {/* Meet the Team */}
           <motion.section
+            ref={teamRef}
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: teamVisible ? 1 : 0, y: teamVisible ? 0 : 30 }}
             transition={{ duration: 0.3, delay: 0.1 }}
-            viewport={{ once: true }}
-            className="mb-16"
+            style={{ marginBottom: 52 }}
           >
-            <h2 className="text-2xl font-bold text-secondary-900 mb-4">Meet the Team</h2>
-            <p className="text-secondary-700 mb-8">Meet the visionaries behind Tatari Systems, leading the way in cryptocurrency mining innovation. Their expertise and dedication drive our success.</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-              {team.map((member, idx) => (
+            <div ref={teamActiveRef}>
+              <SectionLabel number="03" title="Team" active={teamActive} />
+              <p style={{ color: teamActive ? 'var(--inst-text-70)' : 'var(--inst-text-45)', marginTop: 16, marginBottom: 24, maxWidth: 860, fontSize: 14, lineHeight: 1.75, transition: 'color 0.4s ease-in-out' }}>
+                Tatari is built by a team passionate about emerging market development and the role infrastructure plays in economic growth. We come from strong academic and professional backgrounds, with experience and incoming roles spanning finance, technology, and global markets. We're not career insiders — we're the generation building the systems the next era will run on.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {teamTopRow.map((member, idx) => (
                 <motion.div
                   key={member.name}
+
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: idx * 0.07 }}
                   viewport={{ once: true }}
-                  whileHover={{ scale: 1.05, boxShadow: '0 8px 32px #5D90DC33' }}
-                  className="bg-white rounded-2xl shadow-lg p-6 flex flex-col items-center text-center hover:shadow-2xl transition-all cursor-pointer"
+                  style={{
+                    background: 'var(--inst-surface-2)',
+                    border: '1px solid var(--inst-border-6)',
+                    borderRadius: 14,
+                    padding: 22,
+                    textAlign: 'center',
+                  }}
+                >
+
+                  {member.img ? (
+                    <img
+                      src={getAssetPath(`/headshots/${member.img}`)}
+                      alt={member.name}
+                      className="w-28 h-28 rounded-full object-cover mb-4"
+                      style={{ display: 'block', margin: '0 auto 16px' }}
+
+                      onError={e => {
+                        const target = e.target as HTMLImageElement;
+
+                        target.onerror = null;
+                        target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=5D90DC&color=fff&size=160`;
+                      }}
+                    />
+                  ) : (
+                    <div style={{ width: 112, height: 112, borderRadius: 9999, background: 'var(--inst-surface-8)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--inst-font-serif)', fontSize: 34, margin: '0 auto 16px', color: 'var(--inst-text-70)' }}>
+                      {getInitials(member.name)}
+                    </div>
+                  )}
+                  <div style={{ fontFamily: 'var(--inst-font-serif)', fontSize: 24, color: 'var(--inst-text-90)', marginBottom: 8 }}>{member.name}</div>
+                  <div style={{ color: 'var(--inst-text-35)', fontSize: 13 }}>{member.role}</div>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="mt-5 flex flex-wrap justify-center gap-5">
+              {teamBottomRow.map((member, idx) => (
+                <motion.div
+                  key={member.name}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: (idx + 4) * 0.07 }}
+                  viewport={{ once: true }}
+                  style={{
+                    background: 'var(--inst-surface-2)',
+                    border: '1px solid var(--inst-border-6)',
+                    borderRadius: 14,
+                    padding: 22,
+                    textAlign: 'center',
+                    flex: '1 1 260px',
+                    maxWidth: 300,
+                  }}
                 >
                   {member.img ? (
                     <img
                       src={getAssetPath(`/headshots/${member.img}`)}
                       alt={member.name}
-                      className="w-24 h-24 rounded-full object-cover mb-4 border-4 border-primary-100 shadow"
+                      className="w-28 h-28 rounded-full object-cover mb-4"
+                      style={{ display: 'block', margin: '0 auto 16px' }}
                       onError={e => {
                         const target = e.target as HTMLImageElement;
                         target.onerror = null;
-                        target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=5D90DC&color=fff&size=128`;
+                        target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(member.name)}&background=5D90DC&color=fff&size=160`;
                       }}
                     />
                   ) : (
-                    <div className="w-24 h-24 rounded-full bg-primary-100 flex items-center justify-center text-3xl font-bold text-primary-600 mb-4">
+                    <div style={{ width: 112, height: 112, borderRadius: 9999, background: 'var(--inst-surface-8)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'var(--inst-font-serif)', fontSize: 34, margin: '0 auto 16px', color: 'var(--inst-text-70)' }}>
                       {getInitials(member.name)}
                     </div>
                   )}
-                  <div className="font-bold text-lg text-secondary-900 mb-1">{member.name}</div>
-                  <div className="text-primary-600 font-medium text-sm">{member.role}</div>
+                  <div style={{ fontFamily: 'var(--inst-font-serif)', fontSize: 24, color: 'var(--inst-text-90)', marginBottom: 8 }}>{member.name}</div>
+                  <div style={{ color: 'var(--inst-text-35)', fontSize: 13 }}>{member.role}</div>
                 </motion.div>
               ))}
             </div>
@@ -110,28 +192,37 @@ const About = () => {
 
           {/* Contact / CTA */}
           <motion.section
+            ref={ctaRef}
             initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: ctaVisible ? 1 : 0, y: ctaVisible ? 0 : 30 }}
             transition={{ duration: 0.3, delay: 0.2 }}
-            viewport={{ once: true }}
-            className="bg-primary-50 rounded-2xl p-8 shadow-lg text-center"
+            style={{
+              border: '1px solid var(--inst-border-8)',
+              borderRadius: 14,
+              padding: 22,
+              background: 'var(--inst-surface-2)',
+              textAlign: 'center',
+            }}
           >
-            <h3 className="text-xl font-bold text-primary-700 mb-2">Ready to get started?</h3>
-            <p className="text-secondary-700 mb-4">Sign up for a free trial or schedule a demo.</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a href="mailto:support@tatari.ai" className="btn-primary">Contact Us</a>
-              <a href="tel:+18005551234" className="btn-secondary">+1 (800) 555-1234</a>
+            <div ref={ctaActiveRef}>
+              <SectionLabel number="04" title="Contact" className="justify-center" active={ctaActive} />
+              <h3 style={{ margin: '12px 0 6px', fontFamily: 'var(--inst-font-serif)', fontWeight: 400, fontSize: 36, color: ctaActive ? '#fff' : 'var(--inst-text-70)', transition: 'color 0.4s ease-in-out' }}>Work With Us</h3>
+              <p style={{ margin: 0, color: ctaActive ? 'var(--inst-text-70)' : 'var(--inst-text-45)', transition: 'color 0.4s ease-in-out' }}>Whether you're an energy partner, a prospective team member, or an investor — we want to hear from you.</p>
             </div>
-            <div className="mt-6 flex justify-center gap-6 text-primary-600">
-              <a href="https://twitter.com/tatari" target="_blank" rel="noopener noreferrer">Twitter</a>
-              <a href="https://linkedin.com/company/tatari" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-              <a href="https://github.com/tatari" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center', marginTop: 16 }}>
+              <a href="mailto:support@tatari.ai" style={{ textDecoration: 'none', color: '#fff', border: '1px solid var(--inst-border-12)', borderRadius: 8, padding: '10px 16px', background: 'var(--inst-surface-8)' }}>Contact Us</a>
+            </div>
+            <div style={{ marginTop: 18, display: 'flex', justifyContent: 'center', gap: 14 }}>
+              <a href="https://twitter.com/tatarisystems" target="_blank" rel="noopener noreferrer" style={{ color: ctaActive ? 'var(--inst-text-60)' : 'var(--inst-text-40)', transition: 'color 0.4s ease-in-out' }}>Twitter</a>
+              <a href="https://linkedin.com/company/tatari" target="_blank" rel="noopener noreferrer" style={{ color: ctaActive ? 'var(--inst-text-60)' : 'var(--inst-text-40)', transition: 'color 0.4s ease-in-out' }}>LinkedIn</a>
+              <a href="https://github.com/tatari" target="_blank" rel="noopener noreferrer" style={{ color: ctaActive ? 'var(--inst-text-60)' : 'var(--inst-text-40)', transition: 'color 0.4s ease-in-out' }}>GitHub</a>
             </div>
           </motion.section>
         </div>
+
       </div>
     </div>
   )
 }
 
-export default About 
+export default About

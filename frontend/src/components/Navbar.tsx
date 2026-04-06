@@ -1,19 +1,23 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { getAssetPath } from '../utils/paths'
 import { getIconSrc } from '../utils/iconMapping'
 import { Menu, X, ArrowRight, Shield } from 'lucide-react'
 import { AnimatePresence } from 'framer-motion'
 
-const Navbar = () => {
+const usePathname = () => {
   const location = useLocation()
+  return location.pathname
+}
+
+const Navbar = () => {
+  const pathname = usePathname()
   const navigate = useNavigate()
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
-  const dropdownTimeout = useRef<NodeJS.Timeout | null>(null)
-  const isActive = (path: string) => location.pathname === path
+  const isActive = (path: string) => pathname === path
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
 
   // Check login status on component mount and when localStorage changes
   useEffect(() => {
@@ -39,19 +43,20 @@ const Navbar = () => {
     }
   }, [])
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   const handleLogout = () => {
     localStorage.removeItem('employee_token')
     localStorage.removeItem('employee_email')
     window.dispatchEvent(new Event('localStorageChange'))
     navigate('/')
-  }
-
-  const handleMouseEnter = (label: string) => {
-    if (dropdownTimeout.current) clearTimeout(dropdownTimeout.current)
-    setOpenDropdown(label)
-  }
-  const handleMouseLeave = () => {
-    dropdownTimeout.current = setTimeout(() => setOpenDropdown(null), 100)
   }
 
   const useCases = [
@@ -244,68 +249,38 @@ const Navbar = () => {
     },
   ];
 
-  const megaMenus = [
+  const navItems = [
     {
       label: 'Compute',
       mainTo: '/ai-compute',
-      content: null,
     },
     {
       label: 'Company',
       mainTo: '/about',
-      content: (
-        <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-4 gap-4 p-6 bg-black/85 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl">
-          {companyDropdown.map((company) => (
-            <div className="flex flex-col h-full min-w-0" key={company.title}>
-              {/* Main Card */}
-              <div className={`rounded-xl p-4 mb-3 ${company.color} flex flex-col justify-between min-w-0`}>
-                <div>
-                  <div className="text-white font-bold text-base mb-1">{company.title}</div>
-                  <div className="text-white/80 mb-3 text-sm">{company.description}</div>
-                </div>
-                <div 
-                  onClick={() => navigate(company.ctaHref)} 
-                  className="inline-block mt-auto bg-white text-brand-blue-2 font-semibold px-3 py-2 rounded-lg hover:bg-primary-800 hover:text-white transition text-sm cursor-pointer"
-                >
-                  {company.cta} &rarr;
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      ),
     },
     {
       label: 'Institute',
-      mainTo: '#',
-      content: (
-        <div className="max-w-3xl w-full grid grid-cols-1 md:grid-cols-2 gap-4 p-6 bg-black/85 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl">
-          {learnMoreDropdown.map((learn) => (
-            <div className="flex flex-col h-full min-w-0" key={learn.title}>
-              {/* Main Card */}
-              <div className={`rounded-xl p-4 mb-3 ${learn.color} flex flex-col justify-between min-w-0 h-full`}>
-                <div>
-                  <div className="text-white font-bold text-base mb-1">{learn.title}</div>
-                  <div className="text-white/80 mb-3 text-sm">{learn.description}</div>
-                </div>
-                <div 
-                  onClick={() => navigate(learn.ctaHref)} 
-                  className="inline-block mt-auto bg-white text-brand-blue-2 font-semibold px-3 py-2 rounded-lg hover:bg-primary-800 hover:text-white transition text-sm cursor-pointer"
-                >
-                  {learn.cta} &rarr;
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      ),
+      mainTo: '/institute',
+    },
+    {
+      label: 'Podcasts',
+      mainTo: '/podcasts',
     },
   ]
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50">
+    <nav
+      className="site-navbar fixed top-0 left-0 right-0 z-50"
+      style={{
+        background: scrolled ? 'rgba(0,0,0,0.8)' : 'transparent',
+        backdropFilter: scrolled ? 'blur(20px)' : 'none',
+        WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : 'none',
+        transition: 'all 0.3s',
+      }}
+    >
       <div className="w-full">
-        <div className="flex items-center h-16 relative w-full glass-navbar px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center h-16 relative w-full px-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <div className="flex items-center h-full z-10">
             <div
@@ -320,12 +295,26 @@ const Navbar = () => {
                 transition={{ duration: 0.2 }}
               />
               <span className="text-lg font-bold text-white tracking-tight group-hover:[text-shadow:0_0_10px_rgba(59,130,246,0.8),0_0_20px_rgba(59,130,246,0.6),0_0_30px_rgba(59,130,246,0.4)] transition-all duration-300">Tatari</span>
+              {pathname === '/institute' && (
+                <span
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: 12,
+                    fontWeight: 400,
+                    color: 'rgba(255,255,255,0.9)',
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  Institute
+                </span>
+              )}
             </div>
           </div>
 
           {/* Hamburger menu button (mobile only) */}
           <button
-            className="lg:hidden absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-md hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-primary-500"
+            className="lg:hidden absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-md hover:bg-white/10 focus:outline-none"
             aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             onClick={() => setMobileMenuOpen((v) => !v)}
           >
@@ -335,37 +324,23 @@ const Navbar = () => {
           {/* Centered Dropdown Tabs (desktop only) */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <div className="hidden lg:flex items-center space-x-4 md:space-x-6 lg:space-x-8">
-              {megaMenus.map((dropdown) => (
-                dropdown.content ? (
-                  <div
-                    key={dropdown.label}
-                    className="relative"
-                    onMouseEnter={() => handleMouseEnter(dropdown.label)}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    <span
-                      className={`text-sm md:text-base font-medium transition-colors duration-200 cursor-pointer whitespace-nowrap ${
-                        openDropdown === dropdown.label
-                          ? 'text-primary-500 underline underline-offset-4'
-                          : 'text-white/80 hover:text-primary-500'
-                      }`}
-                    >
-                      {dropdown.label}
-                    </span>
-                  </div>
-                ) : (
-                  <span
-                    key={dropdown.label}
-                    onClick={() => navigate(dropdown.mainTo)}
-                    className={`text-sm md:text-base font-medium transition-colors duration-200 cursor-pointer whitespace-nowrap ${
-                      isActive(dropdown.mainTo)
-                        ? 'text-primary-500 underline underline-offset-4'
-                        : 'text-white/80 hover:text-primary-500'
-                    }`}
-                  >
-                    {dropdown.label}
-                  </span>
-                )
+              {navItems.map((item) => (
+                <button
+                  key={item.label}
+                  onClick={() => navigate(item.mainTo)}
+                  className={`cursor-pointer whitespace-nowrap bg-transparent border-none p-0 transition-all duration-300 focus:outline-none ${
+                    isActive(item.mainTo)
+                      ? 'text-white'
+                      : 'text-[rgba(255,255,255,0.5)] hover:text-white active:text-white'
+                  }`}
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: 13,
+                    fontWeight: isActive(item.mainTo) ? 400 : 300,
+                  }}
+                >
+                  {item.label}
+                </button>
               ))}
             </div>
           </div>
@@ -373,13 +348,21 @@ const Navbar = () => {
           {/* Contact Us and Login/Admin Buttons (desktop only) */}
           <div className="hidden lg:flex items-center ml-auto space-x-2 md:space-x-4">
             <button
-              className="bg-white/10 hover:bg-white/15 text-white font-bold px-3 md:px-6 py-2 rounded-xl border border-white/10 transition-all duration-200 text-sm md:text-base whitespace-nowrap"
+              className="bg-transparent border-none p-0 text-[13px] whitespace-nowrap transition-all duration-300 focus:outline-none text-[rgba(255,255,255,0.5)] hover:text-white active:text-white"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 300,
+              }}
               onClick={() => navigate('/jobs')}
             >
               Join Us
             </button>
             <button
-              className="bg-primary-600 hover:bg-primary-700 text-white font-bold px-3 md:px-6 py-2 rounded-xl shadow-lg transition-all duration-200 text-sm md:text-base whitespace-nowrap"
+              className="bg-transparent border-none p-0 text-[13px] whitespace-nowrap transition-all duration-300 focus:outline-none text-[rgba(255,255,255,0.5)] hover:text-white active:text-white"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 300,
+              }}
               onClick={() => navigate('/contact')}
             >
               Contact Us
@@ -387,7 +370,11 @@ const Navbar = () => {
             {isLoggedIn ? (
               <button
                 onClick={handleLogout}
-                className="flex items-center space-x-2 bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded-xl transition-all duration-200 text-sm cursor-pointer"
+                className="flex items-center space-x-2 bg-transparent border-none p-0 text-[13px] cursor-pointer transition-all duration-300 focus:outline-none text-[rgba(255,255,255,0.5)] hover:text-white active:text-white"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 300,
+                }}
                 title="Click to logout"
               >
                 <Shield className="h-4 w-4" />
@@ -395,11 +382,15 @@ const Navbar = () => {
               </button>
             ) : (
               <button
-                className="group text-white hover:text-primary-500 font-bold px-3 md:px-6 py-2 rounded-xl transition-all duration-200 text-sm md:text-base flex items-center whitespace-nowrap"
+                className="group bg-transparent border-none p-0 text-[13px] flex items-center whitespace-nowrap transition-all duration-300 focus:outline-none text-[rgba(255,255,255,0.5)] hover:text-white active:text-white"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 300,
+                }}
                 onClick={() => navigate('/login')}
               >
                 Login
-                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform text-white" />
               </button>
             )}
           </div>
@@ -436,9 +427,23 @@ const Navbar = () => {
               >
                 <img src={getAssetPath('/assets/tatarilogo.png')} alt="Tatari Systems Logo" className="h-8 w-auto" />
                 <span className="text-lg font-bold text-white tracking-tight">Tatari</span>
+                {pathname === '/institute' && (
+                  <span
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: 11,
+                      fontWeight: 400,
+                      color: 'rgba(255,255,255,0.9)',
+                      letterSpacing: '0.08em',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    Institute
+                  </span>
+                )}
               </div>
               <button
-                className="p-2 rounded-md hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                className="p-2 rounded-md hover:bg-white/10 focus:outline-none"
                 aria-label="Close menu"
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -446,49 +451,43 @@ const Navbar = () => {
               </button>
             </div>
             <div className="flex flex-col gap-2 px-6 py-6">
-              {megaMenus.map((dropdown) => (
-                dropdown.content ? (
-                  <div key={dropdown.label} className="flex flex-col">
-                    <span className="text-base font-semibold text-white/80 mt-4 mb-2">{dropdown.label}</span>
-                    {/* Render dropdown content as flat links for mobile */}
-                    {dropdown.label === 'Company' && companyDropdown.map((item) => (
-                      <button
-                        key={item.title}
-                        className="text-white/80 hover:text-primary-500 text-left py-2 pl-4"
-                        onClick={() => { navigate(item.ctaHref); setMobileMenuOpen(false); }}
-                      >
-                        {item.title}
-                      </button>
-                    ))}
-                    {dropdown.label === 'Institute' && learnMoreDropdown.map((item) => (
-                      <button
-                        key={item.title}
-                        className="text-white/80 hover:text-primary-500 text-left py-2 pl-4"
-                        onClick={() => { navigate(item.ctaHref); setMobileMenuOpen(false); }}
-                      >
-                        {item.title}
-                      </button>
-                    ))}
-                  </div>
-                ) : (
-                  <button
-                    key={dropdown.label}
-                    className="text-base font-semibold text-white/80 hover:text-primary-500 text-left py-2 mt-4"
-                    onClick={() => { navigate(dropdown.mainTo); setMobileMenuOpen(false); }}
-                  >
-                    {dropdown.label}
-                  </button>
-                )
+              {navItems.map((item) => (
+                <button
+                  key={item.label}
+                  className={`text-left py-2 mt-4 transition-all duration-300 bg-transparent border-none focus:outline-none ${
+                    isActive(item.mainTo)
+                      ? 'text-white'
+                      : 'text-[rgba(255,255,255,0.5)] hover:text-white active:text-white'
+                  }`}
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: 13,
+                    fontWeight: isActive(item.mainTo) ? 400 : 300,
+                  }}
+                  onClick={() => { navigate(item.mainTo); setMobileMenuOpen(false); }}
+                >
+                  {item.label}
+                </button>
               ))}
               {/* Contact Us and Login/Admin Buttons (mobile only) */}
               <button
-                className="mt-6 bg-white/10 hover:bg-white/15 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all duration-200 text-base border border-white/10"
+                className="mt-6 text-left py-2 bg-transparent border-none transition-all duration-300 focus:outline-none text-[rgba(255,255,255,0.5)] hover:text-white active:text-white"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: 13,
+                  fontWeight: 300,
+                }}
                 onClick={() => { navigate('/jobs'); setMobileMenuOpen(false); }}
               >
                 Join Us
               </button>
               <button
-                className="mt-4 bg-primary-600 hover:bg-primary-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg transition-all duration-200 text-base"
+                className="mt-4 text-left py-2 bg-transparent border-none transition-all duration-300 focus:outline-none text-[rgba(255,255,255,0.5)] hover:text-white active:text-white"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: 13,
+                  fontWeight: 300,
+                }}
                 onClick={() => { navigate('/contact'); setMobileMenuOpen(false); }}
               >
                 Contact Us
@@ -496,7 +495,12 @@ const Navbar = () => {
               {isLoggedIn ? (
                 <button
                   onClick={handleLogout}
-                  className="mt-4 flex items-center justify-center space-x-2 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-xl text-base cursor-pointer"
+                  className="mt-4 flex items-center space-x-2 text-left py-2 bg-transparent border-none cursor-pointer transition-all duration-300 focus:outline-none text-[rgba(255,255,255,0.5)] hover:text-white active:text-white"
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: 13,
+                    fontWeight: 300,
+                  }}
                   title="Click to logout"
                 >
                   <Shield className="h-4 w-4" />
@@ -504,11 +508,15 @@ const Navbar = () => {
                 </button>
               ) : (
                 <button
-                  className="mt-4 text-white hover:text-primary-500 font-bold px-6 py-3 rounded-xl transition-all duration-200 text-base flex items-center justify-center"
+                  className="group mt-4 text-left py-2 bg-transparent border-none transition-all duration-300 text-[13px] flex items-center focus:outline-none text-[rgba(255,255,255,0.5)] hover:text-white active:text-white"
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 300,
+                  }}
                   onClick={() => { navigate('/login'); setMobileMenuOpen(false); }}
                 >
                   Login
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <ArrowRight className="ml-2 h-4 w-4 text-white" />
                 </button>
               )}
             </div>
@@ -516,39 +524,6 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
-      {/* Dropdowns (desktop only) */}
-      {megaMenus.map((dropdown) => (
-        dropdown.content && (
-          <motion.div
-            key={dropdown.label}
-            initial={{ opacity: 0, y: -16, scale: 0.98 }}
-            animate={{
-              opacity: openDropdown === dropdown.label ? 1 : 0,
-              y: openDropdown === dropdown.label ? 0 : -16,
-              scale: openDropdown === dropdown.label ? 1 : 0.98,
-            }}
-            exit={{ opacity: 0, y: -16, scale: 0.98 }}
-            transition={{ duration: 0.22, type: 'spring', stiffness: 260, damping: 22 }}
-            className={`fixed top-20 left-0 right-0 justify-center z-50 hidden lg:flex ${
-              openDropdown === dropdown.label ? '' : 'pointer-events-none hidden'
-            }`}
-            onMouseEnter={() => handleMouseEnter(dropdown.label)}
-            onMouseLeave={handleMouseLeave}
-          >
-            {openDropdown === dropdown.label && (
-              <motion.div
-                initial={{ opacity: 0, y: -12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                transition={{ duration: 0.18 }}
-                className="navbar-dropdown [&_a]:!no-underline [&_a:hover]:!no-underline [&_a:focus]:!no-underline [&_a:visited]:!no-underline [&_a:active]:!no-underline [&_*]:!no-underline"
-              >
-                {dropdown.content}
-              </motion.div>
-            )}
-          </motion.div>
-        )
-      ))}
     </nav>
   )
 }

@@ -1,16 +1,73 @@
 /* Import Montserrat font */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
+/* Import Instrument Serif + Inter */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Enhanced Design System - Layered Color Palette */
+/* ═══════════════════════════════════════════
+   INSTITUTE DESIGN SYSTEM — Extracted from
+   tatari-institute reference component
+   ═══════════════════════════════════════════ */
 :root {
+  /* Institute — Background */
+  --inst-bg: #000000;
+  --inst-bg-elevated: rgba(8, 8, 12, 0.95);
+
+  /* Institute — Text (white at varying opacities) */
+  --inst-text: #ffffff;
+  --inst-text-90: rgba(255, 255, 255, 0.9);
+  --inst-text-80: rgba(255, 255, 255, 0.8);
+  --inst-text-75: rgba(255, 255, 255, 0.76);
+  --inst-text-70: rgba(255, 255, 255, 0.72);
+  --inst-text-60: rgba(255, 255, 255, 0.68);
+  --inst-text-55: rgba(255, 255, 255, 0.64);
+  --inst-text-50: rgba(255, 255, 255, 0.6);
+  --inst-text-45: rgba(255, 255, 255, 0.56);
+  --inst-text-40: rgba(255, 255, 255, 0.52);
+  --inst-text-35: rgba(255, 255, 255, 0.48);
+  --inst-text-30: rgba(255, 255, 255, 0.42);
+  --inst-text-25: rgba(255, 255, 255, 0.25);
+  --inst-text-20: rgba(255, 255, 255, 0.2);
+  --inst-text-15: rgba(255, 255, 255, 0.15);
+
+  /* Institute — Borders (white at low opacities) */
+  --inst-border-3: rgba(255, 255, 255, 0.03);
+  --inst-border-4: rgba(255, 255, 255, 0.04);
+  --inst-border-5: rgba(255, 255, 255, 0.05);
+  --inst-border-6: rgba(255, 255, 255, 0.06);
+  --inst-border-8: rgba(255, 255, 255, 0.08);
+  --inst-border-10: rgba(255, 255, 255, 0.10);
+  --inst-border-12: rgba(255, 255, 255, 0.12);
+  --inst-border-15: rgba(255, 255, 255, 0.15);
+
+  /* Institute — Surface fills (white at very low opacities) */
+  --inst-surface-1: rgba(255, 255, 255, 0.015);
+  --inst-surface-2: rgba(255, 255, 255, 0.02);
+  --inst-surface-3: rgba(255, 255, 255, 0.03);
+  --inst-surface-4: rgba(255, 255, 255, 0.04);
+  --inst-surface-5: rgba(255, 255, 255, 0.05);
+  --inst-surface-6: rgba(255, 255, 255, 0.06);
+  --inst-surface-8: rgba(255, 255, 255, 0.08);
+
+  /* Institute — Fonts */
+  --inst-font-serif: 'Instrument Serif', Georgia, serif;
+  --inst-font-sans: 'Inter', -apple-system, sans-serif;
+  --inst-font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+
+  /* Institute — Easing */
+  --inst-ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Institute — Backdrop blur */
+  --inst-blur-panel: blur(40px) saturate(1.5);
+  --inst-blur-nav: blur(30px) saturate(1.4);
+
   /* Brand Color Palette */
-  --brand-cyan: #10E0F9;    /* Bright cyan */
-  --brand-blue-1: #507cbb;  /* Medium blue */
-  --brand-blue-2: #22539e;  /* Darker blue */
+  --brand-cyan: #10E0F9;
+  --brand-blue-1: #507cbb;
+  --brand-blue-2: #22539e;
   --brand-blue-3: #6797d6;  /* Light blue */
   --brand-blue-4: #153e84;  /* Dark blue */
   
@@ -1100,6 +1157,15 @@ a {
   text-decoration-thickness: 0 !important;
 } 
 
+/* Remove focus box for navbar click states */
+.site-navbar button:focus,
+.site-navbar button:focus-visible,
+.site-navbar a:focus,
+.site-navbar a:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 @keyframes career-marquee {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
@@ -1128,4 +1194,13 @@ a {
 
 .rotate-y-180 {
   transform: rotateY(180deg);
-} 
+}
+
+/* Hover brighten for institute subheading/body text tokens */
+[style*='var(--inst-text-'] {
+  transition: color 0.25s ease-in-out;
+}
+
+[style*='var(--inst-text-']:hover {
+  color: #FFFFFF !important;
+}

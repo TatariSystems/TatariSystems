@@ -13,6 +13,7 @@ const Team = React.lazy(() => import('./pages/Team'))
 const Careers = React.lazy(() => import('./pages/Careers'))
 const Jobs = React.lazy(() => import('./pages/Jobs'))
 const Podcast = React.lazy(() => import('./pages/Podcast'))
+const Institute = React.lazy(() => import('./pages/Institute'))
 const Research = React.lazy(() => import('./pages/Research'))
 const ExploreOurTech = React.lazy(() => import('./pages/OmniStack'))
 const Login = React.lazy(() => import('./pages/Login'))
@@ -37,12 +38,15 @@ function App() {
           <Route path="/ai-platform" element={<AIPlatform />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/compute" element={<AICompute />} />
           <Route path="/ai-compute" element={<AICompute />} />
           <Route path="/our-story" element={<OurStory />} />
           <Route path="/team" element={<Team />} />
           <Route path="/careers" element={<Careers />} />
           <Route path="/jobs" element={<Jobs />} />
+          <Route path="/institute" element={<Institute />} />
           <Route path="/podcast" element={<Podcast />} />
+          <Route path="/podcasts" element={<Podcast />} />
           <Route path="/blog" element={<Podcast />} />
           <Route path="/research" element={<Research />} />
           <Route path="/explore-our-tech" element={<ExploreOurTech />} />

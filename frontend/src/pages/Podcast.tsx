@@ -2,6 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Clock3, Headphones, Mic2, Plus, Radio, Upload, UserRound, X } from 'lucide-react'
 import Navbar from '../components/Navbar'
+import OrbBackground from '../components/OrbBackground'
+import FilmGrain from '../components/FilmGrain'
+import SectionLabel from '../components/SectionLabel'
+import useInView from '../hooks/useInView'
 
 interface PodcastEpisode {
   id: string
@@ -33,6 +37,9 @@ const getApiBaseUrl = () => {
 }
 
 const Podcast = () => {
+  const [heroActiveRef, heroActive] = useInView<HTMLDivElement>(0.45, false, '-20% 0px -45% 0px')
+  const [contentActiveRef, contentActive] = useInView<HTMLDivElement>(0.45, false, '-20% 0px -45% 0px')
+
   const [episodes, setEpisodes] = useState<PodcastEpisode[]>([firstSpotifyEpisode])
   const [featuredEpisodeId, setFeaturedEpisodeId] = useState<string>(firstSpotifyEpisode.id)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -229,22 +236,28 @@ const Podcast = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black pt-navbar">
+    <div style={{ minHeight: '100vh', background: 'var(--inst-bg)', color: 'var(--inst-text)' }}>
       <Navbar />
-      <section className="relative min-h-screen z-10 overflow-hidden pt-16 pb-16">
+      <OrbBackground />
+      <FilmGrain />
+      <section className="relative min-h-screen z-10 overflow-hidden pt-24 pb-16">
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
+            ref={heroActiveRef}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="text-center mb-8"
           >
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 12 }}>
+              <SectionLabel number="01" title="Podcasts" active={heroActive} />
+            </div>
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/5 px-4 py-2 text-white/80 text-sm mb-4">
               <Radio className="h-4 w-4 text-primary-400" />
               Tatari Podcast
             </div>
-            <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-4 leading-tight">Podcast</h1>
-            <p className="text-white/80 text-base md:text-lg max-w-3xl mx-auto">
+            <h1 style={{ margin: '0 0 10px', fontFamily: 'var(--inst-font-serif)', fontWeight: 400, fontSize: 'clamp(42px, 8vw, 86px)', letterSpacing: '-0.03em', lineHeight: 0.95, color: heroActive ? '#fff' : 'var(--inst-text-70)', transition: 'color 0.4s ease-in-out' }}>Podcast</h1>
+            <p style={{ color: heroActive ? 'var(--inst-text-70)' : 'var(--inst-text-50)', fontSize: 14, lineHeight: 1.8, maxWidth: 760, margin: '0 auto', transition: 'color 0.4s ease-in-out' }}>
               Deep dives on AI infrastructure, distributed systems, and the teams building modern compute at scale.
             </p>
           </motion.div>
@@ -363,45 +376,131 @@ const Podcast = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
             <motion.div
+              ref={contentActiveRef}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.15 }}
-              className="lg:col-span-3 rounded-2xl border border-white/15 bg-white/5 backdrop-blur-sm p-5"
+              className="lg:col-span-3"
+              style={{
+                borderRadius: 16,
+                border: '1px solid var(--inst-border-8)',
+                background: 'var(--inst-surface-2)',
+                backdropFilter: 'blur(12px)',
+                padding: 22,
+              }}
             >
               {featuredEpisode ? (
                 <>
                   <div className="flex items-start justify-between gap-4 mb-4">
                     <div>
-                      <h2 className="text-white text-2xl font-bold mb-2">{featuredEpisode.title}</h2>
-                      <div className="flex flex-wrap gap-3 text-sm text-white/70">
+                      <h2
+                        style={{
+                          margin: '0 0 10px',
+                          fontFamily: 'var(--inst-font-serif)',
+                          fontWeight: 400,
+                          fontSize: 'clamp(24px, 3vw, 34px)',
+                          lineHeight: 1.2,
+                          color: contentActive ? '#fff' : 'var(--inst-text-80)',
+                          transition: 'color 0.4s ease-in-out',
+                        }}
+                      >
+                        {featuredEpisode.title}
+                      </h2>
+                      <div className="flex flex-wrap gap-2" style={{ fontFamily: 'var(--inst-font-mono)' }}>
                         {featuredEpisode.guest && (
-                          <span className="inline-flex items-center gap-1">
-                            <UserRound className="h-4 w-4" />
+                          <span
+                            className="inline-flex items-center gap-1"
+                            style={{
+                              fontSize: 10,
+                              color: 'var(--inst-text-35)',
+                              background: 'var(--inst-surface-3)',
+                              border: '1px solid var(--inst-border-8)',
+                              borderRadius: 5,
+                              padding: '4px 8px',
+                              letterSpacing: '0.04em',
+                            }}
+                          >
+                            <UserRound className="h-3.5 w-3.5" />
                             {featuredEpisode.guest}
                           </span>
                         )}
                         {featuredEpisode.duration && (
-                          <span className="inline-flex items-center gap-1">
-                            <Clock3 className="h-4 w-4" />
+                          <span
+                            className="inline-flex items-center gap-1"
+                            style={{
+                              fontSize: 10,
+                              color: 'var(--inst-text-35)',
+                              background: 'var(--inst-surface-3)',
+                              border: '1px solid var(--inst-border-8)',
+                              borderRadius: 5,
+                              padding: '4px 8px',
+                              letterSpacing: '0.04em',
+                            }}
+                          >
+                            <Clock3 className="h-3.5 w-3.5" />
                             {featuredEpisode.duration}
                           </span>
                         )}
-                        <span>{new Date(featuredEpisode.publishedAt).toLocaleDateString()}</span>
+                        <span
+                          style={{
+                            fontSize: 10,
+                            color: 'var(--inst-text-30)',
+                            background: 'var(--inst-surface-3)',
+                            border: '1px solid var(--inst-border-8)',
+                            borderRadius: 5,
+                            padding: '4px 8px',
+                            letterSpacing: '0.04em',
+                          }}
+                        >
+                          {new Date(featuredEpisode.publishedAt).toLocaleDateString()}
+                        </span>
                       </div>
                     </div>
-                    <div className="h-16 w-16 rounded-xl bg-primary-500/20 border border-primary-300/30 flex items-center justify-center">
-                      <Mic2 className="h-8 w-8 text-primary-300" />
+                    <div
+                      className="h-16 w-16 flex items-center justify-center"
+                      style={{
+                        borderRadius: 12,
+                        background: 'var(--inst-surface-4)',
+                        border: '1px solid var(--inst-border-10)',
+                      }}
+                    >
+                      <Mic2 className="h-7 w-7" style={{ color: 'var(--inst-text-60)' }} />
                     </div>
                   </div>
 
-                  <p className="text-white/80 leading-relaxed mb-5">{featuredEpisode.description}</p>
+                  <p
+                    style={{
+                      margin: '0 0 20px',
+                      fontFamily: 'var(--inst-font-sans)',
+                      fontSize: 13,
+                      fontWeight: 300,
+                      color: contentActive ? 'var(--inst-text-70)' : 'var(--inst-text-50)',
+                      lineHeight: 1.75,
+                      transition: 'color 0.4s ease-in-out',
+                    }}
+                  >
+                    {featuredEpisode.description}
+                  </p>
 
                   {featuredEpisode.externalUrl && (
                     <a
                       href={featuredEpisode.externalUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex mb-4 px-3 py-2 rounded-lg bg-white text-black text-sm font-semibold hover:bg-white/90 transition-colors"
+                      className="inline-flex mb-4"
+                      style={{
+                        fontFamily: 'var(--inst-font-sans)',
+                        fontSize: 11,
+                        fontWeight: 500,
+                        letterSpacing: '0.08em',
+                        textTransform: 'uppercase',
+                        color: '#ffffff',
+                        background: 'var(--inst-surface-6)',
+                        border: '1px solid var(--inst-border-12)',
+                        borderRadius: 8,
+                        padding: '9px 12px',
+                        textDecoration: 'none',
+                      }}
                     >
                       Open on Spotify
                     </a>
@@ -438,9 +537,27 @@ const Podcast = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.2 }}
-              className="lg:col-span-2 rounded-2xl border border-white/15 bg-white/5 backdrop-blur-sm p-5"
+              className="lg:col-span-2"
+              style={{
+                borderRadius: 16,
+                border: '1px solid var(--inst-border-8)',
+                background: 'var(--inst-surface-2)',
+                backdropFilter: 'blur(12px)',
+                padding: 20,
+              }}
             >
-              <h3 className="text-white text-lg font-semibold mb-4">Episodes</h3>
+              <h3
+                style={{
+                  margin: '0 0 14px',
+                  fontFamily: 'var(--inst-font-serif)',
+                  fontSize: 24,
+                  fontWeight: 400,
+                  color: contentActive ? '#fff' : 'var(--inst-text-80)',
+                  transition: 'color 0.4s ease-in-out',
+                }}
+              >
+                Episodes
+              </h3>
               <div className="space-y-3 max-h-[520px] overflow-y-auto pr-1">
                 {episodes.map((episode) => {
                   const isActive = episode.id === featuredEpisode?.id
@@ -448,15 +565,57 @@ const Podcast = () => {
                     <button
                       key={episode.id}
                       onClick={() => setFeaturedEpisodeId(episode.id)}
-                      className={`w-full text-left rounded-xl border px-4 py-3 transition-colors ${
-                        isActive
-                          ? 'border-primary-400 bg-primary-500/15'
-                          : 'border-white/10 bg-black/30 hover:border-white/30 hover:bg-white/5'
-                      }`}
+                      className="w-full text-left rounded-xl border px-4 py-3 transition-all duration-300"
+                      style={{
+                        borderColor: isActive ? 'var(--inst-border-15)' : 'var(--inst-border-6)',
+                        background: isActive ? 'var(--inst-surface-5)' : 'var(--inst-surface-1)',
+                      }}
                     >
-                      <div className="text-white font-medium mb-1">{episode.title}</div>
-                      <div className="text-white/60 text-sm line-clamp-2">{episode.description}</div>
-                      <div className="mt-2 text-xs text-white/50 inline-flex items-center gap-2">
+                      <div className="flex items-start justify-between gap-3 mb-1">
+                        <div
+                          style={{
+                            fontFamily: 'var(--inst-font-serif)',
+                            fontSize: 18,
+                            lineHeight: 1.3,
+                            color: isActive ? '#ffffff' : 'var(--inst-text-70)',
+                          }}
+                        >
+                          {episode.title}
+                        </div>
+                        <span
+                          className="inline-flex items-center justify-center"
+                          style={{
+                            width: 28,
+                            height: 28,
+                            borderRadius: 8,
+                            border: '1px solid var(--inst-border-8)',
+                            background: 'var(--inst-surface-4)',
+                          }}
+                        >
+                          <Radio className="h-3.5 w-3.5" style={{ color: 'var(--inst-text-60)' }} />
+                        </span>
+                      </div>
+                      <div
+                        className="line-clamp-2"
+                        style={{
+                          fontFamily: 'var(--inst-font-sans)',
+                          fontSize: 12,
+                          fontWeight: 300,
+                          lineHeight: 1.7,
+                          color: 'var(--inst-text-35)',
+                        }}
+                      >
+                        {episode.description}
+                      </div>
+                      <div
+                        className="mt-2 inline-flex items-center gap-2"
+                        style={{
+                          fontFamily: 'var(--inst-font-mono)',
+                          fontSize: 10,
+                          color: 'var(--inst-text-30)',
+                          letterSpacing: '0.04em',
+                        }}
+                      >
                         {episode.duration && <span>{episode.duration}</span>}
                         <span>{new Date(episode.publishedAt).toLocaleDateString()}</span>
                       </div>
@@ -470,10 +629,6 @@ const Podcast = () => {
           {statusMessage && <p className="text-center text-sm text-white/60 mt-6">{statusMessage}</p>}
         </div>
 
-        <div className="absolute inset-0 z-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-primary-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary-600/10 rounded-full blur-3xl" />
-        </div>
       </section>
     </div>
   )
